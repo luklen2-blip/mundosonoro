@@ -6,3 +6,9 @@ scratch/
 dist/
 .env
 .env.local
+cloudflared.exe
+*.zip
+*.crt
+tunnel_url.txt
+public_tunnel_url.txt
+

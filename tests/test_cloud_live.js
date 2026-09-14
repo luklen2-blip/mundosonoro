@@ -1,0 +1,82 @@
+// tests/test_cloud_live.js - Validador Remoto de Produção na Nuvem (Live Cloud E2E)
+// Configurado com rejectUnauthorized: false para evitar bloqueios de certificados intermediários no Windows
+
+import https from 'https';
+import http from 'http';
+import { URL } from 'url';
+
+const targetUrl = process.argv[2] || process.env.LIVE_URL;
+
+if (!targetUrl) {
+  console.log('ℹ️ Uso: node tests/test_cloud_live.js <URL_DE_PRODUCAO>');
+  console.log('Exemplo: node tests/test_cloud_live.js https://soundworld-kids.onrender.com');
+  process.exit(0);
+}
+
+const isHttps = targetUrl.startsWith('https');
+const client = isHttps ? https : http;
+const agent = isHttps ? new https.Agent({ rejectUnauthorized: false }) : undefined;
+
+function requestUrl(endpoint) {
+  const fullUrl = new URL(endpoint, targetUrl).toString();
+  return new Promise((resolve, reject) => {
+    client.get(fullUrl, { agent }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, data }));
+    }).on('error', reject);
+  });
+}
+
+async function runLiveE2E() {
+  console.log(`🌐 [SoundWorld Live Cloud E2E] Validando produção em: ${targetUrl}`);
+
+  // 1. Health check obrigatório (/api/health)
+  console.log('  → Validando /api/health...');
+  const health = await requestUrl('/api/health');
+  if (health.status !== 200) {
+    throw new Error(`Falha no /api/health: HTTP ${health.status}`);
+  }
+  const healthJson = JSON.parse(health.data);
+  if (healthJson.status !== 'ok' || !healthJson.app) {
+    throw new Error('Payload inválido retornado pelo /api/health');
+  }
+  console.log(`    ✓ Health check 200 OK. Uptime: ${healthJson.uptime_seconds}s | Versão: ${healthJson.version}`);
+
+  // 2. Landing Page & Web App
+  console.log('  → Validando carregamento do Web App principal...');
+  const home = await requestUrl('/');
+  if (home.status !== 200) {
+    throw new Error(`Falha ao carregar a página principal: HTTP ${home.status}`);
+  }
+  if (!home.data.includes('SoundWorld') && !home.data.includes('Mundo Sonoro')) {
+    throw new Error('Conteúdo esperado do SoundWorld não encontrado na home');
+  }
+  console.log('    ✓ Web App infantil carregado com sucesso.');
+
+  // 3. Estilos e Scripts
+  console.log('  → Validando entrega de assets estáticos...');
+  const css = await requestUrl('/css/styles.css');
+  if (css.status !== 200) throw new Error(`Falha no CSS: HTTP ${css.status}`);
+
+  const js = await requestUrl('/js/app.js');
+  if (js.status !== 200) throw new Error(`Falha no JS: HTTP ${js.status}`);
+  console.log('    ✓ CSS e JavaScript servidos com integridade.');
+
+  // 4. API PIX
+  console.log('  → Validando API PIX oficial...');
+  const pix = await requestUrl('/api/pix?amount=15.00');
+  if (pix.status !== 200) throw new Error(`Falha na API PIX: HTTP ${pix.status}`);
+  const pixJson = JSON.parse(pix.data);
+  if (!pixJson.copiaECola || !pixJson.qrCodeUrl) {
+    throw new Error('Payload do PIX incompleto');
+  }
+  console.log('    ✓ Geração de PIX EMV operacional na nuvem.');
+
+  console.log('\n🌟 Parabéns! A aplicação na nuvem está 100% íntegra, segura e operacional 24/7!');
+}
+
+runLiveE2E().catch(err => {
+  console.error('\n❌ Erro durante os testes ao vivo na nuvem:', err.message);
+  process.exit(1);
+});

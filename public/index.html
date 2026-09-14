@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#38b000" />
+  <meta name="description" content="SoundWorld dos Bichinhos - Aplicativo interativo de floresta com sons e nomes dos animais para crianças de 2 a 6 anos" />
+  <title>SoundWorld dos Bichinhos 🌲🐾🎶</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Estilos Críticos Embutidos (Blindagem contra FOUC e Modais) -->
+  <style>
+    .modal-overlay { display: none !important; }
+    .modal-overlay.active { display: flex !important; }
+    body {
+      margin: 0;
+      font-family: 'Fredoka', 'Nunito', sans-serif;
+      background: #6ec1e4;
+      color: #1a3a1e;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CENÁRIO DE FLORESTA (CÉU, SOL E NUVENS) -->
+  <div class="forest-sky-layer">
+    <div id="forest-sun" class="forest-sun" title="Toque no sol!">☀️</div>
+    <div id="forest-moon" class="forest-moon" title="Boa noite!">🌙✨</div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+  </div>
+
+  <!-- ÁRVORES LATERAIS INTERATIVAS (SVG PURO) -->
+  <svg class="forest-tree-side forest-tree-left" viewBox="0 0 140 280" id="tree-left" title="Toque na árvore!">
+    <!-- Tronco -->
+    <path d="M60,280 Q55,200 65,130 L75,130 Q85,200 80,280 Z" fill="#7f4f24" />
+    <!-- Folhagens Verdes em Camadas -->
+    <circle cx="70" cy="110" r="55" fill="#2d6a4f" class="tree-canopy" />
+    <circle cx="45" cy="85" r="42" fill="#40916c" class="tree-canopy" />
+    <circle cx="95" cy="85" r="42" fill="#52b788" class="tree-canopy" />
+    <circle cx="70" cy="55" r="38" fill="#74c69d" class="tree-canopy" />
+    <!-- Frutinhas Vermelhas -->
+    <circle cx="55" cy="95" r="6" fill="#ff5e7e" />
+    <circle cx="85" cy="75" r="6" fill="#ff5e7e" />
+    <circle cx="70" cy="45" r="6" fill="#ffd166" />
+  </svg>
+
+  <svg class="forest-tree-side forest-tree-right" viewBox="0 0 140 280" id="tree-right" title="Toque na árvore!">
+    <path d="M60,280 Q55,200 65,130 L75,130 Q85,200 80,280 Z" fill="#7f4f24" />
+    <circle cx="70" cy="110" r="55" fill="#2d6a4f" class="tree-canopy" />
+    <circle cx="45" cy="85" r="42" fill="#40916c" class="tree-canopy" />
+    <circle cx="95" cy="85" r="42" fill="#52b788" class="tree-canopy" />
+    <circle cx="70" cy="55" r="38" fill="#74c69d" class="tree-canopy" />
+    <circle cx="55" cy="95" r="6" fill="#ff5e7e" />
+    <circle cx="85" cy="75" r="6" fill="#ffd166" />
+  </svg>
+
+  <!-- GRAMADO DA FLORESTA NO RODAPÉ -->
+  <div class="forest-ground-layer"></div>
+
+  <!-- BARRA SUPERIOR (HEADER) -->
+  <header class="navbar">
+    <div class="brand-group" title="Mundo Sonoro dos Bichinhos">
+      <div class="brand-icon">🌲🐾</div>
+      <div class="brand-text">
+        <h1 data-i18n="appTitle">Mundo Sonoro dos Bichinhos</h1>
+        <p data-i18n="appSubtitle">Toque nos bichos para ouvir o som e o nome!</p>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Indicador do Período de Uso Gratuito (1 Hora) -->
+      <div id="trial-timer-badge" class="trial-timer-badge" title="Tempo de uso gratuito restante">
+        <span>⏱️</span>
+        <span id="trial-timer-text">60:00</span>
+      </div>
+
+      <!-- Seletor Visual Bilíngue Instantâneo -->
+      <button id="lang-toggle-btn" class="lang-toggle-btn" aria-label="Alternar Idioma / Toggle Language">
+        <span id="lang-flag">🇧🇷</span>
+        <span id="lang-code">PT</span>
+      </button>
+
+      <!-- Botão Área dos Pais -->
+      <button id="open-parent-gate" class="parent-gate-btn" aria-label="Área dos Pais">
+        <span>🔒</span>
+        <span data-i18n="parentGate.buttonLabel">Pais</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BARRA DE MODOS (PLACAS DA FLORESTA) -->
+  <nav class="modes-bar">
+    <button class="mode-tab-btn active" data-mode="explore">
+      <span>🐾</span>
+      <span data-i18n="modes.explore.badge">Conhecer Bichinhos</span>
+    </button>
+
+    <button class="mode-tab-btn" data-mode="soundQuiz">
+      <span>👂</span>
+      <span data-i18n="modes.soundQuiz.badge">Jogo do Som</span>
+    </button>
+
+    <button class="mode-tab-btn" data-mode="findAnimal">
+      <span>🔍</span>
+      <span data-i18n="modes.findAnimal.badge">Caça ao Bicho</span>
+    </button>
+
+    <button class="mode-tab-btn" data-mode="piano">
+      <span>🎹</span>
+      <span data-i18n="modes.piano.badge">Piano Animal</span>
+    </button>
+
+    <button class="mode-tab-btn" data-mode="bedtime">
+      <span>🌙</span>
+      <span data-i18n="modes.bedtime.badge">Hora de Dormir</span>
+    </button>
+  </nav>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="main-container">
+
+    <!-- ==========================================
+         MODO 1: CONHECER BICHINHOS (TOQUE E OUÇA)
+         ========================================== -->
+    <section id="mode-explore" class="mode-section">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.explore.title">A Floresta Encantada 🌲🐾</h2>
+        <p data-i18n="modes.explore.subtitle">Toque no bicho para ouvir o barulho e o nome dele!</p>
+      </div>
+
+      <!-- Banner de Destaque Animado -->
+      <div id="speaking-banner" class="speaking-banner">
+        <span id="speaking-banner-icon" class="speaking-banner-icon">🐶</span>
+        <span id="speaking-banner-text" class="speaking-banner-text">Cachorro • "Au-Au!"</span>
+      </div>
+
+      <!-- Grade dos 12 Bichinhos da Floresta -->
+      <div id="explore-animals-grid" class="animals-grid">
+        <!-- Renderizado dinamicamente via app.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MODO 2: QUEM FAZ ESSE SOM? (QUIZ AUDITIVO)
+         ========================================== -->
+    <section id="mode-soundQuiz" class="mode-section" style="display: none;">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.soundQuiz.title">Quem Faz esse Som? 👂</h2>
+        <p data-i18n="modes.soundQuiz.subtitle">Escute com atenção e adivinhe qual é o bichinho!</p>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-prompt-header">
+          <p style="font-size: 1.45rem; font-weight: 700;" data-i18n="modes.soundQuiz.question">Quem faz esse som legal?</p>
+          <button id="quiz-repeat-sound" class="play-prompt-btn">
+            <span>🔊</span>
+            <span data-i18n="modes.soundQuiz.listenAgain">Ouvir o Som de Novo</span>
+          </button>
+        </div>
+
+        <div id="quiz-options-container" class="quiz-options-grid">
+          <!-- 3 Opções Ilustradas via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MODO 3: ONDE ESTÁ O BICHINHO? (CAÇA AO ANIMAL)
+         ========================================== -->
+    <section id="mode-findAnimal" class="mode-section" style="display: none;">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.findAnimal.title">Onde Está o Bichinho? 🔍</h2>
+        <p data-i18n="modes.findAnimal.subtitle">A voz vai chamar um bichinho. Encontre ele!</p>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-prompt-header">
+          <button id="find-repeat-sound" class="play-prompt-btn">
+            <span>🗣️</span>
+            <span data-i18n="modes.findAnimal.listenPrompt">Repetir o Nome</span>
+          </button>
+        </div>
+
+        <div id="find-options-container" class="quiz-options-grid">
+          <!-- Opções Ilustradas via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MODO 4: TECLADO MUSICAL DA FLORESTA (PIANO)
+         ========================================== -->
+    <section id="mode-piano" class="mode-section" style="display: none;">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.piano.title">Teclado dos Bichinhos 🎹</h2>
+        <p data-i18n="modes.piano.subtitle">Toque as teclas e faça os bichinhos cantarem música!</p>
+      </div>
+
+      <div class="piano-stage">
+        <p style="font-weight: 700; margin-bottom: 0.8rem;" data-i18n="modes.piano.selectSinger">Escolha quem vai cantar:</p>
+        
+        <div class="singer-selector-group">
+          <button class="singer-btn active" data-singer="cat">🐱 <span data-i18n="animals.cat.name">Gato</span></button>
+          <button class="singer-btn" data-singer="dog">🐶 <span data-i18n="animals.dog.name">Cachorro</span></button>
+          <button class="singer-btn" data-singer="duck">🦆 <span data-i18n="animals.duck.name">Pato</span></button>
+          <button class="singer-btn" data-singer="frog">🐸 <span data-i18n="animals.frog.name">Sapo</span></button>
+        </div>
+
+        <div id="piano-keys-container" class="piano-keys-container">
+          <!-- Teclas C a C geradas dinamicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MODO 5: HORA DE DORMIR DOS BICHINHOS (BEDTIME)
+         ========================================== -->
+    <section id="mode-bedtime" class="mode-section" style="display: none;">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.bedtime.title">Floresta Noturna 🌙</h2>
+        <p data-i18n="modes.bedtime.subtitle">Sons suaves e aconchegantes para os bichinhos descansarem.</p>
+      </div>
+
+      <div class="bedtime-card">
+        <div class="moon-graphic">🌙✨💤</div>
+        <p style="font-size: 1.25rem; font-weight: 700;" data-i18n="modes.bedtime.nightStatus">Os bichinhos estão sonhando pacificamente...</p>
+
+        <div class="bedtime-controls-grid">
+          <button id="btn-bedtime-rain" class="bedtime-toggle-btn" aria-label="Chuva">
+            <span style="font-size: 3.2rem;">🌧️</span>
+            <span style="font-weight: 700;" data-i18n="modes.bedtime.rain">Chuva Suave</span>
+          </button>
+
+          <button id="btn-bedtime-crickets" class="bedtime-toggle-btn" aria-label="Grilos">
+            <span style="font-size: 3.2rem;">🦗</span>
+            <span style="font-weight: 700;" data-i18n="modes.bedtime.crickets">Grilos Noturnos</span>
+          </button>
+
+          <button id="btn-bedtime-lullaby" class="bedtime-toggle-btn" aria-label="Caixinha">
+            <span style="font-size: 3.2rem;">🧸</span>
+            <span style="font-weight: 700;" data-i18n="modes.bedtime.lullaby">Caixinha de Música</span>
+          </button>
+
+          <button id="btn-bedtime-purr" class="bedtime-toggle-btn" aria-label="Ronrom">
+            <span style="font-size: 3.2rem;">🐱</span>
+            <span style="font-weight: 700;" data-i18n="modes.bedtime.purr">Ronrom do Gato</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL: ÁREA DOS PAIS (PARENT GATE)
+       BLINDADO COM HIDDEN E DISPLAY NONE
+       ========================================== -->
+  <div id="parent-gate-modal" class="modal-overlay" hidden style="display: none !important;">
+    <div class="modal-content">
+      <button id="close-parent-gate" class="modal-close-x" aria-label="Fechar">&times;</button>
+      
+      <h2 style="font-size: 1.6rem; margin-bottom: 0.3rem;" data-i18n="parentGate.modalTitle">Espaço Seguro dos Pais & Responsáveis</h2>
+      <p style="font-size: 0.95rem; color: #718096;" data-i18n="parentGate.subtitle">Configurações de segurança auditiva, volume e tempo de tela</p>
+
+      <!-- VERIFICAÇÃO / DESAFIO DOS PAIS -->
+      <div id="parent-locked-area">
+        <div style="background: #f7fafc; border: 3px dashed #cbd5e0; border-radius: 20px; padding: 1.5rem; text-align: center; margin: 1.5rem 0;">
+          <p style="font-weight: 700; margin-bottom: 1rem;" data-i18n="parentGate.unlockInstruction">Segure o botão por 3 segundos ou responda a conta:</p>
+
+          <button id="hold-unlock-btn" class="hold-unlock-btn">
+            <span class="hold-progress-bar" id="hold-progress-bar"></span>
+            <span data-i18n="parentGate.pressAndHold">Segure pressionado (3s)...</span>
+          </button>
+
+          <div style="margin: 0.8rem 0; font-weight: 700; color: #a0aec0;">OU</div>
+
+          <form id="math-challenge-form" style="display: flex; align-items: center; justify-content: center; gap: 0.8rem;">
+            <span id="math-prompt" style="font-size: 1.2rem; font-weight: 700;">4 + 3 = ?</span>
+            <input type="number" id="math-answer-input" style="width: 70px; padding: 0.5rem; border: 3px solid #cbd5e0; border-radius: 12px; font-size: 1.2rem; text-align: center; font-weight: 700;" placeholder="?" required />
+            <button type="submit" style="background: #06d6a0; color: #073b4c; border: none; padding: 0.6rem 1.2rem; border-radius: 12px; font-weight: 700; cursor: pointer;" data-i18n="parentGate.mathVerify">Entrar</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO DESBLOQUEADO DOS PAIS -->
+      <div id="parent-unlocked-area" style="display: none;">
+        <div style="margin: 1.5rem 0;">
+          <!-- Limitador de Volume Seguro -->
+          <div style="margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0;">
+            <label style="display: block; font-weight: 700; font-size: 1.05rem;" data-i18n="parentGate.settings.volumeLimiter">Limitador de Volume Seguro (dB)</label>
+            <p style="font-size: 0.9rem; color: #718096; margin-bottom: 0.5rem;" data-i18n="parentGate.settings.volumeDescription">Protege a audição sensível dos pequenos limitando o ganho máximo do som.</p>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <input type="range" id="parent-volume-slider" class="volume-slider" min="0.1" max="1.0" step="0.05" value="0.70" />
+              <span id="parent-volume-display" style="font-weight: 700; min-width: 45px;">70%</span>
+            </div>
+            <small style="color: #38b000; font-weight: 700;" data-i18n="parentGate.settings.safeLevel">✓ Nível Seguro Recomendado</small>
+          </div>
+
+          <!-- Seletor de Idioma -->
+          <div style="margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0;">
+            <label style="display: block; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.4rem;" data-i18n="parentGate.settings.languageSelect">Idioma Principal</label>
+            <select id="parent-lang-select" style="padding: 0.5rem 1rem; border-radius: 8px; border: 2px solid #cbd5e0; font-weight: 700;">
+              <option value="pt">🇧🇷 Português (Brasil)</option>
+              <option value="en">🇺🇸 English (US)</option>
+            </select>
+          </div>
+
+          <!-- Temporizador de Sono -->
+          <div style="margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0;">
+            <label style="display: block; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.4rem;" data-i18n="parentGate.settings.screenTimer">Temporizador de Tela (Modo Sono)</label>
+            <select id="parent-timer-select" style="padding: 0.5rem 1rem; border-radius: 8px; border: 2px solid #cbd5e0; font-weight: 700;">
+              <option value="0" data-i18n="parentGate.settings.timerOff">Desativado</option>
+              <option value="15" data-i18n="parentGate.settings.timer15">15 minutos</option>
+              <option value="30" data-i18n="parentGate.settings.timer30">30 minutos</option>
+              <option value="45" data-i18n="parentGate.settings.timer45">45 minutos</option>
+            </select>
+            <div id="timer-status" style="margin-top: 0.4rem; font-weight: 700; color: #118ab2;"></div>
+          </div>
+        </div>
+
+        <!-- Apoio Voluntário via PIX -->
+        <div class="pix-box">
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.4rem;" data-i18n="parentGate.patronage.title">Apoie o Projeto via PIX 💚</h3>
+          <p style="font-size: 0.9rem; color: #4a5568;" data-i18n="parentGate.patronage.description">Contribuição voluntária para mantermos o Mundo Sonoro 100% gratuito e sem anúncios comerciais.</p>
+          <img id="pix-qr-image" class="pix-qr-img" src="" alt="QR Code PIX" />
+          <button id="pix-copy-btn" class="pix-copy-btn">
+            <span>📋</span>
+            <span data-i18n="parentGate.patronage.copyPix">Copiar Chave PIX</span>
+          </button>
+        </div>
+
+        <!-- Avisos Éticos e LGPD -->
+        <div style="background: #f7fafc; border-radius: 16px; padding: 1.2rem; font-size: 0.85rem; color: #4a5568; line-height: 1.5; border: 1px solid #e2e8f0;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;" data-i18n="parentGate.legal.title">Avisos Éticos, Segurança e LGPD</h4>
+          <p data-i18n="parentGate.legal.disclaimer" style="margin-bottom: 0.4rem;">Este software é um recurso recreativo e interativo de desenvolvimento sensorial para a primeira infância (2 a 6 anos). Não substitui intervenções médicas, fonoaudiológicas ou psicológicas.</p>
+          <p data-i18n="parentGate.legal.ageNotice" style="margin-bottom: 0.4rem; font-weight: 700;">Faixa Etária Recomendada: 2 a 6 anos. Uso supervisionado por pais ou responsáveis.</p>
+          <p data-i18n="parentGate.legal.lgpdText" style="margin-bottom: 0.6rem;">Conformidade integral com o Art. 14 da LGPD. Não coletamos dados de crianças.</p>
+          
+          <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+            <a href="#" id="link-terms" style="color: #118ab2; font-weight: 700; text-decoration: underline;" data-i18n="parentGate.legal.termsLink">Termos de Uso</a>
+            <a href="#" id="link-privacy" style="color: #118ab2; font-weight: 700; text-decoration: underline;" data-i18n="parentGate.legal.privacyLink">Política de Privacidade</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE TERMOS / PRIVACIDADE (BLINDADO) -->
+  <div id="legal-modal" class="modal-overlay" hidden style="display: none !important;">
+    <div class="modal-content" style="max-width: 550px;">
+      <h3 id="legal-modal-title" style="margin-bottom: 1rem;">Documento Legal</h3>
+      <div id="legal-modal-body" style="font-size: 0.95rem; line-height: 1.6; color: #4a5568; margin-bottom: 1.5rem;"></div>
+      <button id="legal-modal-close" class="mode-tab-btn active" style="width: 100%; justify-content: center;" data-i18n="legalModal.closeBtn">Entendi</button>
+    </div>
+  </div>
+
+  <!-- MODAL DE AQUISIÇÃO / PAYWALL (APÓS 1 HORA DE USO) -->
+  <div id="paywall-modal" class="paywall-modal-overlay" hidden style="display: none !important;">
+    <div class="paywall-content">
+      <div class="paywall-badge-offer" data-i18n="trial.offerTitle">Acesso Vitalício por R$ 19,90</div>
+      <h2 style="font-size: 1.8rem; margin-bottom: 0.4rem; color: #1a4314;" data-i18n="trial.paywallTitle">Hora de Adquirir o Mundo Sonoro! 🌟🐾</h2>
+      <p style="font-size: 1.05rem; color: #4a5568; margin-bottom: 1.2rem;" data-i18n="trial.paywallSubtitle">O tempo gratuito de 1 hora terminou. Desbloqueie o acesso vitalício completo!</p>
+
+      <div class="paywall-pix-box">
+        <p style="font-size: 0.95rem; font-weight: 700; color: #047857;" data-i18n="trial.pixKeyLabel">Chave PIX Oficial (E-mail):</p>
+        <div style="font-size: 1.35rem; font-weight: 800; color: #065f46; margin: 0.3rem 0; word-break: break-all; user-select: all;">luklen2@gmail.com</div>
+        <p style="font-size: 0.95rem; color: #374151; margin-bottom: 0.6rem; font-weight: 600;" data-i18n="trial.pixNameLabel">Beneficiário: Luciano Sant Anna</p>
+
+        <img id="paywall-qr-image" class="paywall-qr-img" src="" alt="QR Code PIX Banco Central Oficial" />
+
+        <button id="paywall-copy-btn" class="paywall-copy-btn">
+          <span>📋</span>
+          <span data-i18n="trial.copyPixBtn">Copiar Código PIX Copia-e-Cola</span>
+        </button>
+        <div id="paywall-copy-toast" style="display: none; color: #059669; font-weight: 700; margin-top: 0.5rem;" data-i18n="trial.copied">Código PIX Copiado com Sucesso!</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.6rem;">
+        <a id="paywall-whatsapp-btn" href="https://wa.me/5511999999999?text=Ol%C3%A1%20Luciano!%20Fiz%20o%20PIX%20do%20SoundWorld!" target="_blank" class="paywall-whatsapp-btn">
+          <span>📱</span>
+          <span data-i18n="trial.whatsappBtn">Enviar Comprovante via WhatsApp</span>
+        </a>
+
+        <div class="paywall-unlock-form">
+          <button id="paywall-unlock-btn" class="paywall-unlock-btn" data-i18n="trial.unlockBtn">Liberar Acesso Vitalício Agora 🔓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS DA APLICAÇÃO (CAMINHO RELATIVO RESILIENTE) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
