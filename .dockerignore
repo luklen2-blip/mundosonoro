@@ -1,0 +1,8 @@
+node_modules/
+.git/
+*.log
+.system_generated/
+scratch/
+dist/
+.env
+.env.local

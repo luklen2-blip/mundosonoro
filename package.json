@@ -1,0 +1,22 @@
+{
+  "name": "soundworld-mundo-sonoro",
+  "version": "2.0.0",
+  "description": "SoundWorld / Mundo Sonoro - Aplicativo sensorial e musical interativo para primeira infância (2 a 6 anos) com arquitetura bilíngue e síntese Web Audio API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/run_all.js",
+    "test:cloud": "node tests/test_cloud_live.js"
+  },
+  "keywords": [
+    "soundworld",
+    "mundo-sonoro",
+    "kids-audio",
+    "web-audio-api",
+    "bilingual",
+    "edtech"
+  ],
+  "author": "Luciano",
+  "license": "MIT"
+}
