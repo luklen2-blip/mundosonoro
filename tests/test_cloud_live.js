@@ -54,6 +54,17 @@ async function runLiveE2E() {
   }
   console.log('    ✓ Web App infantil carregado com sucesso.');
 
+  // 2b. Página de Vendas Dedicada (/comprar)
+  console.log('  → Validando Landing Page de conversão (/comprar)...');
+  const landing = await requestUrl('/comprar');
+  if (landing.status !== 200) {
+    throw new Error(`Falha ao carregar a landing page /comprar: HTTP ${landing.status}`);
+  }
+  if (!landing.data.includes('SoundWorld Kids') || !landing.data.includes('19,90')) {
+    throw new Error('Conteúdo esperado da oferta /comprar não encontrado');
+  }
+  console.log('    ✓ Landing Page dos pais (/comprar) operacional e com as 7 seções.');
+
   // 3. Estilos e Scripts
   console.log('  → Validando entrega de assets estáticos...');
   const css = await requestUrl('/css/styles.css');
@@ -63,15 +74,15 @@ async function runLiveE2E() {
   if (js.status !== 200) throw new Error(`Falha no JS: HTTP ${js.status}`);
   console.log('    ✓ CSS e JavaScript servidos com integridade.');
 
-  // 4. API PIX
-  console.log('  → Validando API PIX oficial...');
-  const pix = await requestUrl('/api/pix?amount=15.00');
+  // 4. API PIX com Order ID
+  console.log('  → Validando API PIX oficial com Pedido Único...');
+  const pix = await requestUrl('/api/pix?amount=19.90&orderId=SWK-2026-CLOUD');
   if (pix.status !== 200) throw new Error(`Falha na API PIX: HTTP ${pix.status}`);
   const pixJson = JSON.parse(pix.data);
-  if (!pixJson.copiaECola || !pixJson.qrCodeUrl) {
-    throw new Error('Payload do PIX incompleto');
+  if (!pixJson.copiaECola || !pixJson.qrCodeUrl || pixJson.orderId !== 'SWK-2026-CLOUD') {
+    throw new Error('Payload do PIX incompleto ou Order ID ausente');
   }
-  console.log('    ✓ Geração de PIX EMV operacional na nuvem.');
+  console.log('    ✓ Geração de PIX EMV com Pedido Único (SWK-2026-CLOUD) operacional na nuvem.');
 
   console.log('\n🌟 Parabéns! A aplicação na nuvem está 100% íntegra, segura e operacional 24/7!');
 }
