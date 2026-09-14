@@ -57,8 +57,28 @@ export function getPixQrCodeUrl(payload) {
   return `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(payload)}`;
 }
 
-export function getWhatsAppConfirmUrl({ phone = '5511999999999', name = 'Luciano Sant Anna', amount = '19.90' } = {}) {
-  const text = `Olá Luciano! Acabei de realizar o pagamento PIX de R$ ${amount} referente à licença vitalícia do SoundWorld dos Bichinhos (titular: ${name}, chave: luklen2@gmail.com). Segue meu comprovante em anexo para liberação do meu Código de Ativação VIP! 🐾🎶`;
+export function getOrCreateOrderId() {
+  try {
+    let orderId = localStorage.getItem('soundworld_order_id');
+    if (!orderId) {
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      orderId = `SWK-2026-${randomNum}`;
+      localStorage.setItem('soundworld_order_id', orderId);
+    }
+    return orderId;
+  } catch {
+    return `SWK-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+  }
+}
+
+export function getWhatsAppConfirmUrl({
+  phone = '5511999999999',
+  name = 'Luciano Sant Anna',
+  amount = '19.90',
+  orderId = ''
+} = {}) {
+  const finalOrderId = orderId || getOrCreateOrderId();
+  const text = `Olá Luciano! Fiz o pagamento de R$ ${amount} do SoundWorld Kids referente à licença vitalícia (titular: ${name}, chave: luklen2@gmail.com). Segue meu comprovante em anexo para liberação do meu Código VIP! Pedido: ${finalOrderId} 🐾🎶`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
@@ -67,11 +87,14 @@ const OFFICIAL_ACTIVATION_CODES = new Set([
   'BICHINHOS100',
   'MUNDOSONORO',
   'LUCIANO19',
+  'SOUNDKIDS',
+  'KIDS100',
   'VIP2026',
   'KIDS2026',
   'FLORESTA19',
   'SOM2026',
-  'PRO2026'
+  'PRO2026',
+  'LUCIANO2026'
 ]);
 
 /**

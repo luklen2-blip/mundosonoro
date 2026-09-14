@@ -4,11 +4,11 @@ import { t, getLanguage, setLanguage, subscribeLanguage } from './i18n.js';
 import { animalAudio } from './audio-engine.js';
 import { animalSpeech } from './speech-engine.js';
 import { fx } from './particles.js';
-import { generatePixPayload, getPixQrCodeUrl, validateActivationCode, getWhatsAppConfirmUrl } from './pix.js';
+import { generatePixPayload, getPixQrCodeUrl, validateActivationCode, getWhatsAppConfirmUrl, getOrCreateOrderId } from './pix.js';
 
 class AnimalSoundApp {
   constructor() {
-    this.currentMode = 'explore'; // explore, soundQuiz, findAnimal, piano, bedtime
+    this.currentMode = 'hub'; // hub, explore, soundQuiz, findAnimal, piano, bedtime
     this.selectedSinger = 'cat'; // animal cantor no piano
 
     // Roster completo dos 12 bichinhos
@@ -50,7 +50,16 @@ class AnimalSoundApp {
     this.holdDuration = 3000;
     this.mathExpected = 0;
 
-    // Temporizador de Sono
+    // Rastreamento de tempo de uso diário (para os pais)
+    this.dailyUsageSeconds = 0;
+
+    // Temporizador de Sono do Bedtime
+    this.bedtimeMasterPlaying = false;
+    this.bedtimeTimerInterval = null;
+    this.bedtimeTimerMinutes = 0;
+    this.bedtimeSecondsLeft = 0;
+
+    // Temporizador de Sono do Parent Gate
     this.sleepTimerInterval = null;
     this.sleepSecondsLeft = 0;
 
@@ -58,6 +67,7 @@ class AnimalSoundApp {
     this.isLicensed = false;
     this.trialSecondsLeft = 3600; // 60 minutos
     this.trialTimerInterval = null;
+    this.orderId = getOrCreateOrderId();
   }
 
   init() {
@@ -68,6 +78,11 @@ class AnimalSoundApp {
     this.initPixArea();
     this.initTrialTimer();
     this.initPaywallEvents();
+    this.initDailyUsageTracker();
+    this.initOrderAndLicenseDisplay();
+
+    // Inicia no Hub de Atividades
+    this.switchMode('hub');
 
     // Desperta o contexto de áudio no primeiro toque
     const unlockAudio = () => {
@@ -79,11 +94,60 @@ class AnimalSoundApp {
     window.addEventListener('keydown', unlockAudio, { passive: true });
   }
 
+  initDailyUsageTracker() {
+    const todayKey = `soundworld_usage_${new Date().toISOString().slice(0, 10)}`;
+    const saved = localStorage.getItem(todayKey);
+    this.dailyUsageSeconds = saved ? parseInt(saved, 10) : 0;
+
+    setInterval(() => {
+      this.dailyUsageSeconds++;
+      localStorage.setItem(todayKey, this.dailyUsageSeconds.toString());
+      this.updateParentUsageDisplay();
+    }, 1000);
+    this.updateParentUsageDisplay();
+  }
+
+  updateParentUsageDisplay() {
+    const el = document.getElementById('parent-usage-display');
+    if (el) {
+      const mins = Math.floor(this.dailyUsageSeconds / 60);
+      const minText = t('parentGate.minutes') || 'minutos';
+      el.textContent = `${mins} ${minText}`;
+    }
+  }
+
+  initOrderAndLicenseDisplay() {
+    const orderId = this.orderId || getOrCreateOrderId();
+
+    const parentOrderEl = document.getElementById('parent-order-display');
+    if (parentOrderEl) parentOrderEl.textContent = orderId;
+
+    const paywallOrderEl = document.getElementById('paywall-order-id-text');
+    if (paywallOrderEl) paywallOrderEl.textContent = orderId;
+
+    this.updateParentLicenseBadge();
+  }
+
+  updateParentLicenseBadge() {
+    const licenseBadge = document.getElementById('parent-license-display');
+    if (licenseBadge) {
+      if (this.isLicensed) {
+        licenseBadge.textContent = t('parentGate.licenseVip');
+        licenseBadge.style.color = '#15803d';
+      } else {
+        licenseBadge.textContent = t('parentGate.licenseTrial');
+        licenseBadge.style.color = '#1d4ed8';
+      }
+    }
+  }
+
   setupLanguage() {
     subscribeLanguage(() => {
       this.updateLanguageUI();
       this.renderExploreAnimals();
       this.renderPianoKeys();
+      this.updateParentUsageDisplay();
+      this.updateParentLicenseBadge();
       if (this.currentMode === 'soundQuiz' && this.quizTarget) {
         animalSpeech.speakSoundQuizQuestion();
       } else if (this.currentMode === 'findAnimal' && this.findTarget) {
@@ -141,6 +205,40 @@ class AnimalSoundApp {
         this.switchMode(targetMode);
       });
     });
+
+    // Cards do Activity Hub
+    document.querySelectorAll('.hub-activity-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const targetMode = card.getAttribute('data-target-mode');
+        fx.createRipple(e.clientX, e.clientY);
+        fx.spawnFloatingElements(e.clientX, e.clientY, 4);
+        animalAudio.playSunSparkle();
+        this.switchMode(targetMode);
+      });
+    });
+
+    // Botões Universais de Voltar ao Hub (Início)
+    document.querySelectorAll('.btn-back-hub').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fx.createRipple(e.clientX, e.clientY);
+        animalAudio.playVictoryChime();
+        this.switchMode('hub');
+      });
+    });
+
+    // Botão Voltar para a Brincadeira dentro do Parent Gate
+    const parentBackBtn = document.getElementById('btn-parent-back-to-game');
+    if (parentBackBtn) {
+      parentBackBtn.addEventListener('click', () => {
+        const modal = document.getElementById('parent-gate-modal');
+        if (modal) {
+          modal.setAttribute('hidden', '');
+          modal.style.setProperty('display', 'none', 'important');
+          modal.classList.remove('active');
+        }
+      });
+    }
 
     // Modo Tela Cheia
     const fsBtn = document.getElementById('fullscreen-btn');
@@ -348,18 +446,41 @@ class AnimalSoundApp {
       `;
 
       choiceCard.addEventListener('click', () => {
+        const promptHeader = document.querySelector('.quiz-prompt-header p');
         if (opt.id === this.quizTarget.id) {
           // ACERTOU!
           choiceCard.classList.add('correct');
+          if (promptHeader) {
+            promptHeader.textContent = getLanguage() === 'pt'
+              ? `Isso! É o ${data.name}! ${opt.icon} 🎉`
+              : `Yes! It's the ${data.name}! ${opt.icon} 🎉`;
+            promptHeader.style.color = '#15803d';
+          }
           animalAudio.playAnimal(opt.id);
           animalAudio.playVictoryChime();
           fx.triggerConfetti();
           animalSpeech.speakSuccessFeedback(opt.id);
 
-          setTimeout(() => this.startNewQuizRound(), 2600);
+          setTimeout(() => {
+            if (promptHeader) {
+              promptHeader.textContent = t('modes.soundQuiz.question');
+              promptHeader.style.color = '';
+            }
+            this.startNewQuizRound();
+          }, 2400);
         } else {
-          // ERROU (apoio afetuoso)
+          // ERROU (apoio afetuoso sem punição)
           choiceCard.classList.add('wrong');
+          if (promptHeader) {
+            promptHeader.textContent = getLanguage() === 'pt'
+              ? `Ops! Vamos tentar mais uma vez! 🌟`
+              : `Oops! Let's try once more! 🌟`;
+            promptHeader.style.color = '#d97706';
+            setTimeout(() => {
+              promptHeader.textContent = t('modes.soundQuiz.question');
+              promptHeader.style.color = '';
+            }, 1800);
+          }
           animalAudio.playTryAgainChime();
           animalSpeech.speakTryAgain();
           setTimeout(() => choiceCard.classList.remove('wrong'), 600);
@@ -469,9 +590,105 @@ class AnimalSoundApp {
         btn.addEventListener('click', () => {
           const isActive = btn.classList.toggle('active');
           animalAudio.toggleBedtimeSound(type, isActive);
+          this.updateBedtimeMasterState();
         });
       }
     });
+
+    // Sliders de Volume Individuais
+    document.querySelectorAll('.bedtime-vol-slider').forEach(slider => {
+      slider.addEventListener('input', (e) => {
+        const soundType = slider.getAttribute('data-sound');
+        const val = parseFloat(e.target.value);
+        animalAudio.setBedtimeVolume(soundType, val);
+      });
+    });
+
+    // Botão Master Play / Pause
+    const masterBtn = document.getElementById('btn-bedtime-master');
+    if (masterBtn) {
+      masterBtn.addEventListener('click', () => {
+        const isAnyPlaying = Object.values(animalAudio.bedtimeStates).some(Boolean);
+        if (isAnyPlaying) {
+          animalAudio.stopAllBedtime();
+          toggles.forEach(type => {
+            const btn = document.getElementById(`btn-bedtime-${type}`);
+            if (btn) btn.classList.remove('active');
+          });
+          masterBtn.innerHTML = `<span>🎵</span> <span>${t('modes.bedtime.masterPlay')}</span>`;
+        } else {
+          animalAudio.toggleBedtimeSound('rain', true);
+          animalAudio.toggleBedtimeSound('lullaby', true);
+          const rBtn = document.getElementById('btn-bedtime-rain');
+          const lBtn = document.getElementById('btn-bedtime-lullaby');
+          if (rBtn) rBtn.classList.add('active');
+          if (lBtn) lBtn.classList.add('active');
+          masterBtn.innerHTML = `<span>⏸️</span> <span>${t('modes.bedtime.masterPause')}</span>`;
+        }
+      });
+    }
+
+    // Chips de Timer do Bedtime
+    document.querySelectorAll('.timer-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.timer-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const minutes = parseInt(chip.getAttribute('data-timer-val'), 10);
+        this.setBedtimeTimer(minutes);
+      });
+    });
+  }
+
+  updateBedtimeMasterState() {
+    const masterBtn = document.getElementById('btn-bedtime-master');
+    if (!masterBtn) return;
+    const isAny = Object.values(animalAudio.bedtimeStates).some(Boolean);
+    if (isAny) {
+      masterBtn.innerHTML = `<span>⏸️</span> <span>${t('modes.bedtime.masterPause')}</span>`;
+    } else {
+      masterBtn.innerHTML = `<span>🎵</span> <span>${t('modes.bedtime.masterPlay')}</span>`;
+    }
+  }
+
+  setBedtimeTimer(minutes) {
+    if (this.bedtimeTimerInterval) {
+      clearInterval(this.bedtimeTimerInterval);
+      this.bedtimeTimerInterval = null;
+    }
+
+    const countdownEl = document.getElementById('bedtime-timer-countdown');
+    if (!minutes || minutes <= 0) {
+      if (countdownEl) countdownEl.textContent = '';
+      return;
+    }
+
+    this.bedtimeSecondsLeft = minutes * 60;
+    const update = () => {
+      const m = Math.floor(this.bedtimeSecondsLeft / 60);
+      const s = this.bedtimeSecondsLeft % 60;
+      if (countdownEl) countdownEl.textContent = `⏱️ ${m}m ${s < 10 ? '0' : ''}${s}s`;
+    };
+    update();
+
+    this.bedtimeTimerInterval = setInterval(() => {
+      this.bedtimeSecondsLeft--;
+      update();
+
+      if (this.bedtimeSecondsLeft <= 5) {
+        animalAudio.fadeAndStopBedtime(5);
+      }
+
+      if (this.bedtimeSecondsLeft <= 0) {
+        clearInterval(this.bedtimeTimerInterval);
+        this.bedtimeTimerInterval = null;
+        if (countdownEl) countdownEl.textContent = '💤 Boa noite!';
+        ['rain', 'crickets', 'lullaby', 'purr'].forEach(type => {
+          const btn = document.getElementById(`btn-bedtime-${type}`);
+          if (btn) btn.classList.remove('active');
+        });
+        this.updateBedtimeMasterState();
+      }
+    }, 1000);
   }
 
   // ==========================================
@@ -817,13 +1034,14 @@ class AnimalSoundApp {
       });
     }
 
-    // Configura PIX oficial de Luciano Sant Anna
+    // Configura PIX oficial de Luciano Sant Anna com Order ID
+    const orderId = this.orderId || getOrCreateOrderId();
     const payload = generatePixPayload({
       pixKey: 'luklen2@gmail.com',
       name: 'Luciano Sant Anna',
       city: 'Sao Paulo',
       amount: '19.90',
-      txId: 'SWL001'
+      txId: orderId.replace(/[^A-Za-z0-9]/g, '').slice(0, 20)
     });
 
     const qrImg = document.getElementById('paywall-qr-image');
@@ -852,9 +1070,9 @@ class AnimalSoundApp {
     // WhatsApp para recebimento de comprovantes
     const waBtn = document.getElementById('paywall-whatsapp-btn');
     if (waBtn) {
-      waBtn.href = getWhatsAppConfirmUrl({ name: 'Luciano Sant Anna', amount: '19.90' });
+      waBtn.href = getWhatsAppConfirmUrl({ name: 'Luciano Sant Anna', amount: '19.90', orderId });
       waBtn.addEventListener('click', (e) => {
-        const ok = confirm('Você será direcionado ao WhatsApp de Luciano Sant Anna para enviar o comprovante do PIX e receber seu Código VIP. Deseja abrir o WhatsApp?');
+        const ok = confirm(`Você será direcionado ao WhatsApp de Luciano Sant Anna com o Pedido ${orderId} para enviar o comprovante do PIX. Deseja abrir o WhatsApp?`);
         if (!ok) e.preventDefault();
       });
     }

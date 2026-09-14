@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2d6a4f" />
+  <meta name="description" content="SoundWorld Kids - Experiência sonora segura e lúdica para crianças de 2 a 6 anos. Sem anúncios, sem telas viciantes, com controle dos pais e acesso vitalício por R$ 19,90 via PIX." />
+  <title>SoundWorld Kids | O Espaço Sonoro Seguro para Crianças de 2 a 6 Anos 🐾🎶</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #2d6a4f;
+      --primary-dark: #1b4332;
+      --primary-light: #52b788;
+      --accent: #ffb703;
+      --accent-warm: #fb8500;
+      --sky: #e0f2fe;
+      --sky-deep: #0284c7;
+      --bg-cream: #fbfbf9;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 35px -10px rgba(0,0,0,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    /* BARRA SUPERIOR */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.9rem 1.5rem;
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--primary-dark);
+    }
+
+    .brand-icon {
+      font-size: 1.8rem;
+    }
+
+    .brand-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .nav-btn-trial {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 2px solid var(--primary-light);
+      transition: all 0.2s;
+    }
+
+    .nav-btn-trial:hover {
+      background: #e8f5e9;
+    }
+
+    .nav-btn-buy {
+      text-decoration: none;
+      font-weight: 800;
+      background: var(--accent-warm);
+      color: #ffffff;
+      padding: 0.6rem 1.3rem;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(251, 133, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .nav-btn-buy:hover {
+      transform: translateY(-2px);
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      position: relative;
+      padding: 4rem 1.5rem 5rem;
+      background: linear-gradient(180deg, #d8f3dc 0%, #edf6f9 60%, var(--bg-cream) 100%);
+      text-align: center;
+    }
+
+    .hero-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 2px solid #b7e4c7;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      color: var(--primary-dark);
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-title span {
+      color: var(--accent-warm);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 2.2rem;
+      font-weight: 600;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-main-offer {
+      background: #06d6a0;
+      color: #073b4c;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      padding: 1.1rem 2.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(6, 214, 160, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: all 0.25s;
+    }
+
+    .btn-main-offer:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(6, 214, 160, 0.5);
+    }
+
+    .btn-try-free {
+      background: #ffffff;
+      color: var(--primary-dark);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 1.1rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 3px solid #cbd5e0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.2s;
+    }
+
+    .btn-try-free:hover {
+      border-color: var(--primary);
+      background: #f8fafc;
+    }
+
+    /* BADGES DE CONFIANÇA */
+    .trust-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      margin: 2.5rem auto 0;
+    }
+
+    .trust-badge-item {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-align: left;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .trust-badge-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .trust-badge-text strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+
+    .trust-badge-text span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* SEÇÃO MOCKUP VISUAL */
+    .app-preview-box {
+      margin-top: 3.5rem;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      border: 4px solid #b7e4c7;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .preview-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .preview-dot.red { background: #ff5f56; }
+    .preview-dot.yellow { background: #ffbd2e; }
+    .preview-dot.green { background: #27c93f; }
+
+    .preview-cards-hub {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .hub-mini-card {
+      padding: 1.4rem 1rem;
+      border-radius: var(--radius-md);
+      color: #ffffff;
+      text-align: center;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .hub-mini-card.c1 { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
+    .hub-mini-card.c2 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .hub-mini-card.c3 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .hub-mini-card.c4 { background: linear-gradient(135deg, #2b5876, #4e4376); }
+
+    .hub-mini-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hub-mini-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    /* SEÇÕES COMUNS */
+    section {
+      padding: 5rem 1.5rem;
+    }
+
+    .section-container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: 2.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+    }
+
+    /* SEÇÃO 2: COMO FUNCIONA (4 MÓDULOS) */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .module-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem 1.8rem;
+      box-shadow: var(--shadow-md);
+      border: 2px solid var(--border-color);
+      transition: transform 0.25s, border-color 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .module-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary-light);
+    }
+
+    .module-icon-wrap {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .mod-c1 { background: #ffe4e6; }
+    .mod-c2 { background: #e0f2fe; }
+    .mod-c3 { background: #fef08a; }
+    .mod-c4 { background: #e9d5ff; }
+
+    .module-name {
+      font-size: 1.45rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .module-desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+      flex-grow: 1;
+    }
+
+    .module-highlight {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-top: 1px solid #f1f5f9;
+      padding-top: 0.8rem;
+    }
+
+    /* SEÇÃO 3: O QUE A CRIANÇA PODE FAZER */
+    .benefits-section {
+      background: #ffffff;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .benefit-item {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+
+    .benefit-icon {
+      font-size: 2.5rem;
+      background: #f1f5f9;
+      width: 65px;
+      height: 65px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .benefit-content h3 {
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .benefit-content p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* SEÇÃO 4: PARA OS RESPONSÁVEIS */
+    .parents-section {
+      background: #f8fafc;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .parents-features-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .parent-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .parent-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .parent-card-icon {
+      font-size: 2rem;
+    }
+
+    .parent-card-title {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+    }
+
+    .parent-card-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* SEÇÃO 5: OFERTA IRRESISTÍVEL */
+    .offer-section {
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+      color: #ffffff;
+      position: relative;
+    }
+
+    .offer-box {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #ffffff;
+      color: var(--text-dark);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+
+    .offer-badge {
+      display: inline-block;
+      background: #ffb703;
+      color: #000000;
+      font-weight: 900;
+      font-size: 0.95rem;
+      padding: 0.4rem 1.4rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .offer-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .price-currency {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .price-val {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 4.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .price-period {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .offer-includes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.8rem;
+      text-align: left;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .include-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+
+    /* ÁREA DO PIX DIRETO */
+    .pix-checkout-box {
+      border: 2px dashed #06d6a0;
+      background: #f0fdf4;
+      border-radius: var(--radius-md);
+      padding: 1.8rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .pix-order-badge {
+      display: inline-block;
+      background: #065f46;
+      color: #ffffff;
+      font-weight: 800;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .pix-status-pulse {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #d97706;
+      margin-bottom: 1.2rem;
+    }
+
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      background: #f59e0b;
+      border-radius: 50%;
+      animation: pulseAnim 1.4s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.6); opacity: 0.4; }
+    }
+
+    .pix-qr-img {
+      width: 220px;
+      height: 220px;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      margin: 0.5rem auto 1rem;
+      display: block;
+    }
+
+    .pix-btn-copy {
+      background: #06d6a0;
+      color: #073b4c;
+      border: none;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 0.9rem 1.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(6, 214, 160, 0.3);
+      transition: all 0.2s;
+      margin-right: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .pix-btn-copy:hover {
+      background: #05b386;
+      transform: translateY(-2px);
+    }
+
+    .pix-btn-whatsapp {
+      background: #25d366;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 0.9rem 1.8rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+      transition: all 0.2s;
+      margin-bottom: 0.6rem;
+    }
+
+    .pix-btn-whatsapp:hover {
+      background: #20ba59;
+      transform: translateY(-2px);
+    }
+
+    /* SEÇÃO 6: 10 FAQs */
+    .faq-section {
+      background: #ffffff;
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 1.4rem 0;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .faq-icon {
+      font-size: 1.4rem;
+      transition: transform 0.25s;
+    }
+
+    .faq-answer {
+      display: none;
+      padding-bottom: 1.4rem;
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    /* SEÇÃO 7: CTA FINAL COM GARANTIA */
+    .final-cta-section {
+      background: linear-gradient(180deg, var(--bg-cream) 0%, #d8f3dc 100%);
+      text-align: center;
+      padding: 6rem 1.5rem;
+    }
+
+    .guarantee-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #ffffff;
+      border: 2px solid #b7e4c7;
+      padding: 0.7rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 3rem 1.5rem;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.1rem; }
+      .hero-subtitle { font-size: 1.05rem; }
+      .section-title { font-size: 1.8rem; }
+      .offer-box { padding: 2rem 1.2rem; }
+      .price-val { font-size: 3.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR DE NAVEGAÇÃO -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="/" class="brand" title="Voltar ao SoundWorld Kids">
+        <span class="brand-icon">🌲🐾</span>
+        <span class="brand-title">SoundWorld Kids</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="/" class="nav-btn-trial">🎮 Jogar no Navegador</a>
+        <a href="#oferta" class="nav-btn-buy">Garantir Vitalício (R$ 19,90)</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 1. HERO SECTION -->
+  <header class="hero-section">
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span>⭐</span> O Espaço Sonoro Infantil Mais Seguro e Confiável
+      </div>
+
+      <h1 class="hero-title">
+        SoundWorld Kids: Sons Reais, Música e Imaginação <span>Sem Telas Viciantes</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Uma experiência sonora segura para crianças de 2 a 6 anos explorarem 12 animais da floresta, descobrirem sons autênticos, tocarem piano musical e relaxarem com tranquilidade na hora de dormir.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#oferta" class="btn-main-offer">
+          <span>🌟</span> Garantir Acesso Vitalício por R$ 19,90
+        </a>
+        <a href="/" class="btn-try-free">
+          <span>🎮</span> Experimentar Grátis Agora (1h)
+        </a>
+      </div>
+
+      <!-- BADGES DE CONFIANÇA -->
+      <div class="trust-badges-grid">
+        <div class="trust-badge-item">
+          <div class="trust-badge-icon">🛡️</div>
+          <div class="trust-badge-text">
+            <strong>100% Livre de Anúncios</strong>
+            <span>Zero propagandas ou compras acidentais</span>
+          </div>
+        </div>
+
+        <div class="trust-badge-item">
+          <div class="trust-badge-icon">🚫</div>
+          <div class="trust-badge-text">
+            <strong>Privacidade Sagrada</strong>
+            <span>Conformidade Art. 14 da LGPD & ECA</span>
+          </div>
+        </div>
+
+        <div class="trust-badge-item">
+          <div class="trust-badge-icon">🔊</div>
+          <div class="trust-badge-text">
+            <strong>Volume Seguro (≤ 85 dB)</strong>
+            <span>Recomendado pela OMS para ouvidos sensíveis</span>
+          </div>
+        </div>
+
+        <div class="trust-badge-item">
+          <div class="trust-badge-icon">🇧🇷</div>
+          <div class="trust-badge-text">
+            <strong>Modo Bilíngue</strong>
+            <span>Português do Brasil e Inglês com 1 clique</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW DOS 4 MÓDULOS -->
+      <div class="app-preview-box">
+        <div class="preview-header">
+          <div class="preview-dots">
+            <span class="preview-dot red"></span>
+            <span class="preview-dot yellow"></span>
+            <span class="preview-dot green"></span>
+          </div>
+          <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Mundo Sonoro dos Bichinhos • Painel de Atividades</span>
+          <span style="font-size: 0.9rem; font-weight: 700; color: #065f46;">⏱️ 1h Grátis</span>
+        </div>
+
+        <div class="preview-cards-hub">
+          <div class="hub-mini-card c1">
+            <div class="hub-mini-icon">🐾</div>
+            <div class="hub-mini-title">Conhecer Bichinhos</div>
+            <small style="opacity: 0.9;">12 sons reais & nomes falados</small>
+          </div>
+
+          <div class="hub-mini-card c2">
+            <div class="hub-mini-icon">👂</div>
+            <div class="hub-mini-title">Jogo do Som</div>
+            <small style="opacity: 0.9;">Adivinhe sem punição</small>
+          </div>
+
+          <div class="hub-mini-card c3">
+            <div class="hub-mini-icon">🎹</div>
+            <div class="hub-mini-title">Piano Animal</div>
+            <small style="opacity: 0.9;">8 notas com cantores fofos</small>
+          </div>
+
+          <div class="hub-mini-card c4">
+            <div class="hub-mini-icon">🌙</div>
+            <div class="hub-mini-title">Hora de Dormir</div>
+            <small style="opacity: 0.9;">Sons da natureza & relaxamento</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- 2. COMO FUNCIONA (OS 4 MÓDULOS DETALHADOS) -->
+  <section id="modulos">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Desenvolvido com Cuidado Pedagógico</span>
+        <h2 class="section-title">4 Módulos Claros, Intuitivos e Estimulantes</h2>
+        <p class="section-subtitle">Tudo pensado na medida certa para a faixa etária de 2 a 6 anos, valorizando a curiosidade natural e sem sobrecarga sensorial.</p>
+      </div>
+
+      <div class="modules-grid">
+        <!-- MÓDULO 1 -->
+        <div class="module-card">
+          <div class="module-icon-wrap mod-c1">🐾</div>
+          <h3 class="module-name">1. Conhecer Bichinhos</h3>
+          <p class="module-desc">
+            12 animais da floresta e da fazenda (cachorro, gato, vaca, sapo, pato, leão, ovelha, passarinho, elefante, macaco, coruja e cavalo). Ao tocar, a criança ouve o som autêntico sintetizado e a locução carinhosa do nome do bichinho.
+          </p>
+          <div class="module-highlight">
+            <span>✨</span> Estimula vocabulário e associação auditiva
+          </div>
+        </div>
+
+        <!-- MÓDULO 2 -->
+        <div class="module-card">
+          <div class="module-icon-wrap mod-c2">👂</div>
+          <h3 class="module-name">2. Jogo do Som</h3>
+          <p class="module-desc">
+            Um jogo auditivo lúdico com 3 opções claras na tela. A criança ouve o barulho misterioso e descobre quem faz aquele som. Feedback 100% positivo e não-punitivo: acertos comemoram com estrelas e erros recebem acolhimento encorajador.
+          </p>
+          <div class="module-highlight">
+            <span>✨</span> Zero frustração, reforço positivo caloroso
+          </div>
+        </div>
+
+        <!-- MÓDULO 3 -->
+        <div class="module-card">
+          <div class="module-icon-wrap mod-c3">🎹</div>
+          <h3 class="module-name">3. Piano Animal</h3>
+          <p class="module-desc">
+            Teclado musical com teclas gigantes e notas afinadas (Escala de Dó a Dó). As crianças podem escolher cantores fofos (Gatinho, Cachorrinho, Patinho ou Sapinho) para criar suas próprias melodias alegres.
+          </p>
+          <div class="module-highlight">
+            <span>✨</span> Coordenação motora fina e iniciação musical
+          </div>
+        </div>
+
+        <!-- MÓDULO 4 -->
+        <div class="module-card">
+          <div class="module-icon-wrap mod-c4">🌙</div>
+          <h3 class="module-name">4. Hora de Dormir</h3>
+          <p class="module-desc">
+            Paisagem sonora serena para desacelerar antes de dormir: chuva suave, grilos noturnos, caixinha de música e ronrom calmante de gato. Possui timer com fade-out gradual e tema noturno escuro que não agride os olhos.
+          </p>
+          <div class="module-highlight">
+            <span>✨</span> Rotina do sono calma e sem telas agitadas
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. O QUE A CRIANÇA PODE FAZER -->
+  <section class="benefits-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Autonomia Infantil Real</span>
+        <h2 class="section-title">O Que Seu Filho Desenvolve Brincando</h2>
+        <p class="section-subtitle">Uma ferramenta que respeita o tempo da infância, incentivando o foco e a descoberta autônoma.</p>
+      </div>
+
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <div class="benefit-icon">👶</div>
+          <div class="benefit-content">
+            <h3>Autonomia Sem Saber Ler</h3>
+            <p>Botões grandes, cartões coloridos e ícones intuitivos. Uma criança de 2 ou 3 anos navega sozinha sem depender de leitura de textos.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">🧠</div>
+          <div class="benefit-content">
+            <h3>Pausa dos Vídeos Hiperestimulantes</h3>
+            <p>Diferente de aplicativos com desenhos frenéticos e cortes de 2 segundos, o SoundWorld Kids estimula a escuta ativa e a imaginação de forma saudável.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">🌎</div>
+          <div class="benefit-content">
+            <h3>Primeiro Contato com Inglês</h3>
+            <p>Com apenas um toque na bandeira, todo o aplicativo e a locução dos bichinhos alternam para o inglês americano de forma natural e divertida.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">📱</div>
+          <div class="benefit-content">
+            <h3>Funciona em Qualquer Aparelho</h3>
+            <p>Sem baixar arquivos pesados que lotam a memória. Abra direto no celular, iPad, tablet Android ou computador da família com tela cheia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PARA OS RESPONSÁVEIS -->
+  <section class="parents-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Segurança e Tranquilidade</span>
+        <h2 class="section-title">Construído Pensando na Paz dos Pais</h2>
+        <p class="section-subtitle">Recursos avançados de proteção infantil embutidos para que você possa entregar o dispositivo sem preocupações.</p>
+      </div>
+
+      <div class="parents-features-row">
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">🔒</div>
+            <h3 class="parent-card-title">Parent Gate Seguro</h3>
+          </div>
+          <p class="parent-card-desc">
+            A área de configurações e o pagamento são protegidos por trava adulta: segurar o botão por 3 segundos ou resolver uma conta matemática. A criança nunca acessa por engano.
+          </p>
+        </div>
+
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">🔊</div>
+            <h3 class="parent-card-title">Limitador de Volume Seguro</h3>
+          </div>
+          <p class="parent-card-desc">
+            Controle de ganho com trava de segurança acústica no padrão de 85 dB recomendado pela Organização Mundial da Saúde (OMS), prevenindo picos sonoros agressivos aos tímpanos.
+          </p>
+        </div>
+
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">⏱️</div>
+            <h3 class="parent-card-title">Temporizador de Sono</h3>
+          </div>
+          <p class="parent-card-desc">
+            Defina o tempo limite de uso (15, 30 ou 45 minutos). O app encerra suavemente e transiciona para os sons relaxantes de acalanto, facilitando o encerramento do tempo de tela.
+          </p>
+        </div>
+
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">🛡️</div>
+            <h3 class="parent-card-title">Privacidade Sagrada (LGPD)</h3>
+          </div>
+          <p class="parent-card-desc">
+            Conformidade rigorosa com o Art. 14 da LGPD e ECA. Não pedimos nomes de crianças, fotos, documentos ou localização. Zero trackers e zero venda de dados.
+          </p>
+        </div>
+
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">🤝</div>
+            <h3 class="parent-card-title">Suporte Pessoal Direto</h3>
+          </div>
+          <p class="parent-card-desc">
+            Dúvidas ou auxílio com a licença? Fale diretamente com Luciano Sant Anna pelo e-mail <strong>luklen2@gmail.com</strong> ou WhatsApp. Atendimento humano e rápido.
+          </p>
+        </div>
+
+        <div class="parent-card">
+          <div class="parent-card-header">
+            <div class="parent-card-icon">⚕️</div>
+            <h3 class="parent-card-title">Aviso Ético e Responsável</h3>
+          </div>
+          <p class="parent-card-desc">
+            O SoundWorld Kids é um recurso lúdico e sensorial de estímulo e diversão familiar. Não substitui consultas ou diagnósticos médicos, fonoaudiológicos ou psicológicos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. OFERTA IRRESISTÍVEL (R$ 19,90 VITALÍCIO) -->
+  <section id="oferta" class="offer-section">
+    <div class="section-container">
+      <div class="offer-box">
+        <span class="offer-badge">🔥 Pagamento Único • Sem Mensalidade</span>
+        <h2 style="font-size: 2.4rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Licença Vitalícia SoundWorld Kids</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Acesso completo e ilimitado para toda a família por um valor simbólico.</p>
+
+        <div class="offer-price-row">
+          <span class="price-currency">R$</span>
+          <span class="price-val">19,90</span>
+          <span class="price-period">/ pagamento único</span>
+        </div>
+
+        <div class="offer-includes-grid">
+          <div class="include-item">✓ Acesso vitalício para sempre</div>
+          <div class="include-item">✓ 12 animais com sons reais</div>
+          <div class="include-item">✓ Jogo do Som completo</div>
+          <div class="include-item">✓ Teclado Piano Animal</div>
+          <div class="include-item">✓ Modo Noturno e Acalanto</div>
+          <div class="include-item">✓ Zero propagandas ou anúncios</div>
+          <div class="include-item">✓ Suporte bilíngue (PT / EN)</div>
+          <div class="include-item">✓ Garantia incondicional de 7 dias</div>
+        </div>
+
+        <!-- ÁREA DE PAGAMENTO PIX DIRETO -->
+        <div class="pix-checkout-box">
+          <span id="order-id-badge" class="pix-order-badge">Pedido: SWK-2026-7482</span>
+          
+          <div class="pix-status-pulse">
+            <span class="pulse-dot"></span>
+            <span>Aguardando confirmação do PIX</span>
+          </div>
+
+          <p style="font-size: 0.95rem; font-weight: 700; color: #047857;">Chave PIX Oficial (E-mail):</p>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #065f46; margin: 0.2rem 0; user-select: all;">luklen2@gmail.com</div>
+          <p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.8rem;">Beneficiário Oficial: <strong>Luciano Sant Anna</strong></p>
+
+          <img id="landing-pix-qr" class="pix-qr-img" src="" alt="QR Code PIX Banco Central" />
+
+          <div style="margin-top: 1rem;">
+            <button id="landing-copy-pix-btn" class="pix-btn-copy">
+              <span>📋</span> Copiar Código PIX (R$ 19,90)
+            </button>
+
+            <a id="landing-whatsapp-btn" href="#" target="_blank" class="pix-btn-whatsapp">
+              <span>📱</span> Enviar Comprovante no WhatsApp
+            </a>
+          </div>
+
+          <div id="landing-copy-toast" style="display: none; color: #059669; font-weight: 800; margin-top: 0.8rem;">
+            ✓ Código PIX Copiado com Sucesso! Abra seu banco e cole na opção Copia-e-Cola.
+          </div>
+
+          <div style="margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px dashed #bbf7d0; font-size: 0.9rem; color: #475569;">
+            💡 <em>Já tem seu Código VIP ou deseja validar agora? Você pode digitar o código diretamente no aplicativo em <strong>Área dos Pais</strong> ou clicar em <a href="/" style="color: var(--primary); font-weight: 800;">Jogar Agora</a>.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 10 PERGUNTAS FREQUENTES (FAQ) -->
+  <section id="faq" class="faq-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Tire Suas Dúvidas</span>
+        <h2 class="section-title">Perguntas Frequentes dos Pais</h2>
+        <p class="section-subtitle">Transparência total sobre funcionamento, segurança e ativação.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>1. Qual é a faixa etária recomendada?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            O SoundWorld Kids foi projetado especificamente para a primeira infância, atendendo crianças de <strong>2 a 6 anos</strong>. As ilustrações grandes, a ausência de textos complicados e a sonoridade suave foram calibradas para esse estágio de desenvolvimento sensorial.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>2. Preciso instalar algum aplicativo pesado pela Google Play ou App Store?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Não! O SoundWorld Kids é uma aplicação web moderna (PWA). Você abre direto pelo navegador (Chrome, Safari, Edge) em qualquer celular, tablet ou computador. Não ocupa memória do seu aparelho e pode ser adicionado à tela inicial como um app nativo em 1 clique.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>3. Funciona em tablet Android e iPad?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sim, perfeitamente! A interface é 100% responsiva e otimizada para telas sensíveis ao toque de tablets, celulares e computadores com suporte ao modo Tela Cheia.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>4. É uma assinatura mensal recorrente ou pagamento único?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            É <strong>pagamento único de R$ 19,90</strong> com acesso vitalício. Você não paga mensalidades, não há renovação automática e nem cobranças escondidas no seu cartão de crédito.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>5. O aplicativo tem propagandas ou banners de anúncios?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Zero anúncios! Nosso compromisso absoluto é oferecer um ambiente puro e protegido para as crianças, sem vídeos comerciais, anúncios de joguinhos ou botões de compra ao alcance dos pequenos.
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>6. Como é feita a ativação da minha licença após o pagamento via PIX?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Após realizar o PIX para a chave <strong>luklen2@gmail.com</strong> (Luciano Sant Anna), basta clicar no botão de WhatsApp para enviar seu comprovante com o número do seu Pedido. Você receberá instantaneamente seu Código de Ativação VIP para liberar o acesso vitalício no dispositivo.
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>7. Meu filho pode desconfigurar o som ou fazer compras sozinho?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Não. Todas as funções administrativas, limite de volume e dados de pagamento ficam trancados dentro do <em>Parent Gate</em>, protegido por uma conta matemática ou pressionamento contínuo de 3 segundos que apenas os adultos conseguem acionar.
+          </div>
+        </div>
+
+        <!-- FAQ 8 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>8. Esse aplicativo substitui acompanhamento médico ou fonoaudiológico?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Não. O SoundWorld Kids é um recurso lúdico e recreativo de estímulo sensorial e percepção auditiva. Não possui fins diagnósticos nem substitui terapias ou acompanhamentos clínicos profissionais.
+          </div>
+        </div>
+
+        <!-- FAQ 9 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>9. E se eu trocar de celular ou formatar o aparelho?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Basta guardar o seu Código VIP de ativação! Se precisar recuperar ou reativar, basta nos enviar um e-mail para <strong>luklen2@gmail.com</strong> informando seu e-mail e chave PIX que reemitimos sua liberação sem nenhum custo adicional.
+          </div>
+        </div>
+
+        <!-- FAQ 10 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>10. Existe garantia de satisfação?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sim! Conforme o Artigo 49 do Código de Defesa do Consumidor, você possui <strong>7 dias de garantia incondicional</strong>. Se por qualquer motivo você e seu filho não amarem a experiência, basta nos enviar um e-mail solicitando o reembolso e devolveremos 100% do valor do PIX.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CTA FINAL COM GARANTIA -->
+  <section class="final-cta-section">
+    <div class="section-container">
+      <div class="guarantee-badge">
+        <span>🛡️</span> Garantia Incondicional de 7 Dias pelo Código de Defesa do Consumidor
+      </div>
+
+      <h2 style="font-size: 2.6rem; color: var(--primary-dark); margin-bottom: 1.2rem;">
+        Proporcione uma Experiência Sonora Saudável para Seu Filho Hoje
+      </h2>
+
+      <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 680px; margin: 0 auto 2.5rem;">
+        Mais de 12 bichinhos encantadores, jogos auditivos acolhedores e noites de sono tranquilas por apenas R$ 19,90 pagamento único.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#oferta" class="btn-main-offer">
+          <span>🌟</span> Quero o Acesso Vitalício por R$ 19,90
+        </a>
+        <a href="/" class="btn-try-free">
+          <span>🎮</span> Testar no Navegador (1h Grátis)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <strong style="color: #ffffff; font-size: 1.1rem; display: block; margin-bottom: 0.3rem;">SoundWorld Kids 🌲🐾🎶</strong>
+        <p>Desenvolvido por Luciano Sant Anna • Chave PIX: luklen2@gmail.com</p>
+        <p style="font-size: 0.8rem; margin-top: 0.3rem;">Conformidade Art. 14 da LGPD (Lei 13.709/18) e Estatuto da Criança e do Adolescente (ECA).</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="/" title="Ir para a área de jogos">Abrir Aplicativo</a>
+        <a href="#modulos">Os 4 Módulos</a>
+        <a href="#faq">Perguntas Frequentes</a>
+        <a href="mailto:luklen2@gmail.com">Suporte por E-mail</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE INTERAÇÃO, PIX E ACCORDION -->
+  <script type="module">
+    import { generatePixPayload, getPixQrCodeUrl, getWhatsAppConfirmUrl, getOrCreateOrderId } from './js/pix.js';
+
+    // 1. Accordion do FAQ
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) {
+          item.classList.add('open');
+        }
+      });
+    });
+
+    // 2. Pedido Único e PIX
+    const orderId = getOrCreateOrderId();
+    const orderBadge = document.getElementById('order-id-badge');
+    if (orderBadge) {
+      orderBadge.textContent = `Pedido: ${orderId}`;
+    }
+
+    const payload = generatePixPayload({
+      pixKey: 'luklen2@gmail.com',
+      name: 'Luciano Sant Anna',
+      city: 'Sao Paulo',
+      amount: '19.90',
+      txId: orderId.replace(/[^A-Za-z0-9]/g, '').slice(0, 20)
+    });
+
+    const qrImg = document.getElementById('landing-pix-qr');
+    if (qrImg) {
+      qrImg.src = getPixQrCodeUrl(payload);
+    }
+
+    // 3. Copia e Cola
+    const copyBtn = document.getElementById('landing-copy-pix-btn');
+    const toast = document.getElementById('landing-copy-toast');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(payload).then(() => {
+          if (toast) {
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 4000);
+          }
+          const orig = copyBtn.innerHTML;
+          copyBtn.innerHTML = '✓ Código PIX Copiado!';
+          setTimeout(() => copyBtn.innerHTML = orig, 3000);
+        }).catch(() => {
+          prompt('Chave PIX Copia-e-Cola (Luciano Sant Anna):', payload);
+        });
+      });
+    }
+
+    // 4. WhatsApp
+    const waBtn = document.getElementById('landing-whatsapp-btn');
+    if (waBtn) {
+      waBtn.href = getWhatsAppConfirmUrl({
+        name: 'Luciano Sant Anna',
+        amount: '19.90',
+        orderId
+      });
+    }
+  </script>
+</body>
+</html>

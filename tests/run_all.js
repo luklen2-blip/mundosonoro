@@ -34,6 +34,8 @@ async function runTests() {
   assert.strictEqual(validateActivationCode('BICHINHOS100'), true);
   assert.strictEqual(validateActivationCode('MUNDOSONORO'), true);
   assert.strictEqual(validateActivationCode('LUCIANO19'), true);
+  assert.strictEqual(validateActivationCode('SOUNDKIDS'), true);
+  assert.strictEqual(validateActivationCode('KIDS100'), true);
   assert.strictEqual(validateActivationCode('SW-19A'), true);
   assert.strictEqual(validateActivationCode('codigo_falso_123'), false);
   assert.strictEqual(validateActivationCode(''), false);
@@ -103,19 +105,26 @@ async function runTests() {
   passed++;
   console.log('    ✓ Endpoint mandatório /api/health respondendo 200 OK.');
 
-  // 4b. API PIX
-  const pixRes = await fetchHttp('/api/pix?amount=20.00');
+  // 4b. API PIX com suporte a Pedido Único (orderId)
+  const pixRes = await fetchHttp('/api/pix?amount=19.90&orderId=SWK-2026-TEST');
   assert.strictEqual(pixRes.status, 200);
   const pixJson = JSON.parse(pixRes.body);
   assert.strictEqual(pixJson.status, 'success');
+  assert.strictEqual(pixJson.orderId, 'SWK-2026-TEST');
   assert.ok(pixJson.copiaECola.includes('6304'));
   passed++;
-  console.log('    ✓ Endpoint /api/pix respondendo com payload e QR Code.');
+  console.log('    ✓ Endpoint /api/pix respondendo com payload, QR Code e Order ID.');
 
-  // 4c. Arquivos Estáticos e SPA Fallback
+  // 4c. Arquivos Estáticos, SPA Fallback e Página de Vendas Dedicada (/comprar)
   const homeRes = await fetchHttp('/');
   assert.strictEqual(homeRes.status, 200);
   assert.ok(homeRes.body.includes('SoundWorld dos Bichinhos'));
+
+  const comprarRes = await fetchHttp('/comprar');
+  assert.strictEqual(comprarRes.status, 200);
+  assert.ok(comprarRes.body.includes('SoundWorld Kids'));
+  assert.ok(comprarRes.body.includes('Licença Vitalícia'));
+  assert.ok(comprarRes.body.includes('19,90'));
 
   const cssRes = await fetchHttp('/css/styles.css');
   assert.strictEqual(cssRes.status, 200);
@@ -128,7 +137,7 @@ async function runTests() {
   assert.strictEqual(spaRes.status, 200);
   assert.ok(spaRes.body.includes('SoundWorld dos Bichinhos'));
   passed++;
-  console.log('    ✓ Servidor estático e SPA fallback operacionais.');
+  console.log('    ✓ Servidor estático, Landing Page (/comprar) e SPA fallback operacionais.');
 
   // 4d. Cabeçalhos de Segurança Estendidos e Privacidade Infantil
   assert.strictEqual(healthRes.headers['x-content-type-options'], 'nosniff');

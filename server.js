@@ -152,15 +152,16 @@ const server = http.createServer((req, res) => {
       amount = numAmount.toFixed(2);
     }
 
-    // Chave travada permanentemente em luklen2@gmail.com / Luciano Sant Anna
+    const orderId = parsedUrl.searchParams.get('orderId') || `SWK${Date.now().toString().slice(-6)}`;
     const pixKey = 'luklen2@gmail.com';
-    const payload = generatePixPayload({ amount, pixKey, name: 'Luciano Sant Anna' });
+    const payload = generatePixPayload({ amount, pixKey, name: 'Luciano Sant Anna', txId: orderId.slice(0, 20) });
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`;
 
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify({
       status: 'success',
       amount,
+      orderId,
       pixKey,
       name: 'Luciano Sant Anna',
       copiaECola: payload,
@@ -173,6 +174,8 @@ const server = http.createServer((req, res) => {
   let targetFile = pathname;
   if (targetFile === '/' || targetFile === '') {
     targetFile = 'index.html';
+  } else if (targetFile === '/comprar' || targetFile === '/landing' || targetFile === '/sobre' || targetFile === '/planos') {
+    targetFile = 'landing.html';
   } else if (targetFile.startsWith('/')) {
     targetFile = targetFile.slice(1);
   }

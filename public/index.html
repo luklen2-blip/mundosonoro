@@ -70,6 +70,12 @@
     </div>
 
     <div class="nav-actions">
+      <!-- Link Educativo para os Pais / Conheça Mais -->
+      <a href="/comprar" class="parent-gate-btn parents-info-btn" title="Para os Pais / Conheça Mais" target="_blank">
+        <span>ℹ️</span>
+        <span data-i18n="parentGate.learnMoreLink">Pais</span>
+      </a>
+
       <!-- Indicador do Período de Uso Gratuito (1 Hora) -->
       <div id="trial-timer-badge" class="trial-timer-badge" title="Tempo de uso gratuito restante">
         <span>⏱️</span>
@@ -97,7 +103,12 @@
 
   <!-- BARRA DE MODOS (PLACAS DA FLORESTA) -->
   <nav class="modes-bar">
-    <button class="mode-tab-btn active" data-mode="explore">
+    <button class="mode-tab-btn active" data-mode="hub">
+      <span>🏠</span>
+      <span data-i18n="modes.activityHub.badge">Início</span>
+    </button>
+
+    <button class="mode-tab-btn" data-mode="explore">
       <span>🐾</span>
       <span data-i18n="modes.explore.badge">Conhecer Bichinhos</span>
     </button>
@@ -105,11 +116,6 @@
     <button class="mode-tab-btn" data-mode="soundQuiz">
       <span>👂</span>
       <span data-i18n="modes.soundQuiz.badge">Jogo do Som</span>
-    </button>
-
-    <button class="mode-tab-btn" data-mode="findAnimal">
-      <span>🔍</span>
-      <span data-i18n="modes.findAnimal.badge">Caça ao Bicho</span>
     </button>
 
     <button class="mode-tab-btn" data-mode="piano">
@@ -127,10 +133,62 @@
   <main class="main-container">
 
     <!-- ==========================================
+         MODO 0: SELETOR PRINCIPAL DE ATIVIDADES (HUB)
+         ========================================== -->
+    <section id="mode-hub" class="mode-section">
+      <div class="mode-hero">
+        <h2 data-i18n="modes.activityHub.title">O Que Vamos Brincar Hoje? 🎈</h2>
+        <p data-i18n="modes.activityHub.subtitle">Toque em uma das atividades para começar a diversão!</p>
+      </div>
+
+      <div class="hub-activities-grid">
+        <div class="hub-activity-card card-explore" data-target-mode="explore">
+          <div class="hub-activity-icon">🐾</div>
+          <div class="hub-activity-content">
+            <h3 data-i18n="modes.explore.title">Conhecer Bichinhos</h3>
+            <p data-i18n="modes.activityHub.exploreDesc">12 bichinhos com sons reais e nomes falados</p>
+          </div>
+          <div class="hub-activity-arrow">➡️</div>
+        </div>
+
+        <div class="hub-activity-card card-quiz" data-target-mode="soundQuiz">
+          <div class="hub-activity-icon">👂</div>
+          <div class="hub-activity-content">
+            <h3 data-i18n="modes.soundQuiz.title">Quem Faz esse Som?</h3>
+            <p data-i18n="modes.activityHub.soundQuizDesc">Descubra quem faz o som com incentivo carinhoso</p>
+          </div>
+          <div class="hub-activity-arrow">➡️</div>
+        </div>
+
+        <div class="hub-activity-card card-piano" data-target-mode="piano">
+          <div class="hub-activity-icon">🎹</div>
+          <div class="hub-activity-content">
+            <h3 data-i18n="modes.piano.title">Teclado dos Bichinhos</h3>
+            <p data-i18n="modes.activityHub.pianoDesc">Toque músicas com as vozes dos bichinhos cantores</p>
+          </div>
+          <div class="hub-activity-arrow">➡️</div>
+        </div>
+
+        <div class="hub-activity-card card-bedtime" data-target-mode="bedtime">
+          <div class="hub-activity-icon">🌙</div>
+          <div class="hub-activity-content">
+            <h3 data-i18n="modes.bedtime.title">Hora de Dormir</h3>
+            <p data-i18n="modes.activityHub.bedtimeDesc">Chuva, grilos, caixinha de música e ronrom para ninar</p>
+          </div>
+          <div class="hub-activity-arrow">➡️</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
          MODO 1: CONHECER BICHINHOS (TOQUE E OUÇA)
          ========================================== -->
-    <section id="mode-explore" class="mode-section">
+    <section id="mode-explore" class="mode-section" style="display: none;">
       <div class="mode-hero">
+        <button class="btn-back-hub" data-action="go-hub">
+          <span>⬅️</span>
+          <span data-i18n="modes.backToHub">Início</span>
+        </button>
         <h2 data-i18n="modes.explore.title">A Floresta Encantada 🌲🐾</h2>
         <p data-i18n="modes.explore.subtitle">Toque no bicho para ouvir o barulho e o nome dele!</p>
       </div>
@@ -152,6 +210,10 @@
          ========================================== -->
     <section id="mode-soundQuiz" class="mode-section" style="display: none;">
       <div class="mode-hero">
+        <button class="btn-back-hub" data-action="go-hub">
+          <span>⬅️</span>
+          <span data-i18n="modes.backToHub">Início</span>
+        </button>
         <h2 data-i18n="modes.soundQuiz.title">Quem Faz esse Som? 👂</h2>
         <p data-i18n="modes.soundQuiz.subtitle">Escute com atenção e adivinhe qual é o bichinho!</p>
       </div>
@@ -176,6 +238,10 @@
          ========================================== -->
     <section id="mode-findAnimal" class="mode-section" style="display: none;">
       <div class="mode-hero">
+        <button class="btn-back-hub" data-action="go-hub">
+          <span>⬅️</span>
+          <span data-i18n="modes.backToHub">Início</span>
+        </button>
         <h2 data-i18n="modes.findAnimal.title">Onde Está o Bichinho? 🔍</h2>
         <p data-i18n="modes.findAnimal.subtitle">A voz vai chamar um bichinho. Encontre ele!</p>
       </div>
@@ -199,6 +265,10 @@
          ========================================== -->
     <section id="mode-piano" class="mode-section" style="display: none;">
       <div class="mode-hero">
+        <button class="btn-back-hub" data-action="go-hub">
+          <span>⬅️</span>
+          <span data-i18n="modes.backToHub">Início</span>
+        </button>
         <h2 data-i18n="modes.piano.title">Teclado dos Bichinhos 🎹</h2>
         <p data-i18n="modes.piano.subtitle">Toque as teclas e faça os bichinhos cantarem música!</p>
       </div>
@@ -224,6 +294,10 @@
          ========================================== -->
     <section id="mode-bedtime" class="mode-section" style="display: none;">
       <div class="mode-hero">
+        <button class="btn-back-hub" data-action="go-hub">
+          <span>⬅️</span>
+          <span data-i18n="modes.backToHub">Início</span>
+        </button>
         <h2 data-i18n="modes.bedtime.title">Floresta Noturna 🌙</h2>
         <p data-i18n="modes.bedtime.subtitle">Sons suaves e aconchegantes para os bichinhos descansarem.</p>
       </div>
@@ -232,26 +306,73 @@
         <div class="moon-graphic">🌙✨💤</div>
         <p style="font-size: 1.25rem; font-weight: 700;" data-i18n="modes.bedtime.nightStatus">Os bichinhos estão sonhando pacificamente...</p>
 
+        <!-- Master Play / Pause -->
+        <div style="margin: 1.2rem 0; display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+          <button id="btn-bedtime-master" class="bedtime-master-btn">
+            <span>🎵</span>
+            <span data-i18n="modes.bedtime.masterPlay">Tocar Sons Suaves 🎵</span>
+          </button>
+        </div>
+
+        <!-- Grade de Sons e Controles Individuais de Volume -->
         <div class="bedtime-controls-grid">
-          <button id="btn-bedtime-rain" class="bedtime-toggle-btn" aria-label="Chuva">
-            <span style="font-size: 3.2rem;">🌧️</span>
-            <span style="font-weight: 700;" data-i18n="modes.bedtime.rain">Chuva Suave</span>
-          </button>
+          <div class="bedtime-sound-item">
+            <button id="btn-bedtime-rain" class="bedtime-toggle-btn" aria-label="Chuva">
+              <span style="font-size: 3rem;">🌧️</span>
+              <span style="font-weight: 700;" data-i18n="modes.bedtime.rain">Chuva Suave</span>
+            </button>
+            <div class="bedtime-slider-wrap">
+              <input type="range" class="bedtime-vol-slider" data-sound="rain" min="0.05" max="0.8" step="0.05" value="0.25" title="Volume da Chuva" />
+            </div>
+          </div>
 
-          <button id="btn-bedtime-crickets" class="bedtime-toggle-btn" aria-label="Grilos">
-            <span style="font-size: 3.2rem;">🦗</span>
-            <span style="font-weight: 700;" data-i18n="modes.bedtime.crickets">Grilos Noturnos</span>
-          </button>
+          <div class="bedtime-sound-item">
+            <button id="btn-bedtime-crickets" class="bedtime-toggle-btn" aria-label="Grilos">
+              <span style="font-size: 3rem;">🦗</span>
+              <span style="font-weight: 700;" data-i18n="modes.bedtime.crickets">Grilos Noturnos</span>
+            </button>
+            <div class="bedtime-slider-wrap">
+              <input type="range" class="bedtime-vol-slider" data-sound="crickets" min="0.02" max="0.5" step="0.02" value="0.08" title="Volume dos Grilos" />
+            </div>
+          </div>
 
-          <button id="btn-bedtime-lullaby" class="bedtime-toggle-btn" aria-label="Caixinha">
-            <span style="font-size: 3.2rem;">🧸</span>
-            <span style="font-weight: 700;" data-i18n="modes.bedtime.lullaby">Caixinha de Música</span>
-          </button>
+          <div class="bedtime-sound-item">
+            <button id="btn-bedtime-lullaby" class="bedtime-toggle-btn" aria-label="Caixinha">
+              <span style="font-size: 3rem;">🧸</span>
+              <span style="font-weight: 700;" data-i18n="modes.bedtime.lullaby">Caixinha de Música</span>
+            </button>
+            <div class="bedtime-slider-wrap">
+              <input type="range" class="bedtime-vol-slider" data-sound="lullaby" min="0.05" max="0.6" step="0.05" value="0.18" title="Volume da Caixinha" />
+            </div>
+          </div>
 
-          <button id="btn-bedtime-purr" class="bedtime-toggle-btn" aria-label="Ronrom">
-            <span style="font-size: 3.2rem;">🐱</span>
-            <span style="font-weight: 700;" data-i18n="modes.bedtime.purr">Ronrom do Gato</span>
-          </button>
+          <div class="bedtime-sound-item">
+            <button id="btn-bedtime-purr" class="bedtime-toggle-btn" aria-label="Ronrom">
+              <span style="font-size: 3rem;">🐱</span>
+              <span style="font-weight: 700;" data-i18n="modes.bedtime.purr">Ronrom do Gato</span>
+            </button>
+            <div class="bedtime-slider-wrap">
+              <input type="range" class="bedtime-vol-slider" data-sound="purr" min="0.05" max="0.6" step="0.05" value="0.16" title="Volume do Ronrom" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Seletor de Sleep Timer na tela de Bedtime -->
+        <div class="bedtime-timer-box">
+          <label style="font-weight: 700; font-size: 0.95rem; color: #cbd5e0;" data-i18n="modes.bedtime.timerLabel">Desligamento Automático (Modo Sono):</label>
+          <div class="bedtime-timer-chips">
+            <button class="timer-chip active" data-timer-val="0" data-i18n="modes.bedtime.timerOff">Sem Timer</button>
+            <button class="timer-chip" data-timer-val="15" data-i18n="modes.bedtime.timer15">15 min</button>
+            <button class="timer-chip" data-timer-val="30" data-i18n="modes.bedtime.timer30">30 min</button>
+            <button class="timer-chip" data-timer-val="45" data-i18n="modes.bedtime.timer45">45 min</button>
+            <button class="timer-chip" data-timer-val="60" data-i18n="modes.bedtime.timer60">60 min</button>
+          </div>
+          <div id="bedtime-timer-countdown" style="font-weight: 700; font-size: 0.95rem; color: #38b000; margin-top: 0.4rem;"></div>
+        </div>
+
+        <!-- Aviso Responsável Não-Médico -->
+        <div class="bedtime-disclaimer-box">
+          <p data-i18n="modes.bedtime.disclaimer">Ambiente sonoro suave para relaxamento e rotina de sono da família. Não substitui orientações médicas.</p>
         </div>
       </div>
     </section>
@@ -291,6 +412,33 @@
 
       <!-- CONTEÚDO DESBLOQUEADO DOS PAIS -->
       <div id="parent-unlocked-area" style="display: none;">
+        <!-- Topo da Área dos Pais com Badge e Botão de Voltar ao Jogo -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 2px solid #e2e8f0;">
+          <span style="font-weight: 800; color: #1b4332; font-size: 0.95rem;" data-i18n="parentGate.parentAreaBadge">🛡️ Área Exclusiva dos Pais e Responsáveis</span>
+          <button id="btn-parent-back-to-game" class="parent-return-btn">
+            <span>🧸</span>
+            <span data-i18n="parentGate.backToGame">Voltar para a Brincadeira 🧸</span>
+          </button>
+        </div>
+
+        <!-- Painel de Métricas e Licença -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem;">
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 0.8rem 1rem;">
+            <div style="font-size: 0.82rem; color: #15803d; font-weight: 700;" data-i18n="parentGate.todayUsage">Tempo de brincadeira hoje:</div>
+            <div id="parent-usage-display" style="font-size: 1.25rem; font-weight: 800; color: #166534;">0 minutos</div>
+          </div>
+
+          <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 0.8rem 1rem;">
+            <div style="font-size: 0.82rem; color: #1d4ed8; font-weight: 700;" data-i18n="parentGate.licenseStatus">Status da Licença:</div>
+            <div id="parent-license-display" style="font-size: 1.1rem; font-weight: 800; color: #1e40af;">Período Gratuito</div>
+          </div>
+
+          <div style="background: #fdf4ff; border: 1px solid #f5d0fe; border-radius: 12px; padding: 0.8rem 1rem;">
+            <div style="font-size: 0.82rem; color: #86198f; font-weight: 700;" data-i18n="parentGate.orderIdLabel">Número do Pedido:</div>
+            <div id="parent-order-display" style="font-size: 1.1rem; font-weight: 800; color: #701a75; font-family: monospace;">SWK-2026-XXXX</div>
+          </div>
+        </div>
+
         <div style="margin: 1.5rem 0;">
           <!-- Limitador de Volume Seguro -->
           <div style="margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0;">
@@ -349,9 +497,10 @@
           <p data-i18n="parentGate.legal.ageNotice" style="margin-bottom: 0.4rem; font-weight: 700;">Faixa Etária Recomendada: 2 a 6 anos. Uso supervisionado por pais ou responsáveis.</p>
           <p data-i18n="parentGate.legal.lgpdText" style="margin-bottom: 0.6rem;">Conformidade integral com o Art. 14 da LGPD. Não coletamos dados de crianças.</p>
           
-          <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+          <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; align-items: center;">
             <a href="#" id="link-terms" style="color: #118ab2; font-weight: 700; text-decoration: underline;" data-i18n="parentGate.legal.termsLink">Termos de Uso</a>
             <a href="#" id="link-privacy" style="color: #118ab2; font-weight: 700; text-decoration: underline;" data-i18n="parentGate.legal.privacyLink">Política de Privacidade</a>
+            <a href="/comprar" target="_blank" style="color: #047857; font-weight: 800; text-decoration: underline; margin-left: auto;">Página Completa dos Pais ↗</a>
           </div>
         </div>
       </div>
@@ -372,7 +521,18 @@
     <div class="paywall-content">
       <div class="paywall-badge-offer" data-i18n="trial.offerTitle">Acesso Vitalício por R$ 19,90</div>
       <h2 style="font-size: 1.8rem; margin-bottom: 0.4rem; color: #1a4314;" data-i18n="trial.paywallTitle">Hora de Adquirir o Mundo Sonoro! 🌟🐾</h2>
-      <p style="font-size: 1.05rem; color: #4a5568; margin-bottom: 1.2rem;" data-i18n="trial.paywallSubtitle">O tempo gratuito de 1 hora terminou. Desbloqueie o acesso vitalício completo!</p>
+      <p style="font-size: 1.05rem; color: #4a5568; margin-bottom: 0.8rem;" data-i18n="trial.paywallSubtitle">O tempo gratuito de 1 hora terminou. Desbloqueie o acesso vitalício completo!</p>
+
+      <!-- Pedido Único e Status do PIX -->
+      <div style="background: #f1f5f9; border-radius: 999px; padding: 0.4rem 1.2rem; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;">
+        <span style="font-size: 0.88rem; font-weight: 700; color: #475569;" data-i18n="trial.orderIdLabel">Identificador do Pedido:</span>
+        <code id="paywall-order-id-text" style="font-weight: 800; color: #047857; font-size: 0.95rem;">SWK-2026-XXXX</code>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #d97706; font-weight: 700; font-size: 0.9rem; margin-bottom: 1rem;">
+        <span style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+        <span data-i18n="trial.statusWaiting">Aguardando confirmação do PIX...</span>
+      </div>
 
       <div class="paywall-pix-box">
         <p style="font-size: 0.95rem; font-weight: 700; color: #047857;" data-i18n="trial.pixKeyLabel">Chave PIX Oficial (E-mail):</p>

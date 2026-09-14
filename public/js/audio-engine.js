@@ -8,7 +8,6 @@ class AnimalAudioEngine {
     this.masterVolume = 0.70; // 70% nível seguro para crianças
     this.isInitialized = false;
 
-    // Nós de Sons de Acalanto (Bedtime)
     this.bedtimeNodes = {
       rain: null,
       crickets: null,
@@ -20,6 +19,12 @@ class AnimalAudioEngine {
       crickets: false,
       lullaby: false,
       purr: false
+    };
+    this.bedtimeVolumes = {
+      rain: 0.22,
+      crickets: 0.08,
+      lullaby: 0.18,
+      purr: 0.16
     };
   }
 
@@ -855,6 +860,34 @@ class AnimalAudioEngine {
       try { osc.stop(); lfo.stop(); } catch {}
       this.bedtimeNodes.purr = null;
     }
+  }
+
+  setBedtimeVolume(type, vol) {
+    if (this.bedtimeVolumes[type] !== undefined) {
+      this.bedtimeVolumes[type] = Math.max(0.01, Math.min(1.0, vol));
+      if (this.ctx) {
+        if (type === 'rain' && this.bedtimeNodes.rain && this.bedtimeNodes.rain.gain) {
+          this.bedtimeNodes.rain.gain.gain.setTargetAtTime(this.bedtimeVolumes.rain, this.ctx.currentTime, 0.05);
+        } else if (type === 'purr' && this.bedtimeNodes.purr && this.bedtimeNodes.purr.gain) {
+          this.bedtimeNodes.purr.gain.gain.setTargetAtTime(this.bedtimeVolumes.purr, this.ctx.currentTime, 0.05);
+        }
+      }
+    }
+  }
+
+  fadeAndStopBedtime(fadeDurationSec = 3) {
+    if (this.ctx) {
+      const now = this.ctx.currentTime;
+      if (this.bedtimeNodes.rain && this.bedtimeNodes.rain.gain) {
+        this.bedtimeNodes.rain.gain.gain.linearRampToValueAtTime(0.001, now + fadeDurationSec);
+      }
+      if (this.bedtimeNodes.purr && this.bedtimeNodes.purr.gain) {
+        this.bedtimeNodes.purr.gain.gain.linearRampToValueAtTime(0.001, now + fadeDurationSec);
+      }
+    }
+    setTimeout(() => {
+      this.stopAllBedtime();
+    }, fadeDurationSec * 1000 + 100);
   }
 
   stopAllBedtime() {

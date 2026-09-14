@@ -8,6 +8,16 @@ export const translations = {
 
     // Modos de Navegação
     modes: {
+      activityHub: {
+        title: "O Que Vamos Brincar Hoje? 🎈",
+        subtitle: "Toque em uma das atividades para começar a diversão!",
+        badge: "Início 🏠",
+        exploreDesc: "12 bichinhos com sons reais e nomes falados",
+        soundQuizDesc: "Descubra quem faz o som com incentivo carinhoso",
+        pianoDesc: "Toque músicas com as vozes dos bichinhos cantores",
+        bedtimeDesc: "Chuva, grilos, caixinha de música e ronrom para ninar"
+      },
+      backToHub: "⬅️ Início",
       explore: {
         title: "Conhecer Bichinhos",
         badge: "Toque e Ouça 🐾",
@@ -57,7 +67,16 @@ export const translations = {
         rain: "Chuva Suave",
         crickets: "Grilos Noturnos",
         lullaby: "Caixinha de Música",
-        purr: "Ronrom do Gatinho"
+        purr: "Ronrom do Gatinho",
+        disclaimer: "Ambiente sonoro suave para relaxamento e rotina de sono da família. Não substitui orientações médicas.",
+        masterPlay: "Tocar Sons Suaves 🎵",
+        masterPause: "Pausar Todos os Sons ⏸️",
+        timerLabel: "Desligamento Automático (Modo Sono):",
+        timer15: "15 min",
+        timer30: "30 min",
+        timer45: "45 min",
+        timer60: "60 min",
+        timerOff: "Sem Timer"
       }
     },
 
@@ -97,18 +116,30 @@ export const translations = {
       codeError: "Código inválido ou incorreto. Envie o comprovante no WhatsApp para receber seu código.",
       codeSuccess: "Código VIP validado com sucesso! Acesso vitalício liberado!",
       unlockBtn: "Validar e Liberar Acesso 🔓",
-      unlockedToast: "🎉 Parabéns! Acesso vitalício liberado com sucesso!"
+      unlockedToast: "🎉 Parabéns! Acesso vitalício liberado com sucesso!",
+      orderIdLabel: "Identificador do Pedido:",
+      statusWaiting: "Aguardando confirmação do PIX...",
+      statusActive: "Licença Vitalícia Ativa! 🌟"
     },
 
     // Área dos Pais (Parent Gate)
     parentGate: {
       buttonLabel: "Pais 🔒",
+      learnMoreLink: "ℹ️ Para os Pais / Conheça Mais",
       modalTitle: "Espaço Seguro dos Pais & Responsáveis",
       subtitle: "Configurações de segurança auditiva, volume e tempo de tela",
       unlockInstruction: "Segure o botão por 3 segundos ou responda a conta:",
       pressAndHold: "Segure pressionado (3s)...",
       mathVerify: "Entrar",
       mathError: "Resposta incorreta. Tente novamente.",
+      backToGame: "Voltar para a Brincadeira 🧸",
+      todayUsage: "Tempo de brincadeira hoje:",
+      minutes: "minutos",
+      orderIdLabel: "Número do Pedido:",
+      licenseStatus: "Status da Licença:",
+      licenseTrial: "Período Gratuito (1 Hora)",
+      licenseVip: "Vitalícia VIP Ativada 🌟",
+      parentAreaBadge: "🛡️ Área Exclusiva dos Pais e Responsáveis",
 
       settings: {
         volumeLimiter: "Limitador de Volume Seguro (dB)",
@@ -157,6 +188,16 @@ export const translations = {
 
     // Navigation Modes
     modes: {
+      activityHub: {
+        title: "What Shall We Play Today? 🎈",
+        subtitle: "Tap an activity card below to start the fun!",
+        badge: "Home 🏠",
+        exploreDesc: "12 animals with real sounds and spoken names",
+        soundQuizDesc: "Guess who makes the sound with warm cheering",
+        pianoDesc: "Play songs with animal voices as singers",
+        bedtimeDesc: "Rain, crickets, music box, and calming purrs"
+      },
+      backToHub: "⬅️ Home",
       explore: {
         title: "Meet the Animals",
         badge: "Tap & Hear 🐾",
@@ -206,7 +247,16 @@ export const translations = {
         rain: "Soft Rain",
         crickets: "Night Crickets",
         lullaby: "Music Box",
-        purr: "Purring Kitty"
+        purr: "Purring Kitty",
+        disclaimer: "Calming ambient soundscape for family relaxation and bedtime routine. Does not replace medical guidance.",
+        masterPlay: "Play Gentle Sounds 🎵",
+        masterPause: "Pause All Sounds ⏸️",
+        timerLabel: "Automatic Shutoff (Sleep Mode):",
+        timer15: "15 min",
+        timer30: "30 min",
+        timer45: "45 min",
+        timer60: "60 min",
+        timerOff: "No Timer"
       }
     },
 
@@ -246,18 +296,30 @@ export const translations = {
       codeError: "Invalid code. Please send your receipt via WhatsApp to receive your code.",
       codeSuccess: "VIP code verified successfully! Lifetime access unlocked!",
       unlockBtn: "Validate & Unlock Access 🔓",
-      unlockedToast: "🎉 Congratulations! Lifetime access unlocked successfully!"
+      unlockedToast: "🎉 Congratulations! Lifetime access unlocked successfully!",
+      orderIdLabel: "Order Identifier:",
+      statusWaiting: "Waiting for PIX confirmation...",
+      statusActive: "Lifetime License Active! 🌟"
     },
 
     // Parent Gate
     parentGate: {
       buttonLabel: "Parents 🔒",
+      learnMoreLink: "ℹ️ For Parents / Learn More",
       modalTitle: "Parents & Caregivers Safe Space",
       subtitle: "Hearing safety, volume limits, and screen time management",
       unlockInstruction: "Hold the button for 3 seconds or solve the sum:",
       pressAndHold: "Hold down (3s)...",
       mathVerify: "Enter",
       mathError: "Incorrect answer. Please try again.",
+      backToGame: "Back to the Game 🧸",
+      todayUsage: "Playtime today:",
+      minutes: "minutes",
+      orderIdLabel: "Order Number:",
+      licenseStatus: "License Status:",
+      licenseTrial: "Free Trial Period (1 Hour)",
+      licenseVip: "VIP Lifetime Activated 🌟",
+      parentAreaBadge: "🛡️ Exclusive Parents & Caregivers Area",
 
       settings: {
         volumeLimiter: "Safe Volume Limiter (dB)",
