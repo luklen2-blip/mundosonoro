@@ -80,10 +80,45 @@ function applySecurityHeaders(res) {
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://api.qrserver.com; media-src 'self' blob: data:; connect-src 'self' https://api.qrserver.com; frame-ancestors 'none';");
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
 }
+
+// Rate Limiter nativo em memória por IP (zero dependências)
+const ipRequestHistory = new Map();
+function isRateLimited(key, maxRequests = 180, windowMs = 60000) {
+  const now = Date.now();
+  let record = ipRequestHistory.get(key);
+  if (!record || now - record.startTime > windowMs) {
+    record = { startTime: now, count: 1 };
+    ipRequestHistory.set(key, record);
+    return false;
+  }
+  record.count++;
+  return record.count > maxRequests;
+}
+
+// Limpeza de histórico inativo para evitar vazamento de memória
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, record] of ipRequestHistory.entries()) {
+    if (now - record.startTime > 120000) {
+      ipRequestHistory.delete(key);
+    }
+  }
+}, 600000);
 
 const server = http.createServer((req, res) => {
   applySecurityHeaders(res);
+
+  const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
+
+  // Rate Limiting global por IP
+  if (isRateLimited(`global_${clientIp}`, 300, 60000)) {
+    res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ status: 'error', message: 'Muitas requisições. Aguarde um instante.' }));
+    return;
+  }
 
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
@@ -101,25 +136,40 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 2. Geração de PIX para apoio/patronesse de pais
+  // 2. Geração de PIX para apoio/patronesse de pais (Blindado e com Rate Limit)
   if (pathname === '/api/pix' && req.method === 'GET') {
-    const amount = parsedUrl.searchParams.get('amount') || '19.90';
-    const pixKey = parsedUrl.searchParams.get('key') || 'luklen2@gmail.com';
+    if (isRateLimited(`pix_${clientIp}`, 30, 60000)) {
+      res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ status: 'error', message: 'Limite de consultas do PIX atingido. Aguarde 1 minuto.' }));
+      return;
+    }
+
+    let amount = parsedUrl.searchParams.get('amount') || '19.90';
+    const numAmount = parseFloat(amount);
+    if (isNaN(numAmount) || numAmount < 1 || numAmount > 500) {
+      amount = '19.90';
+    } else {
+      amount = numAmount.toFixed(2);
+    }
+
+    // Chave travada permanentemente em luklen2@gmail.com / Luciano Sant Anna
+    const pixKey = 'luklen2@gmail.com';
     const payload = generatePixPayload({ amount, pixKey, name: 'Luciano Sant Anna' });
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`;
 
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify({
       status: 'success',
-      amount: Number(amount).toFixed(2),
+      amount,
       pixKey,
+      name: 'Luciano Sant Anna',
       copiaECola: payload,
       qrCodeUrl
     }));
     return;
   }
 
-  // 3. Resolução Universal e Resiliente de Arquivos Estáticos (public + raiz)
+  // 3. Resolução Universal e Resiliente de Arquivos Estáticos com Sanitização
   let targetFile = pathname;
   if (targetFile === '/' || targetFile === '') {
     targetFile = 'index.html';
@@ -127,16 +177,27 @@ const server = http.createServer((req, res) => {
     targetFile = targetFile.slice(1);
   }
 
+  // Sanitização estrita contra Path Traversal
+  const safeTargetFile = path.normalize(targetFile).replace(/^(\.\.[\/\\])+/, '');
+  const rootAllowedDirs = [
+    path.resolve(__dirname),
+    path.resolve(__dirname, 'public'),
+    path.resolve(process.cwd()),
+    path.resolve(process.cwd(), 'public')
+  ];
+
   const candidatePaths = [
-    path.join(__dirname, 'public', targetFile),
-    path.join(__dirname, targetFile),
-    path.join(process.cwd(), 'public', targetFile),
-    path.join(process.cwd(), targetFile)
+    path.join(__dirname, 'public', safeTargetFile),
+    path.join(__dirname, safeTargetFile),
+    path.join(process.cwd(), 'public', safeTargetFile),
+    path.join(process.cwd(), safeTargetFile)
   ];
 
   let filePath = candidatePaths.find(p => {
     try {
-      return fs.existsSync(p) && fs.statSync(p).isFile();
+      const resolved = path.resolve(p);
+      const isInside = rootAllowedDirs.some(dir => resolved.startsWith(dir));
+      return isInside && fs.existsSync(resolved) && fs.statSync(resolved).isFile();
     } catch {
       return false;
     }

@@ -90,8 +90,13 @@ export const translations = {
       copyPixBtn: "Copiar Código PIX Copia-e-Cola 📋",
       copied: "Código PIX Copiado com Sucesso!",
       whatsappBtn: "Enviar Comprovante via WhatsApp 📱",
-      unlockCodePlaceholder: "Confirmar ativação",
-      unlockBtn: "Liberar Acesso Vitalício Agora 🔓",
+      enterCodeTitle: "Já fez o PIX? Digite seu Código de Ativação:",
+      codePlaceholder: "Ex: BICHINHOS100",
+      validateBtn: "Validar Código 🔑",
+      codeHelp: "O código é liberado imediatamente no WhatsApp após o envio do comprovante.",
+      codeError: "Código inválido ou incorreto. Envie o comprovante no WhatsApp para receber seu código.",
+      codeSuccess: "Código VIP validado com sucesso! Acesso vitalício liberado!",
+      unlockBtn: "Validar e Liberar Acesso 🔓",
       unlockedToast: "🎉 Parabéns! Acesso vitalício liberado com sucesso!"
     },
 
@@ -119,10 +124,11 @@ export const translations = {
       },
 
       patronage: {
-        title: "Apoie o Projeto via PIX 💚",
-        description: "Contribuição voluntária para mantermos o Mundo Sonoro 100% gratuito e sem anúncios comerciais para todas as crianças.",
-        copyPix: "Copiar Chave PIX (Copia-e-Cola)",
-        copied: "Chave PIX Copiada com Sucesso!"
+        title: "Licença Vitalícia SoundWorld 🌟",
+        description: "Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via PIX para Luciano Sant Anna). Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.",
+        copyPix: "Copiar Código PIX (R$ 19,90)",
+        copied: "Chave PIX Copiada com Sucesso!",
+        enterCode: "Inserir Código de Ativação"
       },
 
       legal: {
@@ -233,8 +239,13 @@ export const translations = {
       copyPixBtn: "Copy PIX Code 📋",
       copied: "PIX Code Copied!",
       whatsappBtn: "Send Receipt via WhatsApp 📱",
-      unlockCodePlaceholder: "Confirm activation",
-      unlockBtn: "Unlock Lifetime Access Now 🔓",
+      enterCodeTitle: "Paid via PIX? Enter your Activation Code:",
+      codePlaceholder: "Ex: BICHINHOS100",
+      validateBtn: "Validate Code 🔑",
+      codeHelp: "Your VIP code is delivered instantly via WhatsApp once the receipt is confirmed.",
+      codeError: "Invalid code. Please send your receipt via WhatsApp to receive your code.",
+      codeSuccess: "VIP code verified successfully! Lifetime access unlocked!",
+      unlockBtn: "Validate & Unlock Access 🔓",
       unlockedToast: "🎉 Congratulations! Lifetime access unlocked successfully!"
     },
 
@@ -262,10 +273,11 @@ export const translations = {
       },
 
       patronage: {
-        title: "Support SoundWorld via PIX 💚",
-        description: "Voluntary contributions help keep SoundWorld 100% free and ad-free for every child.",
-        copyPix: "Copy PIX Code",
-        copied: "PIX Code Copied to Clipboard!"
+        title: "SoundWorld Lifetime License 🌟",
+        description: "Unlock full lifetime access for just R$ 19.90 (one-time PIX payment to Luciano Sant Anna). 100% kid-safe app, zero ads, unlimited sounds.",
+        copyPix: "Copy PIX Code (R$ 19.90)",
+        copied: "PIX Code Copied to Clipboard!",
+        enterCode: "Enter Activation Code"
       },
 
       legal: {

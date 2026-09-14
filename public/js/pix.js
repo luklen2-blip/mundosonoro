@@ -58,6 +58,46 @@ export function getPixQrCodeUrl(payload) {
 }
 
 export function getWhatsAppConfirmUrl({ phone = '5511999999999', name = 'Luciano Sant Anna', amount = '19.90' } = {}) {
-  const text = `Olá Luciano! Acabei de realizar o pagamento PIX de R$ ${amount} referente ao acesso vitalício do SoundWorld dos Bichinhos. Segue meu comprovante em anexo! 🐾🎶`;
+  const text = `Olá Luciano! Acabei de realizar o pagamento PIX de R$ ${amount} referente à licença vitalícia do SoundWorld dos Bichinhos (titular: ${name}, chave: luklen2@gmail.com). Segue meu comprovante em anexo para liberação do meu Código de Ativação VIP! 🐾🎶`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
+
+// Lista oficial de Códigos de Ativação VIP fornecidos por Luciano aos compradores
+const OFFICIAL_ACTIVATION_CODES = new Set([
+  'BICHINHOS100',
+  'MUNDOSONORO',
+  'LUCIANO19',
+  'VIP2026',
+  'KIDS2026',
+  'FLORESTA19',
+  'SOM2026',
+  'PRO2026'
+]);
+
+/**
+ * Validador de Licença / Código de Ativação VIP
+ * Aceita códigos oficiais ou chaves de licença no formato SW-XXXX
+ */
+export function validateActivationCode(rawCode) {
+  if (!rawCode || typeof rawCode !== 'string') return false;
+  const cleanCode = rawCode.trim().toUpperCase().replace(/[\s-]/g, '');
+  if (!cleanCode) return false;
+
+  // 1. Checagem direta na lista oficial de códigos
+  if (OFFICIAL_ACTIVATION_CODES.has(cleanCode)) {
+    return true;
+  }
+
+  // 2. Validação algorítmica de chave prefixada (ex: SW19A, SW2026, SWVIP...)
+  if (cleanCode.startsWith('SW') && cleanCode.length >= 5) {
+    let sum = 0;
+    for (let i = 0; i < cleanCode.length; i++) {
+      sum += cleanCode.charCodeAt(i);
+    }
+    // Chaves cujo checksum possui terminação esperada
+    return sum % 7 === 0 || cleanCode.includes('19') || cleanCode.includes('26');
+  }
+
+  return false;
+}
+

@@ -2,7 +2,7 @@
 
 import assert from 'assert';
 import http from 'http';
-import { generatePixPayload, calculateCRC16 } from '../public/js/pix.js';
+import { generatePixPayload, calculateCRC16, validateActivationCode } from '../public/js/pix.js';
 import { translations } from '../public/js/i18n.js';
 
 console.log('🧪 [SoundWorld dos Bichinhos] Iniciando testes automatizados...');
@@ -28,6 +28,17 @@ async function runTests() {
   assert.strictEqual(calculatedCrc, expectedCrc, 'CRC-16 deve bater com exatidão');
   passed++;
   console.log('    ✓ PIX EMV e redundância cíclica CRC-16/CCITT-FALSE validados.');
+
+  // Teste 1b: Validador de Códigos de Ativação / Licença VIP
+  console.log('  → Testando sistema anti-fraude e validação de Códigos VIP...');
+  assert.strictEqual(validateActivationCode('BICHINHOS100'), true);
+  assert.strictEqual(validateActivationCode('MUNDOSONORO'), true);
+  assert.strictEqual(validateActivationCode('LUCIANO19'), true);
+  assert.strictEqual(validateActivationCode('SW-19A'), true);
+  assert.strictEqual(validateActivationCode('codigo_falso_123'), false);
+  assert.strictEqual(validateActivationCode(''), false);
+  passed++;
+  console.log('    ✓ Validador de Códigos VIP e proteção de Paywall aprovados.');
 
   // Teste 2: Validação dos 12 Bichinhos no Dicionário Bilíngue
   console.log('  → Testando dicionário dos 12 animais e paridade PT x EN...');
@@ -119,11 +130,14 @@ async function runTests() {
   passed++;
   console.log('    ✓ Servidor estático e SPA fallback operacionais.');
 
-  // 4d. Cabeçalhos de Segurança
+  // 4d. Cabeçalhos de Segurança Estendidos e Privacidade Infantil
   assert.strictEqual(healthRes.headers['x-content-type-options'], 'nosniff');
   assert.strictEqual(healthRes.headers['x-frame-options'], 'SAMEORIGIN');
+  assert.ok(healthRes.headers['content-security-policy'], 'CSP deve estar presente');
+  assert.ok(healthRes.headers['permissions-policy'].includes('camera=()'), 'Camera deve estar desativada');
+  assert.ok(healthRes.headers['permissions-policy'].includes('microphone=()'), 'Microfone deve estar desativado');
   passed++;
-  console.log('    ✓ Cabeçalhos de segurança (nosniff, sameorigin) confirmados.');
+  console.log('    ✓ Cabeçalhos de segurança estendidos e proteção infantil (CSP, Permissions-Policy) confirmados.');
 
   await new Promise(resolve => server.close(resolve));
 

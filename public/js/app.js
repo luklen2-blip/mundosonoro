@@ -4,7 +4,7 @@ import { t, getLanguage, setLanguage, subscribeLanguage } from './i18n.js';
 import { animalAudio } from './audio-engine.js';
 import { animalSpeech } from './speech-engine.js';
 import { fx } from './particles.js';
-import { generatePixPayload, getPixQrCodeUrl } from './pix.js';
+import { generatePixPayload, getPixQrCodeUrl, validateActivationCode, getWhatsAppConfirmUrl } from './pix.js';
 
 class AnimalSoundApp {
   constructor() {
@@ -142,8 +142,23 @@ class AnimalSoundApp {
       });
     });
 
-    // Cenário Interativo da Floresta: Sol e Árvores
+    // Modo Tela Cheia
+    const fsBtn = document.getElementById('fullscreen-btn');
+    if (fsBtn) {
+      fsBtn.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY);
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+    }
+
+    // Cenário Interativo da Floresta: Sol com Easter Egg de Arco-Íris
     const sunEl = document.getElementById('forest-sun');
+    let sunTapCount = 0;
+    let sunResetTimer = null;
     if (sunEl) {
       sunEl.addEventListener('click', (e) => {
         fx.createRipple(e.clientX, e.clientY, '#FFD166');
@@ -151,6 +166,16 @@ class AnimalSoundApp {
         animalAudio.playSunSparkle();
         sunEl.style.transform = 'scale(1.25) rotate(90deg)';
         setTimeout(() => sunEl.style.transform = '', 400);
+
+        sunTapCount++;
+        clearTimeout(sunResetTimer);
+        if (sunTapCount >= 3) {
+          sunTapCount = 0;
+          animalAudio.playVictoryChime();
+          fx.triggerConfetti();
+        } else {
+          sunResetTimer = setTimeout(() => sunTapCount = 0, 1500);
+        }
       });
     }
 
@@ -688,12 +713,28 @@ class AnimalSoundApp {
   initTrialTimer() {
     this.isLicensed = localStorage.getItem('soundworld_licensed') === 'true';
 
+    const now = Date.now();
+    let startTime = localStorage.getItem('soundworld_trial_start_time');
+    if (!startTime) {
+      startTime = now.toString();
+      localStorage.setItem('soundworld_trial_start_time', startTime);
+    }
+
     const savedSeconds = localStorage.getItem('soundworld_trial_seconds_left');
     if (savedSeconds !== null) {
       this.trialSecondsLeft = parseInt(savedSeconds, 10);
     } else {
       this.trialSecondsLeft = 3600; // 60 minutos
       localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
+    }
+
+    // Validação cruzada de integridade do tempo decorrido
+    const elapsedSecs = Math.floor((now - parseInt(startTime, 10)) / 1000);
+    if (elapsedSecs > 3600) {
+      this.trialSecondsLeft = 0;
+      localStorage.setItem('soundworld_trial_seconds_left', '0');
+    } else if (3600 - elapsedSecs < this.trialSecondsLeft) {
+      this.trialSecondsLeft = Math.max(0, 3600 - elapsedSecs);
     }
 
     this.updateTrialDisplay();
@@ -808,25 +849,73 @@ class AnimalSoundApp {
       });
     }
 
-    // WhatsApp
+    // WhatsApp para recebimento de comprovantes
     const waBtn = document.getElementById('paywall-whatsapp-btn');
     if (waBtn) {
-      waBtn.href = `https://wa.me/5511999999999?text=${encodeURIComponent('Olá Luciano! Acabei de realizar o pagamento PIX de R$ 19,90 referente ao acesso vitalício do SoundWorld dos Bichinhos. Segue o comprovante!')}`;
+      waBtn.href = getWhatsAppConfirmUrl({ name: 'Luciano Sant Anna', amount: '19.90' });
+      waBtn.addEventListener('click', (e) => {
+        const ok = confirm('Você será direcionado ao WhatsApp de Luciano Sant Anna para enviar o comprovante do PIX e receber seu Código VIP. Deseja abrir o WhatsApp?');
+        if (!ok) e.preventDefault();
+      });
     }
 
-    // Botão de liberação imediata
-    const unlockBtn = document.getElementById('paywall-unlock-btn');
-    if (unlockBtn) {
-      unlockBtn.addEventListener('click', () => {
-        this.unlockLifetimeAccess();
+    // Validação Segura do Código de Ativação / Licença VIP
+    const validateBtn = document.getElementById('paywall-validate-code-btn');
+    const codeInput = document.getElementById('paywall-code-input');
+    const errEl = document.getElementById('paywall-code-error');
+    const succEl = document.getElementById('paywall-code-success');
+
+    const handleCodeValidation = () => {
+      const code = codeInput ? codeInput.value : '';
+      if (validateActivationCode(code)) {
+        if (errEl) errEl.style.display = 'none';
+        if (succEl) succEl.style.display = 'block';
+        this.unlockLifetimeAccess(code.trim().toUpperCase());
+      } else {
+        if (errEl) {
+          errEl.style.display = 'block';
+          errEl.textContent = t('trial.codeError');
+        }
+        if (codeInput) {
+          codeInput.style.borderColor = '#e53e3e';
+          setTimeout(() => {
+            if (codeInput) codeInput.style.borderColor = '#cbd5e0';
+          }, 2000);
+        }
+        animalAudio.playTryAgainChime();
+      }
+    };
+
+    if (validateBtn) {
+      validateBtn.addEventListener('click', handleCodeValidation);
+    }
+
+    if (codeInput) {
+      codeInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleCodeValidation();
+      });
+    }
+
+    // Botão na área dos pais para inserir código a qualquer momento
+    const parentCodeBtn = document.getElementById('parent-enter-code-btn');
+    if (parentCodeBtn) {
+      parentCodeBtn.addEventListener('click', () => {
+        const code = prompt('🔑 Digite seu Código de Ativação VIP do SoundWorld:');
+        if (code && validateActivationCode(code)) {
+          this.unlockLifetimeAccess(code.trim().toUpperCase());
+          alert(t('trial.unlockedToast') || '🎉 Parabéns! Acesso vitalício liberado com sucesso!');
+        } else if (code) {
+          alert(t('trial.codeError') || 'Código inválido. Envie o comprovante no WhatsApp.');
+        }
       });
     }
   }
 
-  unlockLifetimeAccess() {
+  unlockLifetimeAccess(code = 'VIP') {
     this.isLicensed = true;
     localStorage.setItem('soundworld_licensed', 'true');
-    this.hidePaywall();
+    localStorage.setItem('soundworld_license_code', code);
+    setTimeout(() => this.hidePaywall(), 1200);
     this.updateTrialDisplay();
 
     animalAudio.playVictoryChime();

@@ -82,6 +82,11 @@
         <span id="lang-code">PT</span>
       </button>
 
+      <!-- Modo Tela Cheia Infantil -->
+      <button id="fullscreen-btn" class="parent-gate-btn" title="Modo Tela Cheia" aria-label="Modo Tela Cheia">
+        <span>🖥️</span>
+      </button>
+
       <!-- Botão Área dos Pais -->
       <button id="open-parent-gate" class="parent-gate-btn" aria-label="Área dos Pais">
         <span>🔒</span>
@@ -320,15 +325,21 @@
           </div>
         </div>
 
-        <!-- Apoio Voluntário via PIX -->
+        <!-- Licença Vitalícia via PIX -->
         <div class="pix-box">
-          <h3 style="font-size: 1.25rem; margin-bottom: 0.4rem;" data-i18n="parentGate.patronage.title">Apoie o Projeto via PIX 💚</h3>
-          <p style="font-size: 0.9rem; color: #4a5568;" data-i18n="parentGate.patronage.description">Contribuição voluntária para mantermos o Mundo Sonoro 100% gratuito e sem anúncios comerciais.</p>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.4rem;" data-i18n="parentGate.patronage.title">Licença Vitalícia SoundWorld 🌟</h3>
+          <p style="font-size: 0.9rem; color: #4a5568;" data-i18n="parentGate.patronage.description">Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via PIX para Luciano Sant Anna). Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.</p>
           <img id="pix-qr-image" class="pix-qr-img" src="" alt="QR Code PIX" />
-          <button id="pix-copy-btn" class="pix-copy-btn">
-            <span>📋</span>
-            <span data-i18n="parentGate.patronage.copyPix">Copiar Chave PIX</span>
-          </button>
+          <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;">
+            <button id="pix-copy-btn" class="pix-copy-btn">
+              <span>📋</span>
+              <span data-i18n="parentGate.patronage.copyPix">Copiar Código PIX (R$ 19,90)</span>
+            </button>
+            <button id="parent-enter-code-btn" class="pix-copy-btn" style="background: #118ab2; color: #ffffff; box-shadow: 0 4px 0 #0077b6;">
+              <span>🔑</span>
+              <span data-i18n="parentGate.patronage.enterCode">Inserir Código de Ativação</span>
+            </button>
+          </div>
         </div>
 
         <!-- Avisos Éticos e LGPD -->
@@ -377,14 +388,22 @@
         <div id="paywall-copy-toast" style="display: none; color: #059669; font-weight: 700; margin-top: 0.5rem;" data-i18n="trial.copied">Código PIX Copiado com Sucesso!</div>
       </div>
 
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.6rem;">
-        <a id="paywall-whatsapp-btn" href="https://wa.me/5511999999999?text=Ol%C3%A1%20Luciano!%20Fiz%20o%20PIX%20do%20SoundWorld!" target="_blank" class="paywall-whatsapp-btn">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem;">
+        <a id="paywall-whatsapp-btn" href="https://wa.me/5511999999999" target="_blank" class="paywall-whatsapp-btn">
           <span>📱</span>
           <span data-i18n="trial.whatsappBtn">Enviar Comprovante via WhatsApp</span>
         </a>
 
-        <div class="paywall-unlock-form">
-          <button id="paywall-unlock-btn" class="paywall-unlock-btn" data-i18n="trial.unlockBtn">Liberar Acesso Vitalício Agora 🔓</button>
+        <!-- SEÇÃO DE VALIDAÇÃO DE CÓDIGO DE ATIVAÇÃO / LICENÇA VIP -->
+        <div class="paywall-unlock-section" style="margin-top: 1rem; width: 100%; border-top: 2px solid #e2e8f0; padding-top: 1rem;">
+          <p style="font-weight: 700; margin-bottom: 0.5rem; color: #1e293b; font-size: 1rem;" data-i18n="trial.enterCodeTitle">Já fez o PIX? Digite seu Código de Ativação:</p>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; max-width: 400px; margin: 0 auto; flex-wrap: wrap;">
+            <input type="text" id="paywall-code-input" style="padding: 0.65rem 1rem; border: 2px solid #cbd5e0; border-radius: 999px; font-weight: 800; text-transform: uppercase; font-size: 1rem; text-align: center; width: 180px; letter-spacing: 1px;" placeholder="Ex: BICHINHOS100" autocomplete="off" autocorrect="off" autocapitalize="characters" maxlength="20" />
+            <button id="paywall-validate-code-btn" class="paywall-unlock-btn" style="padding: 0.65rem 1.4rem; font-size: 1rem;" data-i18n="trial.validateBtn">Validar Código 🔑</button>
+          </div>
+          <div id="paywall-code-error" style="display: none; color: #e53e3e; font-weight: 700; font-size: 0.88rem; margin-top: 0.5rem;" data-i18n="trial.codeError">Código inválido ou incorreto. Envie o comprovante no WhatsApp.</div>
+          <div id="paywall-code-success" style="display: none; color: #059669; font-weight: 700; font-size: 0.95rem; margin-top: 0.5rem;" data-i18n="trial.codeSuccess">Código VIP validado com sucesso! Acesso vitalício liberado!</div>
+          <p style="font-size: 0.82rem; color: #64748b; margin-top: 0.6rem;" data-i18n="trial.codeHelp">O código é liberado imediatamente no WhatsApp após o envio do comprovante.</p>
         </div>
       </div>
     </div>

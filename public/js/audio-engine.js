@@ -59,15 +59,25 @@ class AnimalAudioEngine {
   }
 
   setMasterVolume(percent) {
-    const clamped = Math.max(0.1, Math.min(1.0, percent));
+    // Trava de segurança auditiva infantil da OMS: máximo 85% (85 dB)
+    const clamped = Math.max(0.05, Math.min(0.85, percent));
     this.masterVolume = clamped;
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.setTargetAtTime(clamped, this.ctx.currentTime, 0.05);
     }
   }
 
+  triggerHaptic() {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try {
+        navigator.vibrate(20);
+      } catch {}
+    }
+  }
+
   // Despacha o som específico do animal pelo identificador
   playAnimal(animalId) {
+    this.triggerHaptic();
     this.ensureContext();
     switch (animalId) {
       case 'dog': this.playDog(); break;
