@@ -188,15 +188,15 @@ class AnimalSoundApp {
     const langSelect = document.getElementById('parent-lang-select');
     if (langSelect) langSelect.value = lang;
 
-    const paywallLangFlag = document.getElementById('paywall-lang-flag');
-    const paywallLangLabel = document.getElementById('paywall-lang-label');
-    if (paywallLangFlag && paywallLangLabel) {
+    const pillPt = document.getElementById('paywall-lang-pt');
+    const pillEn = document.getElementById('paywall-lang-en');
+    if (pillPt && pillEn) {
       if (lang === 'pt') {
-        paywallLangFlag.textContent = '🇺🇸';
-        paywallLangLabel.textContent = 'English 🇺🇸';
+        pillPt.classList.add('active');
+        pillEn.classList.remove('active');
       } else {
-        paywallLangFlag.textContent = '🇧🇷';
-        paywallLangLabel.textContent = 'Português 🇧🇷';
+        pillPt.classList.remove('active');
+        pillEn.classList.add('active');
       }
     }
   }
@@ -1068,12 +1068,18 @@ class AnimalSoundApp {
       });
     }
 
-    // Alternador de Idioma no próprio Paywall
-    const paywallLangBtn = document.getElementById('paywall-lang-toggle-btn');
-    if (paywallLangBtn) {
-      paywallLangBtn.addEventListener('click', () => {
-        const nextLang = getLanguage() === 'pt' ? 'en' : 'pt';
-        setLanguage(nextLang);
+    // Alternador de Idioma no próprio Paywall (Pills Bilíngues)
+    const pillPt = document.getElementById('paywall-lang-pt');
+    const pillEn = document.getElementById('paywall-lang-en');
+    if (pillPt) {
+      pillPt.addEventListener('click', () => {
+        setLanguage('pt');
+        animalAudio.playButtonClick();
+      });
+    }
+    if (pillEn) {
+      pillEn.addEventListener('click', () => {
+        setLanguage('en');
         animalAudio.playButtonClick();
       });
     }
