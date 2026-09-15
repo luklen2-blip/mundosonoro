@@ -228,7 +228,14 @@ const server = http.createServer((req, res) => {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     try {
       const data = fs.readFileSync(filePath);
-      res.writeHead(200, { 'Content-Type': contentType });
+      const isDynamicOrHtml = ext === '.html' || safeTargetFile === 'sw.js' || safeTargetFile.endsWith('sw.js') || safeTargetFile === 'manifest.json';
+      const headers = {
+        'Content-Type': contentType,
+        'Cache-Control': isDynamicOrHtml ? 'no-cache, no-store, must-revalidate' : 'public, max-age=0, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      };
+      res.writeHead(200, headers);
       res.end(data);
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });

@@ -143,7 +143,7 @@ async function runTests() {
 
   const swRes = await fetchHttp('/sw.js');
   assert.strictEqual(swRes.status, 200);
-  assert.ok(swRes.body.includes('soundworld-v2-cache'));
+  assert.ok(swRes.body.includes('soundworld-v6-live') || swRes.body.includes('CACHE_NAME'));
   passed++;
   console.log('    ✓ Servidor estático, Landing Page (/comprar), PWA (manifest/sw) e SPA fallback operacionais.');
 

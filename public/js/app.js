@@ -190,13 +190,19 @@ class AnimalSoundApp {
 
     const pillPt = document.getElementById('paywall-lang-pt');
     const pillEn = document.getElementById('paywall-lang-en');
+    const checkPt = document.getElementById('check-pt');
+    const checkEn = document.getElementById('check-en');
     if (pillPt && pillEn) {
       if (lang === 'pt') {
         pillPt.classList.add('active');
         pillEn.classList.remove('active');
+        if (checkPt) checkPt.style.display = 'inline';
+        if (checkEn) checkEn.style.display = 'none';
       } else {
         pillPt.classList.remove('active');
         pillEn.classList.add('active');
+        if (checkPt) checkPt.style.display = 'none';
+        if (checkEn) checkEn.style.display = 'inline';
       }
     }
   }
@@ -952,7 +958,9 @@ class AnimalSoundApp {
   registerServiceWorker() {
     if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+          reg.update();
+        }).catch(() => {});
       });
     }
   }
