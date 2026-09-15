@@ -184,8 +184,10 @@ export const translations = {
     },
 
     legalModal: {
-      termsTitle: "Termos de Uso - Mundo Sonoro",
+      termsTitle: "Termos de Uso - Mundo Sonoro dos Bichinhos",
+      termsBody: "<p><strong>1. Finalidade Educativa e Lúdica:</strong> O SoundWorld Kids é um recurso interativo de estimulação auditiva sensorial, musical e conhecimento dos bichinhos para a primeira infância (2 a 6 anos).</p><p><strong>2. Supervisão dos Pais:</strong> O aplicativo deve ser utilizado sob supervisão carinhosa de pais, mães ou responsáveis legais.</p><p><strong>3. Isenção e Saúde:</strong> Este software não substitui diagnósticos ou orientações médicas, fonoaudiológicas ou psicológicas profissionais.</p><p><strong>4. Acesso Vitalício:</strong> O pagamento único confere licença de uso contínua, sem mensalidades ou renovações automáticas.</p>",
       privacyTitle: "Política de Privacidade e Proteção à Criança (LGPD)",
+      privacyBody: "<p><strong>1. Privacidade Sagrada da Criança (Art. 14 LGPD):</strong> Em total conformidade com a LGPD e o Estatuto da Criança e do Adolescente (ECA), NÃO coletamos, NÃO rastreamos e NÃO comercializamos nenhum dado pessoal, biométrico ou fotos de crianças.</p><p><strong>2. Execução Segura no Dispositivo:</strong> A síntese de voz e os sons operam no navegador local (Web Audio API e SpeechSynthesis), sem telemetria sonora enviada para servidores.</p><p><strong>3. Ambiente 100% Livre de Propagandas:</strong> Zero anúncios de terceiros, sem links ocultos e configurações protegidas por trava exclusiva para os pais (Parent Gate).</p>",
       closeBtn: "Entendi"
     }
   },
@@ -373,8 +375,10 @@ export const translations = {
     },
 
     legalModal: {
-      termsTitle: "Terms of Service - SoundWorld",
-      privacyTitle: "Privacy Policy & Child Safety (LGPD)",
+      termsTitle: "Terms of Service - SoundWorld Kids",
+      termsBody: "<p><strong>1. Educational & Playful Purpose:</strong> SoundWorld Kids is an interactive sensory, auditory, and musical exploration resource for toddlers and young children (ages 2 to 6).</p><p><strong>2. Parental Supervision:</strong> The app should always be enjoyed with the supervision of parents or guardians.</p><p><strong>3. Medical Disclaimer:</strong> This software is recreational and does not replace medical, speech therapy, or psychological care.</p><p><strong>4. Lifetime Access:</strong> The one-time payment provides permanent family access without recurring subscriptions.</p>",
+      privacyTitle: "Privacy Policy & Child Safety (LGPD & Children's Privacy)",
+      privacyBody: "<p><strong>1. Strict Child Privacy Protection:</strong> In full compliance with Art. 14 of LGPD and international child privacy standards, we DO NOT collect, track, or share any personal data, voice recordings, or photos of children.</p><p><strong>2. 100% On-Device Operation:</strong> Sound effects and voice synthesis run locally inside your browser (Web Audio API & SpeechSynthesis) without server audio streaming.</p><p><strong>3. 100% Ad-Free Safe Space:</strong> Zero commercial advertisements, no tracking cookies, and settings securely locked behind the adult Parent Gate.</p>",
       closeBtn: "Got it"
     }
   }

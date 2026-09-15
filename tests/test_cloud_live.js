@@ -84,6 +84,27 @@ async function runLiveE2E() {
   }
   console.log('    ✓ Geração de PIX EMV com Pedido Único (SWK-2026-CLOUD) operacional na nuvem.');
 
+  // 5. PWA Manifest, Service Worker e Checkout Kiwify
+  console.log('  → Validando PWA Manifest, Service Worker e Checkout Kiwify...');
+  const manifest = await requestUrl('/manifest.json');
+  if (manifest.status !== 200) throw new Error(`Falha no manifest.json: HTTP ${manifest.status}`);
+  const manifestJson = JSON.parse(manifest.data);
+  if (!manifestJson.name || !manifestJson.icons) throw new Error('Manifest.json inválido');
+  console.log('    ✓ PWA Manifest (manifest.json) validado com sucesso.');
+
+  const sw = await requestUrl('/sw.js');
+  if (sw.status !== 200) throw new Error(`Falha no sw.js: HTTP ${sw.status}`);
+  console.log('    ✓ Service Worker (sw.js) ativo para cache offline.');
+
+  if (!home.data.includes('https://pay.kiwify.com.br/9fQEqnA')) {
+    throw new Error('Link de checkout Kiwify ausente na página principal');
+  }
+  console.log('    ✓ Link de Checkout Oficial Kiwify presente e validado na aplicação.');
+
+  const termos = await requestUrl('/termos');
+  if (termos.status !== 200) throw new Error(`Falha na rota /termos: HTTP ${termos.status}`);
+  console.log('    ✓ Rota legal /termos operacional via SPA fallback.');
+
   console.log('\n🌟 Parabéns! A aplicação na nuvem está 100% íntegra, segura e operacional 24/7!');
 }
 

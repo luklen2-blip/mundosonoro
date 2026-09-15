@@ -84,6 +84,10 @@ class AnimalSoundApp {
     // Inicia no Hub de Atividades
     this.switchMode('hub');
 
+    // Rota direta (SPA) para termos e privacidade & PWA Service Worker
+    this.checkInitialRoute();
+    this.registerServiceWorker();
+
     // Desperta o contexto de áudio no primeiro toque
     const unlockAudio = () => {
       animalAudio.init();
@@ -899,13 +903,9 @@ class AnimalSoundApp {
 
     if (termsLink && legalModal) {
       termsLink.addEventListener('click', (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         legalTitle.textContent = t('legalModal.termsTitle');
-        legalBody.innerHTML = `
-          <p><strong>1. Finalidade Educativa:</strong> O Mundo Sonoro dos Bichinhos é um recurso interativo de estimulação auditiva e aprendizado de animais para crianças de 2 a 6 anos.</p>
-          <p><strong>2. Supervisão dos Pais:</strong> O uso deve ser sempre acompanhado por pais ou responsáveis.</p>
-          <p><strong>3. Isenção:</strong> Este software não substitui atendimentos médicos, fonoaudiológicos ou psicológicos regulamentados.</p>
-        `;
+        legalBody.innerHTML = t('legalModal.termsBody');
         legalModal.removeAttribute('hidden');
         legalModal.style.setProperty('display', 'flex', 'important');
         legalModal.classList.add('active');
@@ -914,12 +914,9 @@ class AnimalSoundApp {
 
     if (privLink && legalModal) {
       privLink.addEventListener('click', (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         legalTitle.textContent = t('legalModal.privacyTitle');
-        legalBody.innerHTML = `
-          <p><strong>1. Proteção à Criança (Art. 14 LGPD):</strong> Em estrita conformidade com o Estatuto da Criança e do Adolescente (ECA) e Art. 14 da LGPD, não coletamos nem armazenamos quaisquer dados de menores.</p>
-          <p><strong>2. Síntese 100% Local:</strong> Todos os sons e vozes são gerados no próprio navegador do usuário sem transmissão para servidores.</p>
-        `;
+        legalBody.innerHTML = t('legalModal.privacyBody');
         legalModal.removeAttribute('hidden');
         legalModal.style.setProperty('display', 'flex', 'important');
         legalModal.classList.add('active');
@@ -931,6 +928,31 @@ class AnimalSoundApp {
         legalModal.setAttribute('hidden', '');
         legalModal.style.setProperty('display', 'none', 'important');
         legalModal.classList.remove('active');
+      });
+    }
+  }
+
+  checkInitialRoute() {
+    try {
+      const path = (window.location.pathname || '').toLowerCase();
+      if (path === '/termos' || path.endsWith('/termos')) {
+        setTimeout(() => {
+          const termsLink = document.getElementById('link-terms');
+          if (termsLink) termsLink.click();
+        }, 200);
+      } else if (path === '/privacidade' || path.endsWith('/privacidade')) {
+        setTimeout(() => {
+          const privLink = document.getElementById('link-privacy');
+          if (privLink) privLink.click();
+        }, 200);
+      }
+    } catch {}
+  }
+
+  registerServiceWorker() {
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
     }
   }

@@ -5,7 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#38b000" />
   <meta name="description" content="SoundWorld dos Bichinhos - Aplicativo interativo de floresta com sons e nomes dos animais para crianças de 2 a 6 anos" />
-  <title>SoundWorld dos Bichinhos 🌲🐾🎶</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SoundWorld" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Open Graph / Meta Compartilhamento Seguro -->
+  <meta property="og:title" content="SoundWorld Kids - O Espaço Sonoro Seguro para Crianças" />
+  <meta property="og:description" content="12 bichinhos com sons reais, piano musical, acalanto e zero anúncios! Desenvolvido para a primeira infância (2 a 6 anos)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="favicon.svg" />
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="css/styles.css" />
 
@@ -473,10 +484,19 @@
           </div>
         </div>
 
-        <!-- Licença Vitalícia via PIX -->
+        <!-- Licença Vitalícia via Kiwify e PIX -->
         <div class="pix-box">
           <h3 style="font-size: 1.25rem; margin-bottom: 0.4rem;" data-i18n="parentGate.patronage.title">Licença Vitalícia SoundWorld 🌟</h3>
-          <p style="font-size: 0.9rem; color: #4a5568;" data-i18n="parentGate.patronage.description">Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via PIX para Luciano Sant Anna). Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.</p>
+          <p style="font-size: 0.9rem; color: #4a5568; margin-bottom: 0.8rem;" data-i18n="parentGate.patronage.description">Adquira o acesso vitalício completo por apenas R$ 19,90. Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.</p>
+
+          <div style="margin: 0.8rem auto 1rem; max-width: 400px;">
+            <a href="https://pay.kiwify.com.br/9fQEqnA" target="_blank" rel="noopener noreferrer" class="btn-kiwify-paywall" style="font-size: 1.15rem; padding: 0.9rem 1.4rem; box-shadow: 0 6px 18px rgba(6, 214, 160, 0.4);">
+              <span class="btn-kiwify-icon-left">🌟</span>
+              <span data-i18n="trial.kiwifyBtn">Liberar Acesso Vitalício por R$ 19,90</span>
+              <span class="btn-kiwify-icon-right">🚀</span>
+            </a>
+          </div>
+
           <img id="pix-qr-image" class="pix-qr-img" src="" alt="QR Code PIX" />
           <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;">
             <button id="pix-copy-btn" class="pix-copy-btn">

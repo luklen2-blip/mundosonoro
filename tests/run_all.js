@@ -136,8 +136,16 @@ async function runTests() {
   const spaRes = await fetchHttp('/termos');
   assert.strictEqual(spaRes.status, 200);
   assert.ok(spaRes.body.includes('SoundWorld dos Bichinhos'));
+
+  const manifestRes = await fetchHttp('/manifest.json');
+  assert.strictEqual(manifestRes.status, 200);
+  assert.ok(manifestRes.body.includes('SoundWorld Kids'));
+
+  const swRes = await fetchHttp('/sw.js');
+  assert.strictEqual(swRes.status, 200);
+  assert.ok(swRes.body.includes('soundworld-v2-cache'));
   passed++;
-  console.log('    ✓ Servidor estático, Landing Page (/comprar) e SPA fallback operacionais.');
+  console.log('    ✓ Servidor estático, Landing Page (/comprar), PWA (manifest/sw) e SPA fallback operacionais.');
 
   // 4d. Cabeçalhos de Segurança Estendidos e Privacidade Infantil
   assert.strictEqual(healthRes.headers['x-content-type-options'], 'nosniff');
