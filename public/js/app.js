@@ -183,6 +183,18 @@ class AnimalSoundApp {
 
     const langSelect = document.getElementById('parent-lang-select');
     if (langSelect) langSelect.value = lang;
+
+    const paywallLangFlag = document.getElementById('paywall-lang-flag');
+    const paywallLangLabel = document.getElementById('paywall-lang-label');
+    if (paywallLangFlag && paywallLangLabel) {
+      if (lang === 'pt') {
+        paywallLangFlag.textContent = '🇺🇸';
+        paywallLangLabel.textContent = 'English 🇺🇸';
+      } else {
+        paywallLangFlag.textContent = '🇧🇷';
+        paywallLangLabel.textContent = 'Português 🇧🇷';
+      }
+    }
   }
 
   bindEvents() {
@@ -1031,6 +1043,16 @@ class AnimalSoundApp {
         if (!this.isLicensed) {
           this.showPaywall();
         }
+      });
+    }
+
+    // Alternador de Idioma no próprio Paywall
+    const paywallLangBtn = document.getElementById('paywall-lang-toggle-btn');
+    if (paywallLangBtn) {
+      paywallLangBtn.addEventListener('click', () => {
+        const nextLang = getLanguage() === 'pt' ? 'en' : 'pt';
+        setLanguage(nextLang);
+        animalAudio.playButtonClick();
       });
     }
 

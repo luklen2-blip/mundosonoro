@@ -519,7 +519,15 @@
   <!-- MODAL DE AQUISIÇÃO / PAYWALL (APÓS 1 HORA DE USO) -->
   <div id="paywall-modal" class="paywall-modal-overlay" hidden style="display: none !important;">
     <div class="paywall-content paywall-kiwify-content">
-      <div class="paywall-sparkles">🌟 🐾 🎈 🎵 🌟</div>
+      <!-- Barra Superior com Alternador de Idioma Bilíngue -->
+      <div class="paywall-top-bar">
+        <div class="paywall-sparkles">🌟 🐾 🎈 🎵 🌟</div>
+        <button id="paywall-lang-toggle-btn" class="paywall-lang-btn" type="button" title="Mudar Idioma / Change Language">
+          <span id="paywall-lang-flag">🇺🇸</span>
+          <span id="paywall-lang-label" data-i18n="trial.langSwitchBtn">English 🇺🇸</span>
+        </button>
+      </div>
+
       <div class="paywall-badge-offer" data-i18n="trial.offerTitle">Acesso Vitalício por R$ 19,90</div>
       <h2 class="paywall-main-title" data-i18n="trial.paywallTitle">Hora de Continuar a Aventura no Mundo Sonoro! 🌟🐾</h2>
       <p class="paywall-main-subtitle" data-i18n="trial.paywallSubtitle">
@@ -550,9 +558,16 @@
       <div class="paywall-cta-wrapper">
         <a id="paywall-kiwify-checkout-btn" href="https://pay.kiwify.com.br/9fQEqnA" target="_blank" rel="noopener noreferrer" class="btn-kiwify-paywall">
           <span class="btn-kiwify-icon-left">🌟</span>
-          <span class="btn-kiwify-label" data-i18n="trial.kiwifyBtn">Liberar Acesso Vitalício por R$ 19,90</span>
+          <div class="btn-kiwify-content-box">
+            <span class="btn-kiwify-label" data-i18n="trial.kiwifyBtn">Liberar Acesso Vitalício por R$ 19,90</span>
+            <small class="btn-kiwify-sub" data-i18n="trial.kiwifyBtnSub">Pagamento único • Acesso vitalício para sempre</small>
+          </div>
           <span class="btn-kiwify-icon-right">🚀</span>
         </a>
+      </div>
+
+      <div class="paywall-bilingual-tag">
+        <small data-i18n="trial.kiwifyBilingualTag">🌎 Ativação imediata para toda a família em qualquer dispositivo</small>
       </div>
 
       <!-- Garantia e Segurança -->
