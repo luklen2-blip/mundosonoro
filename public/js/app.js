@@ -1034,83 +1034,11 @@ class AnimalSoundApp {
       });
     }
 
-    // Configura PIX oficial de Luciano Sant Anna com Order ID
-    const orderId = this.orderId || getOrCreateOrderId();
-    const payload = generatePixPayload({
-      pixKey: 'luklen2@gmail.com',
-      name: 'Luciano Sant Anna',
-      city: 'Sao Paulo',
-      amount: '19.90',
-      txId: orderId.replace(/[^A-Za-z0-9]/g, '').slice(0, 20)
-    });
-
-    const qrImg = document.getElementById('paywall-qr-image');
-    if (qrImg) {
-      qrImg.src = getPixQrCodeUrl(payload);
-    }
-
-    const copyBtn = document.getElementById('paywall-copy-btn');
-    const toast = document.getElementById('paywall-copy-toast');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(payload).then(() => {
-          if (toast) {
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
-          }
-          const original = copyBtn.textContent;
-          copyBtn.textContent = t('trial.copied');
-          setTimeout(() => copyBtn.textContent = original, 2500);
-        }).catch(() => {
-          prompt('Chave PIX Copia-e-Cola (Luciano Sant Anna):', payload);
-        });
-      });
-    }
-
-    // WhatsApp para recebimento de comprovantes
-    const waBtn = document.getElementById('paywall-whatsapp-btn');
-    if (waBtn) {
-      waBtn.href = getWhatsAppConfirmUrl({ name: 'Luciano Sant Anna', amount: '19.90', orderId });
-      waBtn.addEventListener('click', (e) => {
-        const ok = confirm(`Você será direcionado ao WhatsApp de Luciano Sant Anna com o Pedido ${orderId} para enviar o comprovante do PIX. Deseja abrir o WhatsApp?`);
-        if (!ok) e.preventDefault();
-      });
-    }
-
-    // Validação Segura do Código de Ativação / Licença VIP
-    const validateBtn = document.getElementById('paywall-validate-code-btn');
-    const codeInput = document.getElementById('paywall-code-input');
-    const errEl = document.getElementById('paywall-code-error');
-    const succEl = document.getElementById('paywall-code-success');
-
-    const handleCodeValidation = () => {
-      const code = codeInput ? codeInput.value : '';
-      if (validateActivationCode(code)) {
-        if (errEl) errEl.style.display = 'none';
-        if (succEl) succEl.style.display = 'block';
-        this.unlockLifetimeAccess(code.trim().toUpperCase());
-      } else {
-        if (errEl) {
-          errEl.style.display = 'block';
-          errEl.textContent = t('trial.codeError');
-        }
-        if (codeInput) {
-          codeInput.style.borderColor = '#e53e3e';
-          setTimeout(() => {
-            if (codeInput) codeInput.style.borderColor = '#cbd5e0';
-          }, 2000);
-        }
-        animalAudio.playTryAgainChime();
-      }
-    };
-
-    if (validateBtn) {
-      validateBtn.addEventListener('click', handleCodeValidation);
-    }
-
-    if (codeInput) {
-      codeInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleCodeValidation();
+    // Botão de Checkout Kiwify no Paywall
+    const kiwifyBtn = document.getElementById('paywall-kiwify-checkout-btn');
+    if (kiwifyBtn) {
+      kiwifyBtn.addEventListener('click', () => {
+        animalAudio.playSuccessFanfare();
       });
     }
 
