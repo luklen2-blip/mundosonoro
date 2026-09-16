@@ -1266,8 +1266,7 @@ class AnimalSoundApp {
 
   updateTrialDisplay() {
     const badge = document.getElementById('trial-timer-badge');
-    const text = document.getElementById('trial-timer-text');
-    if (!badge || !text) return;
+    if (!badge) return;
 
     if (this.isLicensed) {
       badge.className = 'trial-timer-badge licensed';
@@ -1277,16 +1276,28 @@ class AnimalSoundApp {
 
     if (this.trialSecondsLeft <= 0) {
       badge.className = 'trial-timer-badge warning';
-      badge.innerHTML = `<span>🔒</span> <span>${t('trial.badgeExpired')}</span>`;
+      badge.innerHTML = `<span>🔒</span> <span>${t('trial.timerTrialExpired')}</span>`;
       return;
     }
 
-    const mins = Math.floor(this.trialSecondsLeft / 60);
-    const secs = this.trialSecondsLeft % 60;
-    const formatted = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    if (this.trialSecondsLeft >= 3600) {
+      badge.className = 'trial-timer-badge';
+      badge.innerHTML = `<span>⏱️</span> <span>${t('trial.timerTrialInitial')}</span>`;
+      return;
+    }
 
-    badge.className = this.trialSecondsLeft <= 300 ? 'trial-timer-badge warning' : 'trial-timer-badge';
-    badge.innerHTML = `<span>⏱️</span> <span>${formatted}</span>`;
+    if (this.trialSecondsLeft > 60) {
+      const mins = Math.ceil(this.trialSecondsLeft / 60);
+      badge.className = mins <= 5 ? 'trial-timer-badge warning' : 'trial-timer-badge';
+      const label = t('trial.timerTrialRemainingMins').replace('{m}', mins);
+      badge.innerHTML = `<span>⏱️</span> <span>${label}</span>`;
+      return;
+    }
+
+    // Menos de 1 minuto
+    badge.className = 'trial-timer-badge warning';
+    const label = t('trial.timerTrialRemainingSecs').replace('{s}', this.trialSecondsLeft);
+    badge.innerHTML = `<span>⏱️</span> <span>${label}</span>`;
   }
 
   showPaywall() {

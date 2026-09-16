@@ -12,7 +12,7 @@ export const translations = {
         title: "O Que Vamos Brincar Hoje? 🎈",
         subtitle: "Toque em uma das atividades para começar a diversão!",
         badge: "Início 🏠",
-        exploreDesc: "12 bichinhos com sons reais e nomes falados",
+        exploreDesc: "16 bichinhos reais com sons autênticos e nomes falados",
         soundQuizDesc: "Descubra quem faz o som com incentivo carinhoso",
         pianoDesc: "Toque músicas com as vozes dos bichinhos cantores",
         bedtimeDesc: "Chuva, grilos, caixinha de música e ronrom para ninar"
@@ -99,8 +99,9 @@ export const translations = {
       badge: "SOUNDWORLD KIDS",
       title: "Mundo Sonoro dos Bichinhos",
       welcome: "Brinque, escute e descubra um mundo cheio de sons.",
-      startPlayBtn: "COMEÇAR A BRINCAR 🎈",
-      parentsAreaBtn: "ÁREA DOS PAIS 🔒"
+      slogan: "Brinque. Escute. Descubra.",
+      startPlayBtn: "COMEÇAR A BRINCAR",
+      parentsAreaBtn: "ÁREA DOS PAIS"
     },
 
     // Níveis do Quiz Progressivo
@@ -119,6 +120,52 @@ export const translations = {
       playBtn: "▶️ Ouvir Sequência",
       clearBtn: "🗑️ Limpar",
       emptyMsg: "Toque as teclas para criar uma música!"
+    },
+
+    // Seção Como Funciona (5 Passos)
+    howItWorks: {
+      title: "Como funciona?",
+      subtitle: "Uma jornada simples e divertida em 5 passos para as crianças",
+      step1: "A criança escolhe um bichinho.",
+      step2: "Descobre seu som.",
+      step3: "Brinca com os jogos.",
+      step4: "Explora música e sons.",
+      step5: "Pode relaxar com o modo Hora de Dormir."
+    },
+
+    // Seção Espaço de Vídeo
+    videoSection: {
+      title: "Veja como funciona",
+      subtitle: "Demonstração de 20 a 30 segundos dos recursos reais do SoundWorld Kids",
+      placeholderBadge: "Vídeo de Demonstração em Breve",
+      placeholderDesc: "Conhecer Bichinhos • Jogo do Som • Piano • Hora de Dormir • Área dos Pais • R$ 19,90"
+    },
+
+    // Seção Feito pensando na família (4 Cards)
+    familySection: {
+      title: "Feito pensando na família",
+      subtitle: "Tranquilidade e segurança para os pais, diversão pura para os pequenos.",
+      card1Title: "SEM ANÚNCIOS",
+      card1Desc: "Uma experiência sem interrupções publicitárias.",
+      card2Title: "CONTROLE DE TEMPO",
+      card2Desc: "Defina quanto tempo a criança pode brincar.",
+      card3Title: "CONTROLE DE VOLUME",
+      card3Desc: "Configure o volume máximo da experiência.",
+      card4Title: "PAGAMENTO ÚNICO",
+      card4Desc: "R$ 19,90. Sem mensalidade.",
+      ethicalNotice: "O SoundWorld Kids é uma experiência sensorial e lúdica para toda a família. Não substitui orientações médicas ou diagnósticos profissionais."
+    },
+
+    // Seção Por que famílias escolhem o SoundWorld?
+    whyFamiliesChoose: {
+      title: "Por que famílias escolhem o SoundWorld?",
+      subtitle: "Recursos reais pensados com carinho para o dia a dia",
+      item1: "100% sem anúncios e livre de compras acidentais",
+      item2: "Controle de volume seguro com limite de 85 dB",
+      item3: "Temporizador para organizar a rotina do sono",
+      item4: "Vários modos de brincadeira e 16 bichinhos reais",
+      item5: "Acesso ilimitado a todos os sons disponíveis",
+      item6: "Pagamento único e vitalício de apenas R$ 19,90"
     },
 
     // Nomes e Onomatopeias dos 16 Animais (7 Mundos)
@@ -144,69 +191,69 @@ export const translations = {
     trial: {
       badge: "1h Grátis: ",
       badgeExpired: "Tempo Esgotado 🔒",
-      badgeUnlocked: "Vitalício Ativo 🌟",
-      paywallTitle: "Hora de Continuar a Aventura no Mundo Sonoro! 🌟🐾",
-      paywallSubtitle: "O tempo de teste gratuito terminou! Para liberar o acesso vitalício, ilimitado e para sempre para toda a família, custa apenas R$ 19,90. Sem mensalidades e 100% livre de anúncios!",
+      badgeUnlocked: "Acesso Liberado 🌟",
+      timerTrialInitial: "⏱️ Teste gratuito: 60 min",
+      timerTrialRemainingMins: "⏱️ Restam {m} min",
+      timerTrialRemainingSecs: "⏱️ Restam {s}s",
+      timerTrialExpired: "Seu período gratuito terminou.",
+      paywallTitle: "Quer continuar brincando? 🌟",
+      paywallSubtitle: "Desbloqueie todos os recursos do SoundWorld Kids e continue explorando sons, bichinhos, música e momentos tranquilos.",
       offerTitle: "Acesso Vitalício por R$ 19,90",
-      kiwifyBtn: "Liberar Acesso Vitalício por R$ 19,90",
-      kiwifyBtnSub: "Pagamento único • Acesso vitalício para sempre",
-      kiwifyBenefit1: "12 Bichinhos com sons reais da natureza",
-      kiwifyBenefit2: "Piano Musical & Jogo dos Sons educativo",
-      kiwifyBenefit3: "Modo Noturno com acalanto para dormir",
-      kiwifyBenefit4: "100% livre de anúncios e compras acidentais",
+      unlockNowBtn: "DESBLOQUEAR AGORA",
+      wantToUnlockBtn: "QUERO DESBLOQUEAR",
+      kiwifyBtn: "DESBLOQUEAR AGORA",
+      kiwifyBtnSub: "Pagamento único • Acesso vitalício para toda a família",
+      kiwifyBenefit1: "Todos os conteúdos disponíveis (16 bichinhos reais)",
+      kiwifyBenefit2: "Jogos de sons educativos",
+      kiwifyBenefit3: "Piano dos bichinhos com fita de melodias",
+      kiwifyBenefit4: "Hora de Dormir com sons relaxantes",
+      kiwifyBenefit5: "Sem anúncios",
+      kiwifyBenefit6: "Acesso para toda a família",
+      kiwifyBenefit7: "Sem mensalidade (R$ 19,90 único)",
       kiwifySecure: "🔒 Pagamento 100% Seguro via Kiwify • PIX e Cartão • Liberação Imediata",
       kiwifyBilingualTag: "🌎 Ativação imediata para toda a família em qualquer dispositivo",
+      offerDetails: "Acesso vitalício • Pagamento único • Sem mensalidade • Sem anúncios • Acesso para toda a família",
       langLabel: "Idioma do Aplicativo:",
       langSwitchBtn: "Português 🇧🇷",
-      offerDesc: "Pagamento único via PIX para Luciano Sant Anna. Sem mensalidades, sem anúncios comerciais.",
+      offerDesc: "Pagamento único de R$ 19,90. Acesso vitalício para toda a família sem mensalidades.",
       pixKeyLabel: "Chave PIX Oficial (E-mail):",
       pixNameLabel: "Beneficiário: Luciano Sant Anna",
       copyPixBtn: "Copiar Código PIX Copia-e-Cola 📋",
       copied: "Código PIX Copiado com Sucesso!",
-      whatsappBtn: "Enviar Comprovante via WhatsApp 📱",
-      enterCodeTitle: "Já fez o PIX? Digite seu Código de Ativação:",
-      codePlaceholder: "Ex: BICHINHOS100",
-      validateBtn: "Validar Código 🔑",
-      codeHelp: "O código é liberado imediatamente no WhatsApp após o envio do comprovante.",
-      codeError: "Código inválido ou incorreto. Envie o comprovante no WhatsApp para receber seu código.",
-      codeSuccess: "Código VIP validado com sucesso! Acesso vitalício liberado!",
-      unlockBtn: "Validar e Liberar Acesso 🔓",
-      unlockedToast: "🎉 Parabéns! Acesso vitalício liberado com sucesso!",
-      unlockCtaBtn: "DESBLOQUEAR SOUNDWORLD",
-      orderIdLabel: "Identificador do Pedido:",
-      statusWaiting: "Aguardando confirmação do PIX...",
-      statusActive: "Licença Vitalícia Ativa! 🌟"
+      unlockCtaBtn: "QUERO DESBLOQUEAR",
+      unlockedToast: "🎉 Parabéns! Seu acesso vitalício foi ativado com sucesso!",
+      codeError: "Código de ativação inválido. Tente novamente ou fale conosco no WhatsApp."
     },
 
     // Área dos Pais (Parent Gate)
     parentGate: {
-      buttonLabel: "Pais 🔒",
-      learnMoreLink: "ℹ️ Para os Pais / Conheça Mais",
-      modalTitle: "Espaço Seguro dos Pais & Responsáveis",
-      subtitle: "Configurações de segurança auditiva, volume e tempo de tela",
-      unlockInstruction: "Segure o botão por 3 segundos ou responda a conta:",
-      pressAndHold: "Segure pressionado (3s)...",
-      mathVerify: "Entrar",
-      mathError: "Resposta incorreta. Tente novamente.",
-      backToGame: "Voltar para a Brincadeira 🧸",
-      todayUsage: "Tempo de brincadeira hoje:",
+      badge: "Área dos Pais 🔒",
+      title: "Controle dos Pais & Responsáveis",
+      subtitle: "Para sua segurança, confirme que você é um adulto:",
+      holdInstruction: "Pressione e segure o botão por 3 segundos:",
+      holdBtn: "Segure para Abrir 🔒",
+      mathInstruction: "Ou resolva a conta abaixo:",
+      mathSubmit: "Entrar",
+      mathError: "Resposta incorreta. Tente novamente!",
+      backToGameBtn: "Voltar para a Brincadeira 🧸",
+      dailyUsage: "Tempo de brincadeira hoje:",
+      playtimeToday: "Tempo de brincadeira hoje",
       minutes: "minutos",
-      orderIdLabel: "Número do Pedido:",
-      licenseStatus: "Status da Licença:",
-      licenseTrial: "Período Gratuito (1 Hora)",
-      licenseVip: "Vitalícia VIP Ativada 🌟",
-      parentAreaBadge: "🛡️ Área Exclusiva dos Pais e Responsáveis",
-      activitySummaryTitle: "Resumo de Atividades Hoje:",
+      orderLabel: "Código do Pedido:",
+      licenseStatus: "Status do Acesso:",
+      licenseTrial: "Período Gratuito Ativo (1h)",
+      licenseVip: "Vitalício Ativado 🌟",
+      activitySummaryTitle: "Resumo das Atividades de Hoje",
       activityExplore: "Conhecer Bichinhos",
       activityQuiz: "Quem Faz Esse Som?",
-      activityPiano: "Teclado dos Bichinhos",
+      activityPiano: "Teclado Musical",
       activityBedtime: "Hora de Dormir",
       timesUsed: "vezes",
 
       settings: {
         volumeLimiter: "Limitador de Volume Seguro (dB)",
         volumeDescription: "Protege a audição sensível dos pequenos limitando o ganho máximo do som.",
-        safeLevel: "✓ Nível Seguro Recomendado",
+        safeLevel: "✓ Nível Seguro Recomendado (OMS ≤ 85 dB)",
         languageSelect: "Idioma Principal",
         screenTimer: "Temporizador de Tela (Modo Sono)",
         timerOff: "Desativado",
@@ -218,17 +265,17 @@ export const translations = {
 
       patronage: {
         title: "Licença Vitalícia SoundWorld 🌟",
-        description: "Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via PIX para Luciano Sant Anna). Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.",
+        description: "Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via Kiwify ou PIX). Aplicativo 100% seguro para crianças, sem anúncios e com acesso ilimitado a todos os sons disponíveis.",
         copyPix: "Copiar Código PIX (R$ 19,90)",
         copied: "Chave PIX Copiada com Sucesso!",
         enterCode: "Inserir Código de Ativação"
       },
 
       legal: {
-        title: "Avisos Éticos, Segurança e LGPD",
+        title: "Privacidade e Segurança Familiar",
         disclaimer: "Este software é um recurso recreativo e interativo de desenvolvimento sensorial para a primeira infância (2 a 6 anos). Não substitui intervenções médicas, fonoaudiológicas ou psicológicas.",
         ageNotice: "Faixa Etária Recomendada: 2 a 6 anos. Uso supervisionado por pais ou responsáveis.",
-        lgpdText: "Conformidade integral com o Art. 14 da LGPD (Lei nº 13.709/2018). Não coletamos nem armazenamos quaisquer dados pessoais, biométricos ou fotos de crianças.",
+        lgpdText: "Privacidade em primeiro lugar. Projetado para minimizar a coleta de dados pessoais. Não coletamos nomes de crianças, fotos, dados biométricos ou localização.",
         termsLink: "Termos de Uso",
         privacyLink: "Política de Privacidade"
       },
@@ -238,9 +285,9 @@ export const translations = {
 
     legalModal: {
       termsTitle: "Termos de Uso - Mundo Sonoro dos Bichinhos",
-      termsBody: "<p><strong>1. Finalidade Educativa e Lúdica:</strong> O SoundWorld Kids é um recurso interativo de estimulação auditiva sensorial, musical e conhecimento dos bichinhos para a primeira infância (2 a 6 anos).</p><p><strong>2. Supervisão dos Pais:</strong> O aplicativo deve ser utilizado sob supervisão carinhosa de pais, mães ou responsáveis legais.</p><p><strong>3. Isenção e Saúde:</strong> Este software não substitui diagnósticos ou orientações médicas, fonoaudiológicas ou psicológicas profissionais.</p><p><strong>4. Acesso Vitalício:</strong> O pagamento único confere licença de uso contínua, sem mensalidades ou renovações automáticas.</p>",
-      privacyTitle: "Política de Privacidade e Proteção à Criança (LGPD)",
-      privacyBody: "<p><strong>1. Privacidade Sagrada da Criança (Art. 14 LGPD):</strong> Em total conformidade com a LGPD e o Estatuto da Criança e do Adolescente (ECA), NÃO coletamos, NÃO rastreamos e NÃO comercializamos nenhum dado pessoal, biométrico ou fotos de crianças.</p><p><strong>2. Execução Segura no Dispositivo:</strong> A síntese de voz e os sons operam no navegador local (Web Audio API e SpeechSynthesis), sem telemetria sonora enviada para servidores.</p><p><strong>3. Ambiente 100% Livre de Propagandas:</strong> Zero anúncios de terceiros, sem links ocultos e configurações protegidas por trava exclusiva para os pais (Parent Gate).</p>",
+      termsBody: "<p><strong>1. Finalidade Educativa e Lúdica:</strong> O SoundWorld Kids é um recurso interativo de estimulação auditiva sensorial, musical e conhecimento dos bichinhos para a primeira infância (2 a 6 anos).</p><p><strong>2. Supervisão dos Pais:</strong> O aplicativo deve ser utilizado sob supervisão carinhosa de pais, mães ou responsáveis legais.</p><p><strong>3. Isenção e Saúde:</strong> Este software não substitui diagnósticos ou orientações médicas, fonoaudiológicas ou psicológicas profissionais.</p><p><strong>4. Acesso Vitalício:</strong> O pagamento único de R$ 19,90 confere licença de uso contínua para toda a família, sem mensalidades ou renovações automáticas.</p>",
+      privacyTitle: "Privacidade em Primeiro Lugar",
+      privacyBody: "<p><strong>1. Privacidade em Primeiro Lugar:</strong> O SoundWorld Kids foi projetado para minimizar a coleta de dados pessoais. Não coletamos nomes de crianças, fotos, voz gravada, dados biométricos ou localização geográfica.</p><p><strong>2. O que é armazenado:</strong> Apenas preferências de uso salvas localmente no seu próprio navegador (tempo de uso diário, idioma escolhido e ativação da licença).</p><p><strong>3. Execução Segura no Dispositivo:</strong> Os sons e as falas funcionam diretamente no seu aparelho (Web Audio API e SpeechSynthesis), sem telemetria de áudio enviada a servidores.</p><p><strong>4. Zero Propagandas:</strong> Sem anúncios de terceiros, sem cookies de publicidade comportamental e sem compras acidentais dentro da área infantil.</p><p><strong>5. Contato:</strong> Para dúvidas de privacidade ou suporte: <strong>luklen2@gmail.com</strong> (Luciano Sant Anna).</p>",
       closeBtn: "Entendi"
     }
   },
@@ -256,7 +303,7 @@ export const translations = {
         title: "What Shall We Play Today? 🎈",
         subtitle: "Tap an activity card below to start the fun!",
         badge: "Home 🏠",
-        exploreDesc: "12 animals with real sounds and spoken names",
+        exploreDesc: "16 real animals with authentic sounds and spoken names",
         soundQuizDesc: "Guess who makes the sound with warm cheering",
         pianoDesc: "Play songs with animal voices as singers",
         bedtimeDesc: "Rain, crickets, music box, and calming purrs"
@@ -341,10 +388,11 @@ export const translations = {
     // New Home & Positioning
     home: {
       badge: "SOUNDWORLD KIDS",
-      title: "SoundWorld Kids Animals",
+      title: "Animal SoundWorld",
       welcome: "Play, listen, and discover a world full of sounds.",
-      startPlayBtn: "START PLAYING 🎈",
-      parentsAreaBtn: "PARENTS AREA 🔒"
+      slogan: "Play. Listen. Discover.",
+      startPlayBtn: "START PLAYING",
+      parentsAreaBtn: "PARENTS AREA"
     },
 
     // Progressive Quiz Levels
@@ -363,6 +411,52 @@ export const translations = {
       playBtn: "▶️ Play Sequence",
       clearBtn: "🗑️ Clear",
       emptyMsg: "Tap keys to record your tune!"
+    },
+
+    // How It Works (5 Steps)
+    howItWorks: {
+      title: "How does it work?",
+      subtitle: "A simple and fun 5-step journey for children",
+      step1: "The child chooses an animal.",
+      step2: "Discovers its sound.",
+      step3: "Plays with the games.",
+      step4: "Explores music and sounds.",
+      step5: "Can relax with Bedtime mode."
+    },
+
+    // Video Section
+    videoSection: {
+      title: "See how it works",
+      subtitle: "20 to 30 second preview of real SoundWorld Kids features",
+      placeholderBadge: "Demo Video Coming Soon",
+      placeholderDesc: "Meet Animals • Sound Game • Piano • Bedtime • Parents Area • R$ 19.90"
+    },
+
+    // Made with Families in Mind (4 Cards)
+    familySection: {
+      title: "Made with families in mind",
+      subtitle: "Peace of mind and safety for parents, pure joy for little ones.",
+      card1Title: "NO ADS",
+      card1Desc: "An experience without advertising interruptions.",
+      card2Title: "TIME LIMIT",
+      card2Desc: "Set how long the child can play.",
+      card3Title: "VOLUME LIMIT",
+      card3Desc: "Set the maximum volume of the experience.",
+      card4Title: "ONE-TIME PAYMENT",
+      card4Desc: "R$ 19.90. No monthly fee.",
+      ethicalNotice: "SoundWorld Kids is a sensory and playful family experience. It does not replace medical advice or professional diagnosis."
+    },
+
+    // Why Families Choose SoundWorld
+    whyFamiliesChoose: {
+      title: "Why families choose SoundWorld?",
+      subtitle: "Real features thoughtfully designed for everyday life",
+      item1: "100% ad-free and safe from accidental purchases",
+      item2: "Safe volume limit with 85 dB ceiling",
+      item3: "Screen timer to ease bedtime routines",
+      item4: "Multiple play modes and 16 real animals",
+      item5: "Unlimited access to all available sounds",
+      item6: "Single lifetime payment of only R$ 19.90"
     },
 
     // 16 Animals Names and Sounds (7 Worlds)
@@ -388,59 +482,59 @@ export const translations = {
     trial: {
       badge: "1h Free: ",
       badgeExpired: "Time Expired 🔒",
-      badgeUnlocked: "Lifetime Active 🌟",
-      paywallTitle: "Time to Continue the Adventure in SoundWorld! 🌟🐾",
-      paywallSubtitle: "The free trial has ended! To unlock unlimited lifetime access forever for the entire family, it's only R$ 19.90. No monthly fees and 100% ad-free!",
+      badgeUnlocked: "Access Unlocked 🌟",
+      timerTrialInitial: "⏱️ Free trial: 60 min",
+      timerTrialRemainingMins: "⏱️ {m} min left",
+      timerTrialRemainingSecs: "⏱️ {s}s left",
+      timerTrialExpired: "Your free trial has ended.",
+      paywallTitle: "Want to keep playing? 🌟",
+      paywallSubtitle: "Unlock all SoundWorld Kids features and keep exploring sounds, animals, music, and quiet moments.",
       offerTitle: "Lifetime Access for R$ 19.90",
-      kiwifyBtn: "Unlock Lifetime Access for R$ 19.90",
-      kiwifyBtnSub: "One-time payment • Lifetime access forever",
-      kiwifyBenefit1: "12 Animals with real nature sounds",
-      kiwifyBenefit2: "Animal Piano & Educational Sound Quiz",
-      kiwifyBenefit3: "Bedtime mode with soothing sleep sounds",
-      kiwifyBenefit4: "100% ad-free with zero accidental purchases",
+      unlockNowBtn: "UNLOCK NOW",
+      wantToUnlockBtn: "I WANT TO UNLOCK",
+      kiwifyBtn: "UNLOCK NOW",
+      kiwifyBtnSub: "One-time payment • Lifetime access for the whole family",
+      kiwifyBenefit1: "All available content (16 real animals)",
+      kiwifyBenefit2: "Educational sound games",
+      kiwifyBenefit3: "Animal piano with music tape",
+      kiwifyBenefit4: "Bedtime mode with relaxing soundscapes",
+      kiwifyBenefit5: "Zero ads",
+      kiwifyBenefit6: "Access for the whole family",
+      kiwifyBenefit7: "No monthly fee (R$ 19.90 one-time)",
       kiwifySecure: "🔒 100% Secure Checkout via Kiwify • Instant Access",
       kiwifyBilingualTag: "🌎 Instant activation for the whole family on any device",
+      offerDetails: "Lifetime access • One-time payment • No monthly fee • Zero ads • Family-wide access",
       langLabel: "App Language:",
       langSwitchBtn: "English 🇺🇸",
-      offerDesc: "One-time PIX payment to Luciano Sant Anna. No subscriptions, no ads.",
+      offerDesc: "One-time payment of R$ 19.90. Lifetime family access with no monthly fees.",
       pixKeyLabel: "Official PIX Key (E-mail):",
       pixNameLabel: "Beneficiary: Luciano Sant Anna",
       copyPixBtn: "Copy PIX Code 📋",
       copied: "PIX Code Copied!",
-      whatsappBtn: "Send Receipt via WhatsApp 📱",
-      enterCodeTitle: "Paid via PIX? Enter your Activation Code:",
-      codePlaceholder: "Ex: BICHINHOS100",
-      validateBtn: "Validate Code 🔑",
-      codeHelp: "Your VIP code is delivered instantly via WhatsApp once the receipt is confirmed.",
-      codeError: "Invalid code. Please send your receipt via WhatsApp to receive your code.",
-      codeSuccess: "VIP code verified successfully! Lifetime access unlocked!",
-      unlockBtn: "Validate & Unlock Access 🔓",
+      unlockCtaBtn: "I WANT TO UNLOCK",
       unlockedToast: "🎉 Congratulations! Lifetime access unlocked successfully!",
-      unlockCtaBtn: "UNLOCK SOUNDWORLD",
-      orderIdLabel: "Order Identifier:",
-      statusWaiting: "Waiting for PIX confirmation...",
-      statusActive: "Lifetime License Active! 🌟"
+      codeError: "Invalid activation code. Please try again or reach out to us on WhatsApp."
     },
 
     // Parent Gate
     parentGate: {
-      buttonLabel: "Parents 🔒",
-      learnMoreLink: "ℹ️ For Parents / Learn More",
-      modalTitle: "Parents & Caregivers Safe Space",
-      subtitle: "Hearing safety, volume limits, and screen time management",
-      unlockInstruction: "Hold the button for 3 seconds or solve the sum:",
-      pressAndHold: "Hold down (3s)...",
-      mathVerify: "Enter",
-      mathError: "Incorrect answer. Please try again.",
-      backToGame: "Back to the Game 🧸",
-      todayUsage: "Playtime today:",
+      badge: "Parents Area 🔒",
+      title: "Parents & Caregivers Controls",
+      subtitle: "For safety, please confirm that you are an adult:",
+      holdInstruction: "Press and hold the button for 3 seconds:",
+      holdBtn: "Hold to Open 🔒",
+      mathInstruction: "Or solve the sum below:",
+      mathSubmit: "Enter",
+      mathError: "Incorrect answer. Please try again!",
+      backToGameBtn: "Back to the Game 🧸",
+      dailyUsage: "Playtime today:",
+      playtimeToday: "Playtime today",
       minutes: "minutes",
-      orderIdLabel: "Order Number:",
-      licenseStatus: "License Status:",
-      licenseTrial: "Free Trial Period (1 Hour)",
-      licenseVip: "VIP Lifetime Activated 🌟",
-      parentAreaBadge: "🛡️ Exclusive Parents & Caregivers Area",
-      activitySummaryTitle: "Today's Activities Summary:",
+      orderLabel: "Order Code:",
+      licenseStatus: "Access Status:",
+      licenseTrial: "Free Trial Active (1h)",
+      licenseVip: "Lifetime Activated 🌟",
+      activitySummaryTitle: "Today's Activities Summary",
       activityExplore: "Meet Animals",
       activityQuiz: "Sound Quiz",
       activityPiano: "Animal Piano",
@@ -450,7 +544,7 @@ export const translations = {
       settings: {
         volumeLimiter: "Safe Volume Limiter (dB)",
         volumeDescription: "Protects sensitive toddler hearing by capping peak audio output.",
-        safeLevel: "✓ Recommended Safe Level",
+        safeLevel: "✓ Recommended Safe Level (WHO ≤ 85 dB)",
         languageSelect: "Main Language",
         screenTimer: "Screen Time Timer (Bedtime Mode)",
         timerOff: "Off",
@@ -462,17 +556,17 @@ export const translations = {
 
       patronage: {
         title: "SoundWorld Lifetime License 🌟",
-        description: "Unlock full lifetime access for just R$ 19.90 (one-time PIX payment to Luciano Sant Anna). 100% kid-safe app, zero ads, unlimited sounds.",
+        description: "Unlock full lifetime access for just R$ 19.90 (one-time payment via Kiwify or PIX). 100% kid-safe app, zero ads, and unlimited access to all available sounds.",
         copyPix: "Copy PIX Code (R$ 19.90)",
         copied: "PIX Code Copied to Clipboard!",
         enterCode: "Enter Activation Code"
       },
 
       legal: {
-        title: "Ethical Notice, Safety & Privacy (LGPD)",
+        title: "Family Privacy and Safety",
         disclaimer: "This software is a playful sensory audio tool for early childhood (ages 2 to 6). It does not replace medical, speech therapy, or psychological care.",
         ageNotice: "Recommended Age: 2 to 6 years old. Supervised by parents or guardians.",
-        lgpdText: "Strict compliance with child privacy standards and Art. 14 of LGPD. We never collect, track, or share any personal data, photos, or voice recordings.",
+        lgpdText: "Privacy first. Designed to minimize personal data collection. We never collect children's names, photos, biometric data, or location.",
         termsLink: "Terms of Use",
         privacyLink: "Privacy Policy"
       },
@@ -482,9 +576,9 @@ export const translations = {
 
     legalModal: {
       termsTitle: "Terms of Service - SoundWorld Kids",
-      termsBody: "<p><strong>1. Educational & Playful Purpose:</strong> SoundWorld Kids is an interactive sensory, auditory, and musical exploration resource for toddlers and young children (ages 2 to 6).</p><p><strong>2. Parental Supervision:</strong> The app should always be enjoyed with the supervision of parents or guardians.</p><p><strong>3. Medical Disclaimer:</strong> This software is recreational and does not replace medical, speech therapy, or psychological care.</p><p><strong>4. Lifetime Access:</strong> The one-time payment provides permanent family access without recurring subscriptions.</p>",
-      privacyTitle: "Privacy Policy & Child Safety (LGPD & Children's Privacy)",
-      privacyBody: "<p><strong>1. Strict Child Privacy Protection:</strong> In full compliance with Art. 14 of LGPD and international child privacy standards, we DO NOT collect, track, or share any personal data, voice recordings, or photos of children.</p><p><strong>2. 100% On-Device Operation:</strong> Sound effects and voice synthesis run locally inside your browser (Web Audio API & SpeechSynthesis) without server audio streaming.</p><p><strong>3. 100% Ad-Free Safe Space:</strong> Zero commercial advertisements, no tracking cookies, and settings securely locked behind the adult Parent Gate.</p>",
+      termsBody: "<p><strong>1. Educational & Playful Purpose:</strong> SoundWorld Kids is an interactive sensory, auditory, and musical exploration resource for toddlers and young children (ages 2 to 6).</p><p><strong>2. Parental Supervision:</strong> The app should always be enjoyed with the supervision of parents or guardians.</p><p><strong>3. Medical Disclaimer:</strong> This software is recreational and does not replace medical, speech therapy, or psychological care.</p><p><strong>4. Lifetime Access:</strong> The one-time payment of R$ 19.90 provides permanent family access without recurring subscriptions.</p>",
+      privacyTitle: "Privacy First",
+      privacyBody: "<p><strong>1. Privacy First:</strong> SoundWorld Kids is designed to minimize the collection of personal data. We do not collect children's names, photos, voice recordings, biometric data, or geographic location.</p><p><strong>2. What is stored:</strong> Only app preferences saved locally inside your browser (daily playtime, chosen language, and license activation).</p><p><strong>3. Safe On-Device Operation:</strong> Sounds and voices operate directly on your device (Web Audio API and SpeechSynthesis) without server audio telemetry.</p><p><strong>4. Zero Ads:</strong> No third-party advertisements, no behavioral tracking cookies, and no accidental purchases in the child area.</p><p><strong>5. Contact:</strong> For privacy inquiries or support: <strong>luklen2@gmail.com</strong> (Luciano Sant Anna).</p>",
       closeBtn: "Got it"
     }
   }

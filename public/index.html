@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#38b000" />
-  <meta name="description" content="SoundWorld dos Bichinhos - Aplicativo interativo de floresta com sons e nomes dos animais para crianças de 2 a 6 anos" />
+  <meta name="description" content="Uma experiência sonora divertida para crianças explorarem animais, sons, música e momentos de relaxamento." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="SoundWorld" />
@@ -12,13 +12,14 @@
   <link rel="manifest" href="manifest.json" />
 
   <!-- Open Graph / Meta Compartilhamento Seguro -->
-  <meta property="og:title" content="SoundWorld Kids - O Espaço Sonoro Seguro para Crianças" />
-  <meta property="og:description" content="12 bichinhos com sons reais, piano musical, acalanto e zero anúncios! Desenvolvido para a primeira infância (2 a 6 anos)." />
+  <meta property="og:title" content="SoundWorld Kids — Mundo Sonoro dos Bichinhos" />
+  <meta property="og:description" content="Uma experiência sonora divertida para crianças explorarem animais, sons, música e momentos de relaxamento." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="favicon.svg" />
 
+  <title>SoundWorld Kids — Mundo Sonoro dos Bichinhos</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2.2.0" />
+  <link rel="stylesheet" href="css/styles.css?v=2.5.0" />
 
   <!-- Estilos Críticos Embutidos (Blindagem contra FOUC e Modais) -->
   <style>
@@ -154,15 +155,15 @@
           <span>🌟</span>
         </div>
         <h2 class="home-main-title" data-i18n="home.title">Mundo Sonoro dos Bichinhos</h2>
-        <p class="home-main-desc" data-i18n="home.welcome">Brinque, escute e descubra um mundo cheio de sons.</p>
+        <p class="home-main-desc" data-i18n="home.slogan">Brinque. Escute. Descubra.</p>
         <div class="home-cta-buttons">
           <button id="home-start-play-btn" class="home-cta-btn home-cta-primary" type="button">
             <span>🐾</span>
-            <span data-i18n="home.startPlayBtn">COMEÇAR A BRINCAR 🎈</span>
+            <span data-i18n="home.startPlayBtn">COMEÇAR A BRINCAR</span>
           </button>
           <button id="home-parents-area-btn" class="home-cta-btn home-cta-secondary" type="button">
             <span>🔒</span>
-            <span data-i18n="home.parentsAreaBtn">ÁREA DOS PAIS 🔒</span>
+            <span data-i18n="home.parentsAreaBtn">ÁREA DOS PAIS</span>
           </button>
         </div>
       </div>
@@ -202,6 +203,137 @@
             <p data-i18n="modes.activityHub.bedtimeDesc">Chuva, oceano, floresta e caixinha para ninar</p>
           </div>
           <div class="hub-activity-arrow">➡️</div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO: COMO FUNCIONA? (5 PASSOS LÚDICOS) -->
+      <div class="hub-family-section hub-how-it-works-box">
+        <h3 class="hub-family-title" data-i18n="howItWorks.title">Como funciona?</h3>
+        <p class="hub-family-sub" data-i18n="howItWorks.subtitle">Uma jornada simples e divertida em 5 passos para as crianças</p>
+        
+        <div class="how-it-works-grid">
+          <div class="how-step-card">
+            <span class="how-step-badge">PASSO 1</span>
+            <div class="how-step-icon">🐾</div>
+            <p class="how-step-text" data-i18n="howItWorks.step1">A criança escolhe um bichinho.</p>
+          </div>
+          <div class="how-step-card">
+            <span class="how-step-badge">PASSO 2</span>
+            <div class="how-step-icon">🔊</div>
+            <p class="how-step-text" data-i18n="howItWorks.step2">Descobre seu som.</p>
+          </div>
+          <div class="how-step-card">
+            <span class="how-step-badge">PASSO 3</span>
+            <div class="how-step-icon">🧠</div>
+            <p class="how-step-text" data-i18n="howItWorks.step3">Brinca com os jogos.</p>
+          </div>
+          <div class="how-step-card">
+            <span class="how-step-badge">PASSO 4</span>
+            <div class="how-step-icon">🎵</div>
+            <p class="how-step-text" data-i18n="howItWorks.step4">Explora música e sons.</p>
+          </div>
+          <div class="how-step-card">
+            <span class="how-step-badge">PASSO 5</span>
+            <div class="how-step-icon">🌙</div>
+            <p class="how-step-text" data-i18n="howItWorks.step5">Pode relaxar com o modo Hora de Dormir.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO: VEJA COMO FUNCIONA (ESPAÇO PARA VÍDEO 20–30s) -->
+      <div class="hub-family-section hub-video-demo-box">
+        <h3 class="hub-family-title" data-i18n="videoSection.title">Veja como funciona</h3>
+        <p class="hub-family-sub" data-i18n="videoSection.subtitle">Demonstração de 20 a 30 segundos dos recursos reais do SoundWorld Kids</p>
+
+        <div class="video-preview-frame">
+          <div class="video-preview-placeholder">
+            <div class="video-play-btn-circle" title="Espaço para vídeo demonstrativo">▶</div>
+            <div class="video-placeholder-badge" data-i18n="videoSection.placeholderBadge">Vídeo de Demonstração em Breve</div>
+            <p class="video-placeholder-desc" data-i18n="videoSection.placeholderDesc">Conhecer Bichinhos • Jogo do Som • Piano • Hora de Dormir • Área dos Pais • R$ 19,90</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO: FEITO PENSANDO NA FAMÍLIA (4 CARDS) -->
+      <div class="hub-family-section hub-family-thinking-box">
+        <h3 class="hub-family-title" data-i18n="familySection.title">Feito pensando na família</h3>
+        <p class="hub-family-sub" data-i18n="familySection.subtitle">Tranquilidade e segurança para os pais, diversão pura para os pequenos.</p>
+
+        <div class="family-cards-grid">
+          <div class="family-card-item">
+            <div class="family-card-icon">🔇</div>
+            <h4 class="family-card-heading" data-i18n="familySection.card1Title">SEM ANÚNCIOS</h4>
+            <p class="family-card-text" data-i18n="familySection.card1Desc">Uma experiência sem interrupções publicitárias.</p>
+          </div>
+          <div class="family-card-item">
+            <div class="family-card-icon">⏱️</div>
+            <h4 class="family-card-heading" data-i18n="familySection.card2Title">CONTROLE DE TEMPO</h4>
+            <p class="family-card-text" data-i18n="familySection.card2Desc">Defina quanto tempo a criança pode brincar.</p>
+          </div>
+          <div class="family-card-item">
+            <div class="family-card-icon">🔊</div>
+            <h4 class="family-card-heading" data-i18n="familySection.card3Title">CONTROLE DE VOLUME</h4>
+            <p class="family-card-text" data-i18n="familySection.card3Desc">Configure o volume máximo da experiência.</p>
+          </div>
+          <div class="family-card-item">
+            <div class="family-card-icon">💳</div>
+            <h4 class="family-card-heading" data-i18n="familySection.card4Title">PAGAMENTO ÚNICO</h4>
+            <p class="family-card-text" data-i18n="familySection.card4Desc">R$ 19,90. Sem mensalidade.</p>
+          </div>
+        </div>
+
+        <p class="family-ethical-disclaimer" data-i18n="familySection.ethicalNotice">
+          O SoundWorld Kids é uma experiência sensorial e lúdica para toda a família. Não substitui orientações médicas ou diagnósticos profissionais.
+        </p>
+      </div>
+
+      <!-- SEÇÃO: POR QUE FAMÍLIAS ESCOLHEM O SOUNDWORLD? -->
+      <div class="hub-family-section hub-why-choose-box">
+        <h3 class="hub-family-title" data-i18n="whyFamiliesChoose.title">Por que famílias escolhem o SoundWorld?</h3>
+        <p class="hub-family-sub" data-i18n="whyFamiliesChoose.subtitle">Recursos reais pensados com carinho para o dia a dia</p>
+
+        <div class="why-choose-grid">
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item1">100% sem anúncios e livre de compras acidentais</span>
+          </div>
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item2">Controle de volume seguro com limite de 85 dB</span>
+          </div>
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item3">Temporizador para organizar a rotina do sono</span>
+          </div>
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item4">Vários modos de brincadeira e 16 bichinhos reais</span>
+          </div>
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item5">Acesso ilimitado a todos os sons disponíveis</span>
+          </div>
+          <div class="why-choose-item">
+            <span class="why-check">✓</span>
+            <span data-i18n="whyFamiliesChoose.item6">Pagamento único e vitalício de apenas R$ 19,90</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO: OFERTA TRANSPARENTE E DESBLOQUEIO -->
+      <div class="hub-family-section hub-lifetime-offer-box">
+        <div class="offer-tag" data-i18n="trial.offerTitle">Acesso Vitalício por R$ 19,90</div>
+        <h3 style="font-size: 1.8rem; color: #073b4c; margin: 0.5rem 0 0.4rem;">Licença Vitalícia SoundWorld</h3>
+        <p style="font-size: 1.05rem; color: #4a5568; margin-bottom: 1rem;" data-i18n="trial.offerDetails">
+          Acesso vitalício • Pagamento único • Sem mensalidade • Sem anúncios • Acesso para toda a família
+        </p>
+
+        <div style="margin: 1.2rem auto; max-width: 480px;">
+          <a href="https://pay.kiwify.com.br/9fQEqnA" target="_blank" rel="noopener noreferrer" class="btn-kiwify-paywall" style="font-size: 1.25rem; padding: 1rem 1.8rem;">
+            <span>🌟</span>
+            <span data-i18n="trial.wantToUnlockBtn">QUERO DESBLOQUEAR</span>
+            <span>🚀</span>
+          </a>
         </div>
       </div>
     </section>
@@ -583,12 +715,12 @@
         <!-- Licença Vitalícia via Kiwify e PIX -->
         <div class="pix-box">
           <h3 style="font-size: 1.25rem; margin-bottom: 0.4rem;" data-i18n="parentGate.patronage.title">Licença Vitalícia SoundWorld 🌟</h3>
-          <p style="font-size: 0.9rem; color: #4a5568; margin-bottom: 0.8rem;" data-i18n="parentGate.patronage.description">Adquira o acesso vitalício completo por apenas R$ 19,90. Aplicativo 100% seguro para crianças, sem anúncios e com sons ilimitados.</p>
+          <p style="font-size: 0.9rem; color: #4a5568; margin-bottom: 0.8rem;" data-i18n="parentGate.patronage.description">Adquira o acesso vitalício completo por apenas R$ 19,90 (pagamento único via Kiwify ou PIX). Aplicativo 100% seguro para crianças, sem anúncios e com acesso ilimitado a todos os sons disponíveis.</p>
 
           <div style="margin: 0.8rem auto 1rem; max-width: 400px;">
             <a href="https://pay.kiwify.com.br/9fQEqnA" target="_blank" rel="noopener noreferrer" class="btn-kiwify-paywall" style="font-size: 1.15rem; padding: 0.9rem 1.4rem; box-shadow: 0 6px 18px rgba(6, 214, 160, 0.4);">
               <span class="btn-kiwify-icon-left">🌟</span>
-              <span data-i18n="trial.kiwifyBtn">Liberar Acesso Vitalício por R$ 19,90</span>
+              <span data-i18n="trial.unlockNowBtn">DESBLOQUEAR AGORA</span>
               <span class="btn-kiwify-icon-right">🚀</span>
             </a>
           </div>
@@ -608,10 +740,10 @@
 
         <!-- Avisos Éticos e LGPD -->
         <div style="background: #f7fafc; border-radius: 16px; padding: 1.2rem; font-size: 0.85rem; color: #4a5568; line-height: 1.5; border: 1px solid #e2e8f0;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;" data-i18n="parentGate.legal.title">Avisos Éticos, Segurança e LGPD</h4>
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;" data-i18n="parentGate.legal.title">Privacidade e Segurança Familiar</h4>
           <p data-i18n="parentGate.legal.disclaimer" style="margin-bottom: 0.4rem;">Este software é um recurso recreativo e interativo de desenvolvimento sensorial para a primeira infância (2 a 6 anos). Não substitui intervenções médicas, fonoaudiológicas ou psicológicas.</p>
           <p data-i18n="parentGate.legal.ageNotice" style="margin-bottom: 0.4rem; font-weight: 700;">Faixa Etária Recomendada: 2 a 6 anos. Uso supervisionado por pais ou responsáveis.</p>
-          <p data-i18n="parentGate.legal.lgpdText" style="margin-bottom: 0.6rem;">Conformidade integral com o Art. 14 da LGPD. Não coletamos dados de crianças.</p>
+          <p data-i18n="parentGate.legal.lgpdText" style="margin-bottom: 0.6rem;">Privacidade em primeiro lugar. Projetado para minimizar a coleta de dados pessoais. Não coletamos nomes de crianças, fotos, dados biométricos ou localização.</p>
           
           <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; align-items: center;">
             <a href="#" id="link-terms" style="color: #118ab2; font-weight: 700; text-decoration: underline;" data-i18n="parentGate.legal.termsLink">Termos de Uso</a>
@@ -664,28 +796,40 @@
       </div>
 
       <div class="paywall-badge-offer" data-i18n="trial.offerTitle">Acesso Vitalício por R$ 19,90</div>
-      <h2 class="paywall-main-title" data-i18n="trial.paywallTitle">Hora de Continuar a Aventura no Mundo Sonoro! 🌟🐾</h2>
+      <h2 class="paywall-main-title" data-i18n="trial.paywallTitle">Quer continuar brincando? 🌟</h2>
       <p class="paywall-main-subtitle" data-i18n="trial.paywallSubtitle">
-        O tempo de teste gratuito terminou! Para liberar o <strong>acesso vitalício, ilimitado e para sempre</strong> para toda a família, custa apenas <strong>R$ 19,90</strong>. Sem mensalidades e 100% livre de anúncios!
+        Desbloqueie todos os recursos do SoundWorld Kids e continue explorando sons, bichinhos, música e momentos tranquilos.
       </p>
 
-      <!-- Benefícios em destaque -->
+      <!-- Benefícios em destaque (7 Benefícios Claros) -->
       <div class="paywall-benefits-grid">
         <div class="paywall-benefit-item">
           <span class="paywall-benefit-icon">🐾</span>
-          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit1">12 Bichinhos com sons reais da natureza</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit1">Todos os conteúdos disponíveis (16 bichinhos reais)</span>
+        </div>
+        <div class="paywall-benefit-item">
+          <span class="paywall-benefit-icon">👂</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit2">Jogos de sons educativos</span>
         </div>
         <div class="paywall-benefit-item">
           <span class="paywall-benefit-icon">🎹</span>
-          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit2">Piano Musical & Jogo dos Sons educativo</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit3">Piano dos bichinhos com fita de melodias</span>
         </div>
         <div class="paywall-benefit-item">
           <span class="paywall-benefit-icon">🌙</span>
-          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit3">Modo Noturno com acalanto para dormir</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit4">Hora de Dormir com sons relaxantes</span>
         </div>
         <div class="paywall-benefit-item">
           <span class="paywall-benefit-icon">🛡️</span>
-          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit4">100% livre de anúncios e compras acidentais</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit5">Sem anúncios</span>
+        </div>
+        <div class="paywall-benefit-item">
+          <span class="paywall-benefit-icon">👨‍👩‍👧‍👦</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit6">Acesso para toda a família</span>
+        </div>
+        <div class="paywall-benefit-item">
+          <span class="paywall-benefit-icon">💎</span>
+          <span class="paywall-benefit-text" data-i18n="trial.kiwifyBenefit7">Sem mensalidade (R$ 19,90 único)</span>
         </div>
       </div>
 
@@ -694,8 +838,8 @@
         <a id="paywall-kiwify-checkout-btn" href="https://pay.kiwify.com.br/9fQEqnA" target="_blank" rel="noopener noreferrer" class="btn-kiwify-paywall">
           <span class="btn-kiwify-icon-left">🌟</span>
           <div class="btn-kiwify-content-box">
-            <span class="btn-kiwify-label" data-i18n="trial.kiwifyBtn">Liberar Acesso Vitalício por R$ 19,90</span>
-            <small class="btn-kiwify-sub" data-i18n="trial.kiwifyBtnSub">Pagamento único • Acesso vitalício para sempre</small>
+            <span class="btn-kiwify-label" data-i18n="trial.unlockNowBtn">DESBLOQUEAR AGORA</span>
+            <small class="btn-kiwify-sub" data-i18n="trial.kiwifyBtnSub">Pagamento único • Acesso vitalício para toda a família</small>
           </div>
           <span class="btn-kiwify-icon-right">🚀</span>
         </a>

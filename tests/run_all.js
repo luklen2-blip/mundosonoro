@@ -128,7 +128,7 @@ async function runTests() {
   // 4c. Arquivos Estáticos, SPA Fallback e Página de Vendas Dedicada (/comprar)
   const homeRes = await fetchHttp('/');
   assert.strictEqual(homeRes.status, 200);
-  assert.ok(homeRes.body.includes('SoundWorld dos Bichinhos'));
+  assert.ok(homeRes.body.includes('Mundo Sonoro dos Bichinhos') || homeRes.body.includes('SoundWorld Kids'));
 
   const comprarRes = await fetchHttp('/comprar');
   assert.strictEqual(comprarRes.status, 200);
@@ -149,7 +149,7 @@ async function runTests() {
 
   const spaRes = await fetchHttp('/termos');
   assert.strictEqual(spaRes.status, 200);
-  assert.ok(spaRes.body.includes('SoundWorld dos Bichinhos'));
+  assert.ok(spaRes.body.includes('Mundo Sonoro dos Bichinhos') || spaRes.body.includes('SoundWorld Kids'));
 
   const manifestRes = await fetchHttp('/manifest.json');
   assert.strictEqual(manifestRes.status, 200);

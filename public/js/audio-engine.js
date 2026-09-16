@@ -1,4 +1,4 @@
-// public/js/audio-engine.js - Motor Acústico dos 12 Bichinhos e Piano Musical (Web Audio API)
+// public/js/audio-engine.js - Motor Acústico dos 16 Bichinhos e Piano Musical (Web Audio API)
 
 class AnimalAudioEngine {
   constructor() {
@@ -112,7 +112,7 @@ class AnimalAudioEngine {
   }
 
   // =========================================================================
-  // 1. SONS AUTÊNTICOS DOS 12 ANIMAIS (SÍNTESE NATIVA WEB AUDIO API)
+  // 1. SONS AUTÊNTICOS DOS 16 ANIMAIS (SÍNTESE NATIVA WEB AUDIO API)
   // =========================================================================
 
   // 1. Cachorro (Latido duplo amigável "Au-Au!")
