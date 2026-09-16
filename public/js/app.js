@@ -1,31 +1,20 @@
-// public/js/app.js - Controlador Interativo dos 12 Bichinhos e Modos Educativos
+// public/js/app.js - Controlador Interativo dos 16 Bichinhos, 7 Mundos e Modos Educativos
 
 import { t, getLanguage, setLanguage, subscribeLanguage } from './i18n.js';
 import { animalAudio } from './audio-engine.js';
 import { animalSpeech } from './speech-engine.js';
 import { fx } from './particles.js';
 import { generatePixPayload, getPixQrCodeUrl, validateActivationCode, getWhatsAppConfirmUrl, getOrCreateOrderId } from './pix.js';
+import { WORLDS, ANIMALS_CATALOG } from './catalog.js';
 
 class AnimalSoundApp {
   constructor() {
     this.currentMode = 'hub'; // hub, explore, soundQuiz, findAnimal, piano, bedtime
     this.selectedSinger = 'cat'; // animal cantor no piano
 
-    // Roster completo dos 12 bichinhos
-    this.animals = [
-      { id: 'dog', icon: '🐶', colorClass: 'card-border-pink' },
-      { id: 'cat', icon: '🐱', colorClass: 'card-border-purple' },
-      { id: 'cow', icon: '🐮', colorClass: 'card-border-green' },
-      { id: 'frog', icon: '🐸', colorClass: 'card-border-green' },
-      { id: 'duck', icon: '🦆', colorClass: 'card-border-yellow' },
-      { id: 'lion', icon: '🦁', colorClass: 'card-border-yellow' },
-      { id: 'sheep', icon: '🐑', colorClass: 'card-border-blue' },
-      { id: 'bird', icon: '🐦', colorClass: 'card-border-blue' },
-      { id: 'elephant', icon: '🐘', colorClass: 'card-border-purple' },
-      { id: 'monkey', icon: '🐵', colorClass: 'card-border-yellow' },
-      { id: 'owl', icon: '🦉', colorClass: 'card-border-blue' },
-      { id: 'horse', icon: '🐴', colorClass: 'card-border-pink' }
-    ];
+    // Roster modular completo dos 16 bichinhos em 7 mundos temáticos
+    this.animals = ANIMALS_CATALOG;
+    this.currentWorld = 'all';
 
     // Frequências das 8 notas do piano (Escala de Dó Maior C4 a C5)
     this.pianoNotes = [
@@ -39,9 +28,15 @@ class AnimalSoundApp {
       { keyId: 'c2', freq: 523.25, notePt: 'Dó', noteEn: 'C', colorClass: 'key-c2' }
     ];
 
+    // Mini Sequenciador Musical (Fita de até 8 notas)
+    this.musicSequence = [];
+    this.isPlayingSequence = false;
+
     // Estados dos Jogos
     this.quizTarget = null;
     this.findTarget = null;
+    this.quizLevel = 1; // Nível 1 (3 opções), Nível 2 (4 opções), Nível 3 (Desafio)
+    this.quizStars = parseInt(localStorage.getItem('soundworld_quiz_stars') || '0', 10);
 
     // Parent Gate
     this.parentUnlocked = false;
@@ -50,8 +45,9 @@ class AnimalSoundApp {
     this.holdDuration = 3000;
     this.mathExpected = 0;
 
-    // Rastreamento de tempo de uso diário (para os pais)
+    // Rastreamento de tempo de uso diário e contador de atividades
     this.dailyUsageSeconds = 0;
+    this.activityCounts = { explore: 0, quiz: 0, piano: 0, bedtime: 0 };
 
     // Temporizador de Sono do Bedtime
     this.bedtimeMasterPlaying = false;
@@ -71,10 +67,15 @@ class AnimalSoundApp {
   }
 
   init() {
+    this.checkAutoActivation();
+    this.initActivityStats();
     this.bindEvents();
     this.setupLanguage();
+    this.renderWorldFilters();
     this.renderExploreAnimals();
     this.renderPianoKeys();
+    this.renderSequencerTape();
+    this.updateQuizStarsBadge();
     this.initPixArea();
     this.initTrialTimer();
     this.initPaywallEvents();
@@ -96,6 +97,59 @@ class AnimalSoundApp {
     };
     window.addEventListener('pointerdown', unlockAudio, { passive: true });
     window.addEventListener('keydown', unlockAudio, { passive: true });
+  }
+
+  checkAutoActivation() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const isPaid = params.get('activated') === 'true' || 
+                     params.get('status') === 'paid' || 
+                     params.get('status') === 'approved' || 
+                     params.get('success') === 'true';
+      if (isPaid && !this.isLicensed) {
+        this.unlockLifetimeAccess('KIWIFY_AUTO');
+      }
+    } catch (err) {
+      console.warn('Auto-activation check error:', err);
+    }
+  }
+
+  initActivityStats() {
+    const todayKey = `soundworld_act_${new Date().toISOString().slice(0, 10)}`;
+    try {
+      const saved = JSON.parse(localStorage.getItem(todayKey) || '{}');
+      this.activityCounts = {
+        explore: saved.explore || 0,
+        quiz: saved.quiz || 0,
+        piano: saved.piano || 0,
+        bedtime: saved.bedtime || 0
+      };
+    } catch {
+      this.activityCounts = { explore: 0, quiz: 0, piano: 0, bedtime: 0 };
+    }
+    this.updateActivitySummaryUI();
+  }
+
+  trackActivity(type) {
+    if (this.activityCounts[type] === undefined) return;
+    this.activityCounts[type]++;
+    const todayKey = `soundworld_act_${new Date().toISOString().slice(0, 10)}`;
+    try {
+      localStorage.setItem(todayKey, JSON.stringify(this.activityCounts));
+    } catch {}
+    this.updateActivitySummaryUI();
+  }
+
+  updateActivitySummaryUI() {
+    const timesUnit = t('parentGate.timesUsed') || 'vezes';
+    const expEl = document.getElementById('summary-count-explore');
+    const quizEl = document.getElementById('summary-count-quiz');
+    const pianoEl = document.getElementById('summary-count-piano');
+    const bedEl = document.getElementById('summary-count-bedtime');
+    if (expEl) expEl.textContent = `${this.activityCounts.explore} ${timesUnit}`;
+    if (quizEl) quizEl.textContent = `${this.activityCounts.quiz} ${timesUnit}`;
+    if (pianoEl) pianoEl.textContent = `${this.activityCounts.piano} ${timesUnit}`;
+    if (bedEl) bedEl.textContent = `${this.activityCounts.bedtime} ${timesUnit}`;
   }
 
   initDailyUsageTracker() {
@@ -148,10 +202,14 @@ class AnimalSoundApp {
   setupLanguage() {
     subscribeLanguage(() => {
       this.updateLanguageUI();
+      this.renderWorldFilters();
       this.renderExploreAnimals();
       this.renderPianoKeys();
+      this.renderSequencerTape();
       this.updateParentUsageDisplay();
+      this.updateActivitySummaryUI();
       this.updateParentLicenseBadge();
+      this.updateQuizStarsBadge();
       if (this.currentMode === 'soundQuiz' && this.quizTarget) {
         animalSpeech.speakSoundQuizQuestion();
       } else if (this.currentMode === 'findAnimal' && this.findTarget) {
@@ -249,6 +307,26 @@ class AnimalSoundApp {
       });
     });
 
+    // Botões de Ação Rápida da Nova Home
+    const homeStartBtn = document.getElementById('home-start-play-btn');
+    if (homeStartBtn) {
+      homeStartBtn.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY);
+        fx.spawnFloatingElements(e.clientX, e.clientY, 4);
+        animalAudio.playSunSparkle();
+        this.switchMode('explore');
+      });
+    }
+
+    const homeParentsBtn = document.getElementById('home-parents-area-btn');
+    if (homeParentsBtn) {
+      homeParentsBtn.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY);
+        const openParentGateBtn = document.getElementById('open-parent-gate');
+        if (openParentGateBtn) openParentGateBtn.click();
+      });
+    }
+
     // Botão Voltar para a Brincadeira dentro do Parent Gate
     const parentBackBtn = document.getElementById('btn-parent-back-to-game');
     if (parentBackBtn) {
@@ -329,6 +407,14 @@ class AnimalSoundApp {
       });
     }
 
+    // Controles de Nível do Quiz (1, 2, 3)
+    document.querySelectorAll('.quiz-level-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const lvl = parseInt(pill.getAttribute('data-quiz-level'), 10) || 1;
+        this.setQuizLevel(lvl);
+      });
+    });
+
     const findRepeatBtn = document.getElementById('find-repeat-sound');
     if (findRepeatBtn) {
       findRepeatBtn.addEventListener('click', () => {
@@ -348,6 +434,23 @@ class AnimalSoundApp {
       });
     });
 
+    // Botões do Mini Sequenciador Musical (Fita de Melodias)
+    const playSeqBtn = document.getElementById('btn-play-sequence');
+    if (playSeqBtn) {
+      playSeqBtn.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY);
+        this.playSequence();
+      });
+    }
+
+    const clearSeqBtn = document.getElementById('btn-clear-sequence');
+    if (clearSeqBtn) {
+      clearSeqBtn.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY);
+        this.clearSequence();
+      });
+    }
+
     // Controles do Modo Hora de Dormir
     this.bindBedtimeEvents();
 
@@ -360,6 +463,12 @@ class AnimalSoundApp {
   // ==========================================
   switchMode(mode) {
     this.currentMode = mode;
+
+    // Rastreia uso educativo para a Área dos Pais
+    if (mode === 'explore') this.trackActivity('explore');
+    else if (mode === 'soundQuiz' || mode === 'findAnimal') this.trackActivity('quiz');
+    else if (mode === 'piano') this.trackActivity('piano');
+    else if (mode === 'bedtime') this.trackActivity('bedtime');
 
     // Atualiza estado das abas
     document.querySelectorAll('.mode-tab-btn').forEach(btn => {
@@ -392,15 +501,49 @@ class AnimalSoundApp {
   }
 
   // ==========================================
-  // MODO 1: CONHECER BICHINHOS (TOQUE E OUÇA)
+  // MODO 1: CONHECER BICHINHOS (7 MUNDOS TEMÁTICOS)
   // ==========================================
+  renderWorldFilters() {
+    const bar = document.getElementById('worlds-filter-bar');
+    if (!bar) return;
+    bar.innerHTML = '';
+
+    WORLDS.forEach(world => {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = `world-pill ${this.currentWorld === world.id ? 'active' : ''}`;
+      pill.setAttribute('data-world-id', world.id);
+
+      const label = t(world.i18nKey) || world.id;
+      pill.innerHTML = `
+        <span class="world-pill-icon">${world.icon}</span>
+        <span class="world-pill-text">${label}</span>
+      `;
+
+      pill.addEventListener('click', (e) => {
+        fx.createRipple(e.clientX, e.clientY, world.color || '#118ab2');
+        this.currentWorld = world.id;
+        bar.querySelectorAll('.world-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        this.renderExploreAnimals();
+        animalAudio.playButtonClick();
+      });
+
+      bar.appendChild(pill);
+    });
+  }
+
   renderExploreAnimals() {
     const grid = document.getElementById('explore-animals-grid');
     if (!grid) return;
     grid.innerHTML = '';
 
-    this.animals.forEach(anim => {
-      const data = t(`animals.${anim.id}`);
+    const filtered = this.currentWorld === 'all'
+      ? this.animals
+      : this.animals.filter(anim => anim.world === this.currentWorld);
+
+    filtered.forEach(anim => {
+      const data = t(`animals.${anim.id}`) || { name: anim.id, soundName: 'Som' };
       const card = document.createElement('div');
       card.className = `animal-card ${anim.colorClass}`;
       card.setAttribute('data-animal-id', anim.id);
@@ -446,19 +589,39 @@ class AnimalSoundApp {
   }
 
   // ==========================================
-  // MODO 2: QUEM FAZ ESSE SOM? (QUIZ AUDITIVO)
+  // MODO 2: QUEM FAZ ESSE SOM? (QUIZ PROGRESSIVO COM ESTRELINHAS)
   // ==========================================
+  setQuizLevel(level) {
+    this.quizLevel = level;
+    document.querySelectorAll('.quiz-level-pill').forEach(pill => {
+      const pLvl = parseInt(pill.getAttribute('data-quiz-level'), 10) || 1;
+      pill.classList.toggle('active', pLvl === level);
+    });
+    animalAudio.playButtonClick();
+    this.startNewQuizRound();
+  }
+
+  updateQuizStarsBadge() {
+    const starDisplay = document.getElementById('quiz-stars-display');
+    if (starDisplay) {
+      starDisplay.textContent = `⭐ ${this.quizStars}`;
+    }
+  }
+
   startNewQuizRound() {
     const shuffled = [...this.animals].sort(() => Math.random() - 0.5);
     this.quizTarget = shuffled[0];
-    const options = [shuffled[0], shuffled[1], shuffled[2]].sort(() => Math.random() - 0.5);
+
+    // Nível 1: 3 opções | Nível 2 e 3: 4 opções
+    const count = this.quizLevel === 1 ? 3 : 4;
+    const options = shuffled.slice(0, count).sort(() => Math.random() - 0.5);
 
     const container = document.getElementById('quiz-options-container');
     if (!container) return;
     container.innerHTML = '';
 
     options.forEach(opt => {
-      const data = t(`animals.${opt.id}`);
+      const data = t(`animals.${opt.id}`) || { name: opt.id };
       const choiceCard = document.createElement('div');
       choiceCard.className = 'quiz-choice-card';
 
@@ -482,6 +645,19 @@ class AnimalSoundApp {
           animalAudio.playVictoryChime();
           fx.triggerConfetti();
           animalSpeech.speakSuccessFeedback(opt.id);
+
+          // Incrementa e salva estrelinhas
+          this.quizStars++;
+          localStorage.setItem('soundworld_quiz_stars', this.quizStars.toString());
+          this.updateQuizStarsBadge();
+
+          // A cada 5 estrelas: grande celebração com fanfarra!
+          if (this.quizStars % 5 === 0) {
+            setTimeout(() => {
+              animalAudio.playSuccessFanfare();
+              fx.triggerConfetti();
+            }, 600);
+          }
 
           setTimeout(() => {
             if (promptHeader) {
@@ -571,7 +747,7 @@ class AnimalSoundApp {
   }
 
   // ==========================================
-  // MODO 4: TECLADO MUSICAL DOS BICHINHOS (PIANO)
+  // MODO 4: TECLADO MUSICAL DOS BICHINHOS (PIANO & SEQUENCIADOR)
   // ==========================================
   renderPianoKeys() {
     const container = document.getElementById('piano-keys-container');
@@ -594,6 +770,17 @@ class AnimalSoundApp {
         key.classList.add('playing');
         animalAudio.playAnimalPianoNote(this.selectedSinger, item.freq);
         setTimeout(() => key.classList.remove('playing'), 180);
+
+        // Grava na Fita Musical Sequenciadora (até 8 notas)
+        if (this.musicSequence.length < 8) {
+          this.musicSequence.push({
+            singer: this.selectedSinger,
+            freq: item.freq,
+            noteLabel: noteLabel,
+            colorClass: item.colorClass
+          });
+          this.renderSequencerTape();
+        }
       };
 
       key.addEventListener('pointerdown', playKey);
@@ -601,11 +788,62 @@ class AnimalSoundApp {
     });
   }
 
+  renderSequencerTape() {
+    const tape = document.getElementById('sequencer-tape');
+    if (!tape) return;
+
+    if (this.musicSequence.length === 0) {
+      tape.innerHTML = `<span id="tape-placeholder" class="tape-placeholder" data-i18n="sequencer.emptyMsg">${t('sequencer.emptyMsg') || 'Toque as teclas para criar uma música!'}</span>`;
+      return;
+    }
+
+    tape.innerHTML = '';
+    this.musicSequence.forEach((note, idx) => {
+      const chip = document.createElement('div');
+      chip.className = `tape-note-badge ${note.colorClass}`;
+      chip.id = `tape-note-${idx}`;
+      chip.innerHTML = `<span>🎵</span> <strong>${note.noteLabel}</strong>`;
+      tape.appendChild(chip);
+    });
+  }
+
+  playSequence() {
+    if (this.isPlayingSequence || this.musicSequence.length === 0) return;
+    this.isPlayingSequence = true;
+    const playBtn = document.getElementById('btn-play-sequence');
+    if (playBtn) playBtn.disabled = true;
+
+    this.musicSequence.forEach((note, idx) => {
+      setTimeout(() => {
+        animalAudio.playAnimalPianoNote(note.singer, note.freq);
+        const chip = document.getElementById(`tape-note-${idx}`);
+        if (chip) {
+          chip.classList.add('playing');
+          setTimeout(() => chip.classList.remove('playing'), 260);
+        }
+
+        if (idx === this.musicSequence.length - 1) {
+          setTimeout(() => {
+            this.isPlayingSequence = false;
+            if (playBtn) playBtn.disabled = false;
+            animalAudio.playVictoryChime();
+          }, 400);
+        }
+      }, idx * 420);
+    });
+  }
+
+  clearSequence() {
+    this.musicSequence = [];
+    this.renderSequencerTape();
+    animalAudio.playButtonClick();
+  }
+
   // ==========================================
   // MODO 5: HORA DE DORMIR DOS BICHINHOS (BEDTIME)
   // ==========================================
   bindBedtimeEvents() {
-    const toggles = ['rain', 'crickets', 'lullaby', 'purr'];
+    const toggles = ['rain', 'ocean', 'forest', 'crickets', 'lullaby', 'purr'];
     toggles.forEach(type => {
       const btn = document.getElementById(`btn-bedtime-${type}`);
       if (btn) {
@@ -640,10 +878,13 @@ class AnimalSoundApp {
           masterBtn.innerHTML = `<span>🎵</span> <span>${t('modes.bedtime.masterPlay')}</span>`;
         } else {
           animalAudio.toggleBedtimeSound('rain', true);
+          animalAudio.toggleBedtimeSound('ocean', true);
           animalAudio.toggleBedtimeSound('lullaby', true);
           const rBtn = document.getElementById('btn-bedtime-rain');
+          const oBtn = document.getElementById('btn-bedtime-ocean');
           const lBtn = document.getElementById('btn-bedtime-lullaby');
           if (rBtn) rBtn.classList.add('active');
+          if (oBtn) oBtn.classList.add('active');
           if (lBtn) lBtn.classList.add('active');
           masterBtn.innerHTML = `<span>⏸️</span> <span>${t('modes.bedtime.masterPause')}</span>`;
         }
@@ -704,7 +945,7 @@ class AnimalSoundApp {
         clearInterval(this.bedtimeTimerInterval);
         this.bedtimeTimerInterval = null;
         if (countdownEl) countdownEl.textContent = '💤 Boa noite!';
-        ['rain', 'crickets', 'lullaby', 'purr'].forEach(type => {
+        ['rain', 'ocean', 'forest', 'crickets', 'lullaby', 'purr'].forEach(type => {
           const btn = document.getElementById(`btn-bedtime-${type}`);
           if (btn) btn.classList.remove('active');
         });

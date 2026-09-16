@@ -72,7 +72,10 @@ async function runLiveE2E() {
 
   const js = await requestUrl('/js/app.js');
   if (js.status !== 200) throw new Error(`Falha no JS: HTTP ${js.status}`);
-  console.log('    ✓ CSS e JavaScript servidos com integridade.');
+
+  const cat = await requestUrl('/js/catalog.js');
+  if (cat.status !== 200) throw new Error(`Falha no catalog.js: HTTP ${cat.status}`);
+  console.log('    ✓ CSS, JavaScript e Catálogo Modular servidos com integridade.');
 
   // 4. API PIX com Order ID
   console.log('  → Validando API PIX oficial com Pedido Único...');

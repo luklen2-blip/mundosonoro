@@ -10,18 +10,24 @@ class AnimalAudioEngine {
 
     this.bedtimeNodes = {
       rain: null,
+      ocean: null,
+      forest: null,
       crickets: null,
       lullabyTimer: null,
       purr: null
     };
     this.bedtimeStates = {
       rain: false,
+      ocean: false,
+      forest: false,
       crickets: false,
       lullaby: false,
       purr: false
     };
     this.bedtimeVolumes = {
       rain: 0.22,
+      ocean: 0.25,
+      forest: 0.20,
       crickets: 0.08,
       lullaby: 0.18,
       purr: 0.16
@@ -97,6 +103,10 @@ class AnimalAudioEngine {
       case 'monkey': this.playMonkey(); break;
       case 'owl': this.playOwl(); break;
       case 'horse': this.playHorse(); break;
+      case 'dolphin': this.playDolphin(); break;
+      case 'whale': this.playWhale(); break;
+      case 'cricket': this.playCricket(); break;
+      case 'bee': this.playBee(); break;
       default: this.playVictoryChime(); break;
     }
   }
@@ -532,6 +542,109 @@ class AnimalAudioEngine {
     osc.stop(now + 0.85);
   }
 
+  // 13. Golfinho (Assobio marítimo alegre com cliques suaves)
+  playDolphin() {
+    this.ensureContext();
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1300, now);
+    osc.frequency.exponentialRampToValueAtTime(2800, now + 0.22);
+    osc.frequency.exponentialRampToValueAtTime(1400, now + 0.48);
+
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(0.28, now + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.52);
+
+    osc.connect(gain);
+    gain.connect(this.safetyFilter);
+
+    osc.start(now);
+    osc.stop(now + 0.55);
+  }
+
+  // 14. Baleia (Canto oceânico profundo e harmônico)
+  playWhale() {
+    this.ensureContext();
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(135, now);
+    osc.frequency.linearRampToValueAtTime(210, now + 0.55);
+    osc.frequency.linearRampToValueAtTime(115, now + 1.15);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(320, now);
+
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(0.32, now + 0.25);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.22);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.safetyFilter);
+
+    osc.start(now);
+    osc.stop(now + 1.25);
+  }
+
+  // 15. Grilo (Canto rítmico dos pequenos bichos)
+  playCricket() {
+    this.ensureContext();
+    const now = this.ctx.currentTime;
+    [0, 0.08, 0.16, 0.28, 0.36].forEach((offset) => {
+      const t = now + offset;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(4300, t);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.22, t + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.055);
+
+      osc.connect(gain);
+      gain.connect(this.safetyFilter);
+
+      osc.start(t);
+      osc.stop(t + 0.065);
+    });
+  }
+
+  // 16. Abelha (Zumbidinho fofo e suave)
+  playBee() {
+    this.ensureContext();
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.linearRampToValueAtTime(265, now + 0.3);
+    osc.frequency.linearRampToValueAtTime(215, now + 0.65);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(620, now);
+
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(0.26, now + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.safetyFilter);
+
+    osc.start(now);
+    osc.stop(now + 0.72);
+  }
+
   // =========================================================================
   // 2. TECLADO MUSICAL ANIMAL (AFINADO NA ESCALA DE DÓ MAIOR)
   // =========================================================================
@@ -703,6 +816,12 @@ class AnimalAudioEngine {
     if (type === 'rain') {
       if (state) this.startRain();
       else this.stopRain();
+    } else if (type === 'ocean') {
+      if (state) this.startOcean();
+      else this.stopOcean();
+    } else if (type === 'forest') {
+      if (state) this.startForest();
+      else this.stopForest();
     } else if (type === 'crickets') {
       if (state) this.startCrickets();
       else this.stopCrickets();
@@ -715,6 +834,7 @@ class AnimalAudioEngine {
     }
   }
 
+  // 1. Chuva Suave
   startRain() {
     if (this.bedtimeNodes.rain) return;
     const bufferSize = this.ctx.sampleRate * 2;
@@ -733,7 +853,7 @@ class AnimalAudioEngine {
 
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.22, this.ctx.currentTime + 1.2);
+    gain.gain.linearRampToValueAtTime(this.bedtimeVolumes.rain, this.ctx.currentTime + 1.2);
 
     noise.connect(filter);
     filter.connect(gain);
@@ -753,6 +873,100 @@ class AnimalAudioEngine {
       this.bedtimeNodes.rain = null;
     }
   }
+
+  // 2. Ondas do Oceano Lentas (com modulação LFO suave)
+  startOcean() {
+    if (this.bedtimeNodes.ocean) return;
+    const bufferSize = this.ctx.sampleRate * 3;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let lastOut = 0.0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = (Math.random() * 2 - 1);
+      data[i] = (lastOut + (0.04 * white)) / 1.04;
+      lastOut = data[i];
+    }
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(360, this.ctx.currentTime);
+
+    const lfo = this.ctx.createOscillator();
+    const lfoGain = this.ctx.createGain();
+    lfo.frequency.setValueAtTime(0.12, this.ctx.currentTime); // onda a cada ~8s
+    lfoGain.gain.setValueAtTime(240, this.ctx.currentTime);
+    lfo.connect(lfoGain);
+    lfoGain.connect(filter.frequency);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(this.bedtimeVolumes.ocean, this.ctx.currentTime + 1.5);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.safetyFilter);
+
+    noise.start();
+    lfo.start();
+    this.bedtimeNodes.ocean = { noise, filter, lfo, gain };
+  }
+
+  stopOcean() {
+    if (this.bedtimeNodes.ocean) {
+      const { noise, lfo, gain } = this.bedtimeNodes.ocean;
+      gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.8);
+      setTimeout(() => {
+        try { noise.stop(); lfo.stop(); noise.disconnect(); lfo.disconnect(); } catch {}
+      }, 850);
+      this.bedtimeNodes.ocean = null;
+    }
+  }
+
+  // 3. Floresta Noturna (Brisa suave entre árvores)
+  startForest() {
+    if (this.bedtimeNodes.forest) return;
+    const bufferSize = this.ctx.sampleRate * 2.5;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * 0.28;
+    }
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(750, this.ctx.currentTime);
+    filter.Q.setValueAtTime(1.4, this.ctx.currentTime);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(this.bedtimeVolumes.forest, this.ctx.currentTime + 1.2);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.safetyFilter);
+
+    noise.start();
+    this.bedtimeNodes.forest = { noise, gain };
+  }
+
+  stopForest() {
+    if (this.bedtimeNodes.forest) {
+      const { noise, gain } = this.bedtimeNodes.forest;
+      gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.6);
+      setTimeout(() => {
+        try { noise.stop(); noise.disconnect(); } catch {}
+      }, 650);
+      this.bedtimeNodes.forest = null;
+    }
+  }
+
+
 
   startCrickets() {
     if (this.bedtimeNodes.crickets) return;
@@ -868,6 +1082,10 @@ class AnimalAudioEngine {
       if (this.ctx) {
         if (type === 'rain' && this.bedtimeNodes.rain && this.bedtimeNodes.rain.gain) {
           this.bedtimeNodes.rain.gain.gain.setTargetAtTime(this.bedtimeVolumes.rain, this.ctx.currentTime, 0.05);
+        } else if (type === 'ocean' && this.bedtimeNodes.ocean && this.bedtimeNodes.ocean.gain) {
+          this.bedtimeNodes.ocean.gain.gain.setTargetAtTime(this.bedtimeVolumes.ocean, this.ctx.currentTime, 0.05);
+        } else if (type === 'forest' && this.bedtimeNodes.forest && this.bedtimeNodes.forest.gain) {
+          this.bedtimeNodes.forest.gain.gain.setTargetAtTime(this.bedtimeVolumes.forest, this.ctx.currentTime, 0.05);
         } else if (type === 'purr' && this.bedtimeNodes.purr && this.bedtimeNodes.purr.gain) {
           this.bedtimeNodes.purr.gain.gain.setTargetAtTime(this.bedtimeVolumes.purr, this.ctx.currentTime, 0.05);
         }
@@ -875,15 +1093,14 @@ class AnimalAudioEngine {
     }
   }
 
-  fadeAndStopBedtime(fadeDurationSec = 3) {
+  fadeAndStopBedtime(fadeDurationSec = 5) {
     if (this.ctx) {
       const now = this.ctx.currentTime;
-      if (this.bedtimeNodes.rain && this.bedtimeNodes.rain.gain) {
-        this.bedtimeNodes.rain.gain.gain.linearRampToValueAtTime(0.001, now + fadeDurationSec);
-      }
-      if (this.bedtimeNodes.purr && this.bedtimeNodes.purr.gain) {
-        this.bedtimeNodes.purr.gain.gain.linearRampToValueAtTime(0.001, now + fadeDurationSec);
-      }
+      ['rain', 'ocean', 'forest', 'purr'].forEach((k) => {
+        if (this.bedtimeNodes[k] && this.bedtimeNodes[k].gain) {
+          this.bedtimeNodes[k].gain.gain.linearRampToValueAtTime(0.001, now + fadeDurationSec);
+        }
+      });
     }
     setTimeout(() => {
       this.stopAllBedtime();
@@ -892,6 +1109,8 @@ class AnimalAudioEngine {
 
   stopAllBedtime() {
     this.stopRain();
+    this.stopOcean();
+    this.stopForest();
     this.stopCrickets();
     this.stopLullaby();
     this.stopPurr();

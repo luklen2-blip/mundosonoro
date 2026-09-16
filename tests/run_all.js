@@ -4,6 +4,7 @@ import assert from 'assert';
 import http from 'http';
 import { generatePixPayload, calculateCRC16, validateActivationCode } from '../public/js/pix.js';
 import { translations } from '../public/js/i18n.js';
+import { WORLDS, ANIMALS_CATALOG, FUTURE_WORLDS_BLUEPRINT } from '../public/js/catalog.js';
 
 console.log('🧪 [SoundWorld dos Bichinhos] Iniciando testes automatizados...');
 
@@ -42,11 +43,20 @@ async function runTests() {
   passed++;
   console.log('    ✓ Validador de Códigos VIP e proteção de Paywall aprovados.');
 
-  // Teste 2: Validação dos 12 Bichinhos no Dicionário Bilíngue
-  console.log('  → Testando dicionário dos 12 animais e paridade PT x EN...');
+  // Teste 1c: Catálogo Modular dos 7 Mundos e Blueprints de Expansão
+  console.log('  → Testando Catálogo Modular (7 Mundos + Blueprints de Expansão)...');
+  assert.strictEqual(WORLDS.length, 8, 'Deve conter 8 entradas (all + 7 mundos temáticos)');
+  assert.strictEqual(ANIMALS_CATALOG.length, 16, 'Deve conter 16 bichinhos catalogados');
+  assert.ok(FUTURE_WORLDS_BLUEPRINT.length >= 5, 'Deve conter blueprints para expansões futuras (cidade, transportes, IA)');
+  passed++;
+  console.log('    ✓ Catálogo modular dos 7 mundos e blueprints de expansão validados.');
+
+  // Teste 2: Validação dos 16 Bichinhos (7 Mundos) no Dicionário Bilíngue
+  console.log('  → Testando dicionário dos 16 animais (7 mundos) e paridade PT x EN...');
   const expectedAnimals = [
     'dog', 'cat', 'cow', 'frog', 'duck', 'lion',
-    'sheep', 'bird', 'elephant', 'monkey', 'owl', 'horse'
+    'sheep', 'bird', 'elephant', 'monkey', 'owl', 'horse',
+    'dolphin', 'whale', 'cricket', 'bee'
   ];
 
   expectedAnimals.forEach(id => {
@@ -58,7 +68,7 @@ async function runTests() {
     assert.ok(translations.en.animals[id].soundName, `Som ausente em EN: ${id}`);
   });
   passed++;
-  console.log('    ✓ Todos os 12 animais cadastrados com nome, som e paridade bilíngue.');
+  console.log('    ✓ Todos os 16 animais cadastrados com nome, som e paridade bilíngue.');
 
   // Teste 3: Paridade Estrutural das Chaves do Dicionário
   console.log('  → Testando simetria estrutural completa (PT vs EN)...');
@@ -133,6 +143,10 @@ async function runTests() {
   const jsRes = await fetchHttp('/js/app.js');
   assert.strictEqual(jsRes.status, 200);
 
+  const catalogRes = await fetchHttp('/js/catalog.js');
+  assert.strictEqual(catalogRes.status, 200);
+  assert.ok(catalogRes.body.includes('ANIMALS_CATALOG'));
+
   const spaRes = await fetchHttp('/termos');
   assert.strictEqual(spaRes.status, 200);
   assert.ok(spaRes.body.includes('SoundWorld dos Bichinhos'));
@@ -143,9 +157,9 @@ async function runTests() {
 
   const swRes = await fetchHttp('/sw.js');
   assert.strictEqual(swRes.status, 200);
-  assert.ok(swRes.body.includes('soundworld-v6-live') || swRes.body.includes('CACHE_NAME'));
+  assert.ok(swRes.body.includes('soundworld-v7-live') || swRes.body.includes('CACHE_NAME'));
   passed++;
-  console.log('    ✓ Servidor estático, Landing Page (/comprar), PWA (manifest/sw) e SPA fallback operacionais.');
+  console.log('    ✓ Servidor estático, Landing Page (/comprar), PWA (manifest/sw v7), Catálogo (/js/catalog.js) e SPA fallback operacionais.');
 
   // 4d. Cabeçalhos de Segurança Estendidos e Privacidade Infantil
   assert.strictEqual(healthRes.headers['x-content-type-options'], 'nosniff');

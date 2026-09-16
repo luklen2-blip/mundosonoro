@@ -65,6 +65,8 @@ export const translations = {
         subtitle: "Sons suaves e aconchegantes para os bichinhos descansarem.",
         nightStatus: "Os bichinhos estão sonhando...",
         rain: "Chuva Suave",
+        ocean: "Oceano Tranquilo",
+        forest: "Floresta Serena",
         crickets: "Grilos Noturnos",
         lullaby: "Caixinha de Música",
         purr: "Ronrom do Gatinho",
@@ -80,7 +82,46 @@ export const translations = {
       }
     },
 
-    // Nomes e Onomatopeias dos 12 Animais
+    // Mundos Temáticos dos Bichinhos
+    worlds: {
+      all: "Todos",
+      home: "Casa",
+      farm: "Fazenda",
+      jungle: "Selva",
+      africa: "África",
+      ocean: "Oceano",
+      forest: "Floresta",
+      bugs: "Pequenos Bichos"
+    },
+
+    // Nova Home & Posicionamento
+    home: {
+      badge: "SOUNDWORLD KIDS",
+      title: "Mundo Sonoro dos Bichinhos",
+      welcome: "Brinque, escute e descubra um mundo cheio de sons.",
+      startPlayBtn: "COMEÇAR A BRINCAR 🎈",
+      parentsAreaBtn: "ÁREA DOS PAIS 🔒"
+    },
+
+    // Níveis do Quiz Progressivo
+    quizLevels: {
+      level1: "Nível 1 (3 Bichinhos)",
+      level2: "Nível 2 (4 Bichinhos)",
+      level3: "Nível 3 (Desafio Auditivo)",
+      starsLabel: "Estrelinhas:",
+      correctPrompt: "Acertou! 🎉",
+      tryAgainPrompt: "Quase! Tente novamente. 🌟"
+    },
+
+    // Mini Sequenciador Musical do Teclado
+    sequencer: {
+      title: "Fita de Músicas:",
+      playBtn: "▶️ Ouvir Sequência",
+      clearBtn: "🗑️ Limpar",
+      emptyMsg: "Toque as teclas para criar uma música!"
+    },
+
+    // Nomes e Onomatopeias dos 16 Animais (7 Mundos)
     animals: {
       dog: { name: "Cachorro", soundName: "Au-Au!", article: "o" },
       cat: { name: "Gato", soundName: "Miau!", article: "o" },
@@ -93,7 +134,11 @@ export const translations = {
       elephant: { name: "Elefante", soundName: "Fuuu!", article: "o" },
       monkey: { name: "Macaco", soundName: "Uh-Uh-Ah-Ah!", article: "o" },
       owl: { name: "Coruja", soundName: "Hoo-Hoo!", article: "a" },
-      horse: { name: "Cavalo", soundName: "Iii-hóóó!", article: "o" }
+      horse: { name: "Cavalo", soundName: "Iii-hóóó!", article: "o" },
+      dolphin: { name: "Golfinho", soundName: "Iii-kik-kik!", article: "o" },
+      whale: { name: "Baleia", soundName: "Huuuummm!", article: "a" },
+      cricket: { name: "Grilo", soundName: "Cri-cri!", article: "o" },
+      bee: { name: "Abelha", soundName: "Bzzzz!", article: "a" }
     },
 
     trial: {
@@ -127,6 +172,7 @@ export const translations = {
       codeSuccess: "Código VIP validado com sucesso! Acesso vitalício liberado!",
       unlockBtn: "Validar e Liberar Acesso 🔓",
       unlockedToast: "🎉 Parabéns! Acesso vitalício liberado com sucesso!",
+      unlockCtaBtn: "DESBLOQUEAR SOUNDWORLD",
       orderIdLabel: "Identificador do Pedido:",
       statusWaiting: "Aguardando confirmação do PIX...",
       statusActive: "Licença Vitalícia Ativa! 🌟"
@@ -150,6 +196,12 @@ export const translations = {
       licenseTrial: "Período Gratuito (1 Hora)",
       licenseVip: "Vitalícia VIP Ativada 🌟",
       parentAreaBadge: "🛡️ Área Exclusiva dos Pais e Responsáveis",
+      activitySummaryTitle: "Resumo de Atividades Hoje:",
+      activityExplore: "Conhecer Bichinhos",
+      activityQuiz: "Quem Faz Esse Som?",
+      activityPiano: "Teclado dos Bichinhos",
+      activityBedtime: "Hora de Dormir",
+      timesUsed: "vezes",
 
       settings: {
         volumeLimiter: "Limitador de Volume Seguro (dB)",
@@ -256,7 +308,9 @@ export const translations = {
         badge: "Sleep & Rest 🌙",
         subtitle: "Gentle, soothing ambient sounds for little ones to sleep.",
         nightStatus: "The animals are dreaming peacefully...",
-        rain: "Soft Rain",
+        rain: "Gentle Rain",
+        ocean: "Calm Ocean",
+        forest: "Serene Forest",
         crickets: "Night Crickets",
         lullaby: "Music Box",
         purr: "Purring Kitty",
@@ -272,7 +326,46 @@ export const translations = {
       }
     },
 
-    // 12 Animals Names and Sounds
+    // Thematic Animal Worlds
+    worlds: {
+      all: "All",
+      home: "Home",
+      farm: "Farm",
+      jungle: "Jungle",
+      africa: "Africa",
+      ocean: "Ocean",
+      forest: "Forest",
+      bugs: "Little Bugs"
+    },
+
+    // New Home & Positioning
+    home: {
+      badge: "SOUNDWORLD KIDS",
+      title: "SoundWorld Kids Animals",
+      welcome: "Play, listen, and discover a world full of sounds.",
+      startPlayBtn: "START PLAYING 🎈",
+      parentsAreaBtn: "PARENTS AREA 🔒"
+    },
+
+    // Progressive Quiz Levels
+    quizLevels: {
+      level1: "Level 1 (3 Animals)",
+      level2: "Level 2 (4 Animals)",
+      level3: "Level 3 (Listening Challenge)",
+      starsLabel: "Stars:",
+      correctPrompt: "You got it! 🎉",
+      tryAgainPrompt: "Almost! Try again. 🌟"
+    },
+
+    // Mini Animal Keyboard Sequencer
+    sequencer: {
+      title: "Music Tape:",
+      playBtn: "▶️ Play Sequence",
+      clearBtn: "🗑️ Clear",
+      emptyMsg: "Tap keys to record your tune!"
+    },
+
+    // 16 Animals Names and Sounds (7 Worlds)
     animals: {
       dog: { name: "Dog", soundName: "Woof-Woof!", article: "the" },
       cat: { name: "Cat", soundName: "Meow!", article: "the" },
@@ -285,7 +378,11 @@ export const translations = {
       elephant: { name: "Elephant", soundName: "Trumpet!", article: "the" },
       monkey: { name: "Monkey", soundName: "Ooh-Ooh-Aah!", article: "the" },
       owl: { name: "Owl", soundName: "Hoot-Hoot!", article: "the" },
-      horse: { name: "Horse", soundName: "Neigh!", article: "the" }
+      horse: { name: "Horse", soundName: "Neigh!", article: "the" },
+      dolphin: { name: "Dolphin", soundName: "Click-whistle!", article: "the" },
+      whale: { name: "Whale", soundName: "Whoooosh-hum!", article: "the" },
+      cricket: { name: "Cricket", soundName: "Chirp-chirp!", article: "the" },
+      bee: { name: "Bee", soundName: "Bzzzz!", article: "the" }
     },
 
     trial: {
@@ -319,6 +416,7 @@ export const translations = {
       codeSuccess: "VIP code verified successfully! Lifetime access unlocked!",
       unlockBtn: "Validate & Unlock Access 🔓",
       unlockedToast: "🎉 Congratulations! Lifetime access unlocked successfully!",
+      unlockCtaBtn: "UNLOCK SOUNDWORLD",
       orderIdLabel: "Order Identifier:",
       statusWaiting: "Waiting for PIX confirmation...",
       statusActive: "Lifetime License Active! 🌟"
@@ -342,6 +440,12 @@ export const translations = {
       licenseTrial: "Free Trial Period (1 Hour)",
       licenseVip: "VIP Lifetime Activated 🌟",
       parentAreaBadge: "🛡️ Exclusive Parents & Caregivers Area",
+      activitySummaryTitle: "Today's Activities Summary:",
+      activityExplore: "Meet Animals",
+      activityQuiz: "Sound Quiz",
+      activityPiano: "Animal Piano",
+      activityBedtime: "Bedtime",
+      timesUsed: "times",
 
       settings: {
         volumeLimiter: "Safe Volume Limiter (dB)",

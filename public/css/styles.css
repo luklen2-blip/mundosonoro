@@ -1605,3 +1605,387 @@ body.theme-night .mode-hero p {
   transform: translateY(-2px);
 }
 
+/* =========================================================================
+   NOVA HOME, MUNDOS TEMÁTICOS, SEQUENCIADOR E PARENT SUMMARY (v2.5)
+   ========================================================================= */
+
+/* Nova Home & Hero */
+.home-welcome-hero {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.home-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ffd166;
+  color: #073b4c;
+  padding: 0.35rem 1.2rem;
+  border-radius: 999px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
+  margin-bottom: 0.8rem;
+}
+
+.home-main-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #073b4c;
+  margin-bottom: 0.5rem;
+}
+
+.home-main-desc {
+  font-size: 1.15rem;
+  color: #4a5568;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  font-weight: 600;
+}
+
+.home-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.home-cta-btn {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.home-cta-primary {
+  background: #06d6a0;
+  color: #073b4c;
+  box-shadow: 0 6px 0 #05b386, 0 10px 20px rgba(6, 214, 160, 0.35);
+}
+
+.home-cta-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 0 #05b386, 0 14px 25px rgba(6, 214, 160, 0.45);
+}
+
+.home-cta-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #05b386;
+}
+
+.home-cta-secondary {
+  background: #ffffff;
+  color: #1b4332;
+  border: 2px solid #b7e4c7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.home-cta-secondary:hover {
+  transform: translateY(-2px);
+  border-color: #52b788;
+  background: #f0fdf4;
+}
+
+.home-cta-secondary:active {
+  transform: translateY(2px);
+}
+
+/* Barra de Filtro dos 7 Mundos */
+.worlds-filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding: 0.6rem 0.2rem 1rem;
+  margin-bottom: 1.2rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.worlds-filter-bar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.worlds-filter-bar::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 999px;
+}
+
+.world-pill {
+  flex-shrink: 0;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #4a5568;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.world-pill:hover {
+  transform: translateY(-2px);
+  border-color: #118ab2;
+  color: #118ab2;
+}
+
+.world-pill.active {
+  background: #118ab2;
+  color: #ffffff;
+  border-color: #0077b6;
+  box-shadow: 0 4px 12px rgba(17, 138, 178, 0.35);
+  transform: scale(1.05);
+}
+
+.world-pill-icon {
+  font-size: 1.25rem;
+}
+
+/* Controles de Nível do Quiz e Estrelinhas */
+.quiz-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.quiz-levels-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quiz-level-pill {
+  background: #ffffff;
+  border: 2px solid #cbd5e0;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quiz-level-pill:hover {
+  border-color: #ffd166;
+}
+
+.quiz-level-pill.active {
+  background: #ffd166;
+  border-color: #ffb703;
+  color: #073b4c;
+  box-shadow: 0 3px 8px rgba(255, 209, 102, 0.4);
+}
+
+.quiz-stars-badge {
+  background: #ffffff;
+  border: 2px solid #ffd166;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #d97706;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 3px 8px rgba(217, 119, 6, 0.15);
+}
+
+.quiz-stars-display {
+  font-size: 1.2rem;
+}
+
+/* Mini Sequenciador Musical (Piano) */
+.piano-sequencer-box {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e2e8f0;
+}
+
+.sequencer-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.sequencer-title {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #073b4c;
+}
+
+.sequencer-btns {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-seq-play {
+  background: #06d6a0;
+  color: #073b4c;
+  border: none;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #05b386;
+  transition: all 0.15s;
+}
+
+.btn-seq-play:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #05b386;
+}
+
+.btn-seq-play:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-seq-clear {
+  background: #ef476f;
+  color: #ffffff;
+  border: none;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #d90429;
+  transition: all 0.15s;
+}
+
+.btn-seq-clear:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #d90429;
+}
+
+.sequencer-tape {
+  min-height: 52px;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  overflow-x: auto;
+}
+
+.tape-placeholder {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.tape-note-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #e2e8f0;
+  color: #1e293b;
+  flex-shrink: 0;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s;
+}
+
+.tape-note-badge.playing {
+  transform: scale(1.25) translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  background: #ffd166 !important;
+  color: #073b4c !important;
+}
+
+/* Painel de Resumo de Atividades na Área dos Pais */
+.parent-activities-summary-box {
+  background: #f1faee;
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin: 1.2rem 0;
+  border: 2px solid #a8dadc;
+}
+
+.parent-summary-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1d3557;
+  margin-bottom: 0.8rem;
+}
+
+.parent-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.8rem;
+}
+
+.parent-summary-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.9rem 0.6rem;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.summary-card-icon {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.summary-card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4a5568;
+  display: block;
+}
+
+.summary-card-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #118ab2;
+  display: block;
+  margin-top: 0.3rem;
+}
+
