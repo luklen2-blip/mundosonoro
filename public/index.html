@@ -250,11 +250,40 @@
         <p class="hub-family-sub" data-i18n="videoSection.subtitle">Demonstração prática dos recursos do SoundWorld Kids</p>
 
         <div class="video-preview-frame">
-          <div class="video-responsive-wrapper">
-            <video id="demo-video-player" class="responsive-video-element" controls playsinline preload="metadata" poster="/img/video-poster.svg" title="Demonstração do SoundWorld Kids">
+          <div class="video-responsive-wrapper" id="demo-video-wrapper">
+            <!-- Poster Overlay com botão de Play grande -->
+            <div class="demo-poster-overlay">
+              <img src="/img/video-poster.svg" alt="Demonstração do SoundWorld Kids" class="demo-poster-img" />
+              <button type="button" class="demo-start-play-btn" aria-label="Assistir demonstração de 10 segundos">
+                <span class="demo-play-triangle">▶</span>
+              </button>
+              <div class="demo-poster-badge">▶ 0:10 Demonstração</div>
+            </div>
+
+            <!-- Vídeo HTML5 (reproduz se arquivo nativo existir) -->
+            <video id="demo-video-player" class="responsive-video-element" playsinline preload="metadata" title="Demonstração do SoundWorld Kids">
               <source src="/video/demo.mp4" type="video/mp4">
-              Seu navegador não suporta a tag de vídeo HTML5.
             </video>
+
+            <!-- Container Interativo 10s (executa imediatamente ao clicar em Play) -->
+            <div class="demo-interactive-container" style="display: none;">
+              <div class="demo-stage-screen">
+                <span class="demo-stage-badge">🐾 16 Bichinhos Reais</span>
+                <div class="demo-stage-visual">🐶</div>
+                <h4 class="demo-stage-title">Cachorro &amp; Gato</h4>
+                <p class="demo-stage-subtitle">Sons reais sintetizados e locução carinhosa</p>
+              </div>
+
+              <div class="demo-controls-bar">
+                <button type="button" class="demo-ctrl-btn demo-play-toggle-btn" aria-label="Pausar / Reproduzir">⏸</button>
+                <div class="demo-progress-track">
+                  <div class="demo-progress-fill"></div>
+                </div>
+                <span class="demo-time-counter">0:00 / 0:10</span>
+                <button type="button" class="demo-ctrl-btn demo-sound-toggle-btn" aria-label="Ativar / Desativar som">🔊</button>
+                <button type="button" class="demo-ctrl-btn demo-restart-btn" title="Reiniciar demonstração" aria-label="Reiniciar demonstração">🔄</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

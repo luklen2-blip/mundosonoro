@@ -6,6 +6,7 @@ import { animalSpeech } from './speech-engine.js';
 import { fx } from './particles.js';
 import { generatePixPayload, getPixQrCodeUrl, validateActivationCode, getWhatsAppConfirmUrl, getOrCreateOrderId } from './pix.js';
 import { WORLDS, ANIMALS_CATALOG } from './catalog.js';
+import { initDemoPlayer } from './demo-player.js';
 
 class AnimalSoundApp {
   constructor() {
@@ -82,6 +83,7 @@ class AnimalSoundApp {
     this.initDailyUsageTracker();
     this.initOrderAndLicenseDisplay();
     this.initMasterVolume();
+    initDemoPlayer('demo-video-wrapper');
 
     // Inicia no Hub de Atividades
     this.switchMode('hub');

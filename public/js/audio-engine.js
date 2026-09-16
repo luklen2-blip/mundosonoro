@@ -697,6 +697,10 @@ class AnimalAudioEngine {
     osc.stop(now + duration);
   }
 
+  playPianoNote(freq = 261.63) {
+    this.playAnimalPianoNote('cat', freq);
+  }
+
   // =========================================================================
   // ELEMENTOS INTERATIVOS DO CENÁRIO DA FLORESTA (SOL E ÁRVORES)
   // =========================================================================

@@ -71,6 +71,8 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
   '.wav': 'audio/wav',
   '.mp3': 'audio/mpeg',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8'
 };
@@ -206,8 +208,9 @@ const server = http.createServer((req, res) => {
     }
   });
 
-  // Fallback SPA para index.html em rotas navegáveis como /termos ou /privacidade
-  if (!filePath) {
+  // Fallback SPA apenas para rotas sem extensão (ex: /termos, /privacidade, /comprar)
+  const hasFileExtension = path.extname(safeTargetFile) !== '';
+  if (!filePath && !hasFileExtension) {
     const indexCandidates = [
       path.join(__dirname, 'public', 'index.html'),
       path.join(__dirname, 'index.html'),
@@ -227,10 +230,32 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     try {
-      const data = fs.readFileSync(filePath);
+      const stat = fs.statSync(filePath);
       const isDynamicOrHtml = ext === '.html' || safeTargetFile === 'sw.js' || safeTargetFile.endsWith('sw.js') || safeTargetFile === 'manifest.json';
+      
+      // Suporte a HTTP Range para streaming de vídeo/áudio
+      const range = req.headers.range;
+      if (range && (ext === '.mp4' || ext === '.webm' || ext === '.mp3')) {
+        const parts = range.replace(/bytes=/, '').split('-');
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
+        const chunksize = (end - start) + 1;
+        const fileStream = fs.createReadStream(filePath, { start, end });
+        res.writeHead(206, {
+          'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': contentType
+        });
+        fileStream.pipe(res);
+        return;
+      }
+
+      const data = fs.readFileSync(filePath);
       const headers = {
         'Content-Type': contentType,
+        'Content-Length': stat.size,
+        'Accept-Ranges': 'bytes',
         'Cache-Control': isDynamicOrHtml ? 'no-cache, no-store, must-revalidate' : 'public, max-age=0, must-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0'

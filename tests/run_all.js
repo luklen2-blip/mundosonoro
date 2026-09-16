@@ -179,8 +179,16 @@ async function runTests() {
   const swRes = await fetchHttp('/sw.js');
   assert.strictEqual(swRes.status, 200);
   assert.ok(swRes.body.includes('soundworld-v7-live') || swRes.body.includes('CACHE_NAME'));
+
+  const posterRes = await fetchHttp('/img/video-poster.svg');
+  assert.strictEqual(posterRes.status, 200);
+  assert.ok(posterRes.body.includes('svg'));
+
+  const demoPlayerRes = await fetchHttp('/js/demo-player.js');
+  assert.strictEqual(demoPlayerRes.status, 200);
+  assert.ok(demoPlayerRes.body.includes('initDemoPlayer'));
   passed++;
-  console.log('    ✓ Servidor estático, Landing Page (/comprar), PWA (manifest/sw v7), Catálogo (/js/catalog.js) e SPA fallback operacionais.');
+  console.log('    ✓ Servidor estático, Landing Page (/comprar), Player de Vídeo Demo, PWA (manifest/sw v7), Catálogo (/js/catalog.js) e SPA fallback operacionais.');
 
   // 4d. Cabeçalhos de Segurança Estendidos e Privacidade Infantil
   assert.strictEqual(healthRes.headers['x-content-type-options'], 'nosniff');

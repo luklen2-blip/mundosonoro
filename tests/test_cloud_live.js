@@ -75,7 +75,13 @@ async function runLiveE2E() {
 
   const cat = await requestUrl('/js/catalog.js');
   if (cat.status !== 200) throw new Error(`Falha no catalog.js: HTTP ${cat.status}`);
-  console.log('    ✓ CSS, JavaScript e Catálogo Modular servidos com integridade.');
+
+  const poster = await requestUrl('/img/video-poster.svg');
+  if (poster.status !== 200) throw new Error(`Falha no video-poster.svg: HTTP ${poster.status}`);
+
+  const demoPlayer = await requestUrl('/js/demo-player.js');
+  if (demoPlayer.status !== 200) throw new Error(`Falha no demo-player.js: HTTP ${demoPlayer.status}`);
+  console.log('    ✓ CSS, JavaScript, Player Demo 10s e Catálogo Modular servidos com integridade.');
 
   // 4. API PIX com Order ID
   console.log('  → Validando API PIX oficial com Pedido Único...');
