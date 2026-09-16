@@ -89,7 +89,7 @@ async function runTests() {
   // Teste 3b: Validação das Diretrizes Comerciais, LGPD e Paywall (8 benefícios)
   console.log('  → Testando conformidade comercial, LGPD e Paywall (8 benefícios)...');
   assert.strictEqual(translations.pt.trial.kiwifyBenefit1, "Acesso ilimitado a todos os sons disponíveis");
-  assert.strictEqual(translations.pt.trial.kiwifyBenefit2, "12 bichinhos para explorar");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit2, "16 bichinhos reais para explorar");
   assert.strictEqual(translations.pt.trial.kiwifyBenefit3, "Jogos de descoberta sonora");
   assert.strictEqual(translations.pt.trial.kiwifyBenefit4, "Teclado dos Bichinhos");
   assert.strictEqual(translations.pt.trial.kiwifyBenefit5, "Modo noturno para relaxar");
@@ -101,6 +101,9 @@ async function runTests() {
   assert.ok(translations.pt.parentGate.legal.lgpdText.includes("Consulte nossa Política de Privacidade"));
   assert.strictEqual(translations.pt.howItWorks.step1Title, "Escolha uma atividade");
   assert.strictEqual(translations.pt.familySection.card1Title, "Sem anúncios");
+  assert.strictEqual(translations.pt.parentGate.settings.volumeLimiter, "Controle de volume");
+  assert.ok(!translations.pt.parentGate.patronage.description.includes("100% seguro para crianças"));
+  assert.ok(translations.pt.parentGate.patronage.description.includes("Experiência infantil desenvolvida com foco em segurança"));
   passed++;
   console.log('    ✓ Diretrizes comerciais, LGPD, 5 passos, 4 pilares e 8 benefícios validados.');
 

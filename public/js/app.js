@@ -81,6 +81,7 @@ class AnimalSoundApp {
     this.initPaywallEvents();
     this.initDailyUsageTracker();
     this.initOrderAndLicenseDisplay();
+    this.initMasterVolume();
 
     // Inicia no Hub de Atividades
     this.switchMode('hub');
@@ -197,6 +198,17 @@ class AnimalSoundApp {
         licenseBadge.style.color = '#1d4ed8';
       }
     }
+  }
+
+  initMasterVolume() {
+    const savedVol = localStorage.getItem('sw_master_volume');
+    const vol = savedVol !== null ? parseFloat(savedVol) : 0.70;
+    animalAudio.setMasterVolume(vol);
+
+    const volSlider = document.getElementById('parent-volume-slider');
+    const volDisplay = document.getElementById('parent-volume-display');
+    if (volSlider) volSlider.value = vol.toString();
+    if (volDisplay) volDisplay.textContent = `Volume máximo: ${Math.round(vol * 100)}%`;
   }
 
   setupLanguage() {
@@ -462,6 +474,11 @@ class AnimalSoundApp {
   // NAVEGAÇÃO ENTRE OS 5 MODOS
   // ==========================================
   switchMode(mode) {
+    if (mode !== 'hub' && !this.isLicensed && this.trialSecondsLeft <= 0) {
+      this.showPaywall();
+      return;
+    }
+
     this.currentMode = mode;
 
     // Rastreia uso educativo para a Área dos Pais
@@ -1034,7 +1051,8 @@ class AnimalSoundApp {
     if (volSlider && volDisplay) {
       volSlider.addEventListener('input', (e) => {
         const val = parseFloat(e.target.value);
-        volDisplay.textContent = `${Math.round(val * 100)}%`;
+        volDisplay.textContent = `Volume máximo: ${Math.round(val * 100)}%`;
+        localStorage.setItem('sw_master_volume', val.toString());
         animalAudio.setMasterVolume(val);
       });
     }
