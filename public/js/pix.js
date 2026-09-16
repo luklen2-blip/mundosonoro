@@ -18,7 +18,7 @@ export function calculateCRC16(payload) {
 export function generatePixPayload({
   pixKey = 'luklen2@gmail.com',
   name = 'Luciano Sant Anna',
-  city = 'Sao Paulo',
+  city = 'Rio de Janeiro',
   amount = '19.90',
   txId = 'SWL001'
 } = {}) {

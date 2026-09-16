@@ -26,7 +26,7 @@ function calculateCRC16(payload) {
   return crc.toString(16).toUpperCase().padStart(4, '0');
 }
 
-export function generatePixPayload({ pixKey = 'luklen2@gmail.com', name = 'Luciano Sant Anna', city = 'Sao Paulo', amount = '19.90', txId = 'SWL001' } = {}) {
+export function generatePixPayload({ pixKey = 'luklen2@gmail.com', name = 'Luciano Sant Anna', city = 'Rio de Janeiro', amount = '19.90', txId = 'SWL001' } = {}) {
   const formatField = (id, value) => {
     const len = String(value.length).padStart(2, '0');
     return `${id}${len}${value}`;
@@ -40,7 +40,7 @@ export function generatePixPayload({ pixKey = 'luklen2@gmail.com', name = 'Lucia
   const additionalDataField = formatField('05', txId);
 
   const cleanName = (name || 'SoundWorld Kids').normalize('NFD').replace(/[\u0300-\u036f]/g, '').slice(0, 25);
-  const cleanCity = (city || 'Sao Paulo').normalize('NFD').replace(/[\u0300-\u036f]/g, '').slice(0, 15);
+  const cleanCity = (city || 'Rio de Janeiro').normalize('NFD').replace(/[\u0300-\u036f]/g, '').slice(0, 15);
 
   let payload = [
     formatField('00', '01'),

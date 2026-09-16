@@ -16,13 +16,14 @@ async function runTests() {
   const samplePayload = generatePixPayload({
     pixKey: 'luklen2@gmail.com',
     name: 'Luciano Sant Anna',
-    city: 'Sao Paulo',
+    city: 'Rio de Janeiro',
     amount: '19.90',
     txId: 'TEST01'
   });
   assert.ok(samplePayload.startsWith('000201'), 'PIX deve começar com formato 000201');
   assert.ok(samplePayload.includes('luklen2@gmail.com'), 'Deve conter a chave luklen2@gmail.com');
   assert.ok(samplePayload.includes('Luciano Sant Anna') || samplePayload.includes('LUCIANO SANT ANNA'), 'Deve conter o nome do titular');
+  assert.ok(samplePayload.includes('Rio de Janeiro') || samplePayload.includes('RIO DE JANEIRO'), 'Deve conter a cidade Rio de Janeiro');
   const dataWithoutCrc = samplePayload.slice(0, -4);
   const expectedCrc = samplePayload.slice(-4);
   const calculatedCrc = calculateCRC16(dataWithoutCrc);
