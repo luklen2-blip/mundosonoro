@@ -2078,15 +2078,28 @@ body.theme-night .how-step-card {
   font-size: 2.2rem;
 }
 
+.how-step-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.25;
+}
+
+body.theme-night .how-step-title {
+  color: #f8fafc;
+}
+
 .how-step-text {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #334155;
-  line-height: 1.35;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
 }
 
 body.theme-night .how-step-text {
-  color: #e2e8f0;
+  color: #94a3b8;
 }
 
 /* Espaço do Vídeo */
@@ -2272,4 +2285,29 @@ body.theme-night .hub-lifetime-offer-box {
   border-radius: 999px;
   letter-spacing: 0.5px;
 }
+
+/* Responsividade Mobile (320px - 480px) */
+@media (max-width: 480px) {
+  .hub-family-section {
+    padding: 1.2rem 0.85rem;
+    margin: 1rem auto;
+  }
+  .how-it-works-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .family-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .why-choose-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .btn-kiwify-paywall {
+    font-size: 1.15rem;
+    padding: 1rem 1.2rem;
+  }
+}
+
 

@@ -1213,6 +1213,11 @@ class AnimalSoundApp {
   initTrialTimer() {
     this.isLicensed = localStorage.getItem('soundworld_licensed') === 'true';
 
+    if (this.trialTimerInterval) {
+      clearInterval(this.trialTimerInterval);
+      this.trialTimerInterval = null;
+    }
+
     const now = Date.now();
     let startTime = localStorage.getItem('soundworld_trial_start_time');
     if (!startTime) {
@@ -1222,7 +1227,7 @@ class AnimalSoundApp {
 
     const savedSeconds = localStorage.getItem('soundworld_trial_seconds_left');
     if (savedSeconds !== null) {
-      this.trialSecondsLeft = parseInt(savedSeconds, 10);
+      this.trialSecondsLeft = Math.max(0, parseInt(savedSeconds, 10));
     } else {
       this.trialSecondsLeft = 3600; // 60 minutos
       localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
@@ -1250,15 +1255,17 @@ class AnimalSoundApp {
     this.trialTimerInterval = setInterval(() => {
       if (this.isLicensed) {
         clearInterval(this.trialTimerInterval);
+        this.trialTimerInterval = null;
         return;
       }
 
-      this.trialSecondsLeft--;
+      this.trialSecondsLeft = Math.max(0, this.trialSecondsLeft - 1);
       localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
       this.updateTrialDisplay();
 
       if (this.trialSecondsLeft <= 0) {
         clearInterval(this.trialTimerInterval);
+        this.trialTimerInterval = null;
         this.showPaywall();
       }
     }, 1000);
@@ -1276,28 +1283,20 @@ class AnimalSoundApp {
 
     if (this.trialSecondsLeft <= 0) {
       badge.className = 'trial-timer-badge warning';
-      badge.innerHTML = `<span>🔒</span> <span>${t('trial.timerTrialExpired')}</span>`;
+      badge.innerHTML = `<span>${t('trial.timerTrialExpired')}</span>`;
       return;
     }
 
     if (this.trialSecondsLeft >= 3600) {
       badge.className = 'trial-timer-badge';
-      badge.innerHTML = `<span>⏱️</span> <span>${t('trial.timerTrialInitial')}</span>`;
+      badge.innerHTML = `<span>${t('trial.timerTrialInitial')}</span>`;
       return;
     }
 
-    if (this.trialSecondsLeft > 60) {
-      const mins = Math.ceil(this.trialSecondsLeft / 60);
-      badge.className = mins <= 5 ? 'trial-timer-badge warning' : 'trial-timer-badge';
-      const label = t('trial.timerTrialRemainingMins').replace('{m}', mins);
-      badge.innerHTML = `<span>⏱️</span> <span>${label}</span>`;
-      return;
-    }
-
-    // Menos de 1 minuto
-    badge.className = 'trial-timer-badge warning';
-    const label = t('trial.timerTrialRemainingSecs').replace('{s}', this.trialSecondsLeft);
-    badge.innerHTML = `<span>⏱️</span> <span>${label}</span>`;
+    const mins = Math.max(1, Math.ceil(this.trialSecondsLeft / 60));
+    badge.className = mins <= 5 ? 'trial-timer-badge warning' : 'trial-timer-badge';
+    const label = t('trial.timerTrialRemainingMins').replace('{m}', mins);
+    badge.innerHTML = `<span>${label}</span>`;
   }
 
   showPaywall() {

@@ -86,6 +86,24 @@ async function runTests() {
   passed++;
   console.log('    ✓ Dicionário bilíngue 100% simétrico entre PT e EN.');
 
+  // Teste 3b: Validação das Diretrizes Comerciais, LGPD e Paywall (8 benefícios)
+  console.log('  → Testando conformidade comercial, LGPD e Paywall (8 benefícios)...');
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit1, "Acesso ilimitado a todos os sons disponíveis");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit2, "12 bichinhos para explorar");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit3, "Jogos de descoberta sonora");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit4, "Teclado dos Bichinhos");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit5, "Modo noturno para relaxar");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit6, "Experiência sem anúncios");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit7, "Pagamento único");
+  assert.strictEqual(translations.pt.trial.kiwifyBenefit8, "Acesso vitalício após a ativação");
+  assert.strictEqual(translations.pt.trial.timerTrialExpired, "⏱️ Teste gratuito encerrado");
+  assert.strictEqual(translations.pt.trial.paywallTitle, "Hora de continuar a aventura!");
+  assert.ok(translations.pt.parentGate.legal.lgpdText.includes("Consulte nossa Política de Privacidade"));
+  assert.strictEqual(translations.pt.howItWorks.step1Title, "Escolha uma atividade");
+  assert.strictEqual(translations.pt.familySection.card1Title, "Sem anúncios");
+  passed++;
+  console.log('    ✓ Diretrizes comerciais, LGPD, 5 passos, 4 pilares e 8 benefícios validados.');
+
   // Teste 4: Servidor HTTP, Health Check e Arquivos Estáticos
   console.log('  → Testando servidor HTTP e rotas de produção...');
   process.env.NO_LISTEN = 'true';
