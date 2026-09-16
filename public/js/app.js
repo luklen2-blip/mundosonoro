@@ -1237,6 +1237,15 @@ class AnimalSoundApp {
     }
 
     const now = Date.now();
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('trial') === '60' || params.get('reset_trial') === 'true' || params.get('mais60') === 'true' || params.get('luciano') === '60') {
+        localStorage.setItem('soundworld_trial_start_time', now.toString());
+        localStorage.setItem('soundworld_trial_seconds_left', '3600');
+        this.hidePaywall();
+      }
+    } catch (e) {}
+
     let startTime = localStorage.getItem('soundworld_trial_start_time');
     if (!startTime) {
       startTime = now.toString();
