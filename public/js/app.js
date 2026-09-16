@@ -1243,21 +1243,14 @@ class AnimalSoundApp {
       localStorage.setItem('soundworld_trial_start_time', startTime);
     }
 
-    const savedSeconds = localStorage.getItem('soundworld_trial_seconds_left');
-    if (savedSeconds !== null) {
-      this.trialSecondsLeft = Math.max(0, parseInt(savedSeconds, 10));
-    } else {
-      this.trialSecondsLeft = 3600; // 60 minutos
-      localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
-    }
-
-    // Validação cruzada de integridade do tempo decorrido
+    // Calcula tempo decorrido real com base no relógio do sistema
     const elapsedSecs = Math.floor((now - parseInt(startTime, 10)) / 1000);
-    if (elapsedSecs > 3600) {
+    if (elapsedSecs >= 3600) {
       this.trialSecondsLeft = 0;
       localStorage.setItem('soundworld_trial_seconds_left', '0');
-    } else if (3600 - elapsedSecs < this.trialSecondsLeft) {
+    } else {
       this.trialSecondsLeft = Math.max(0, 3600 - elapsedSecs);
+      localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
     }
 
     this.updateTrialDisplay();
@@ -1269,7 +1262,7 @@ class AnimalSoundApp {
       return;
     }
 
-    // Intervalo de 1 segundo
+    // Intervalo de 1 segundo calculando tempo decorrido contínuo
     this.trialTimerInterval = setInterval(() => {
       if (this.isLicensed) {
         clearInterval(this.trialTimerInterval);
@@ -1277,7 +1270,9 @@ class AnimalSoundApp {
         return;
       }
 
-      this.trialSecondsLeft = Math.max(0, this.trialSecondsLeft - 1);
+      const currentNow = Date.now();
+      const currentElapsed = Math.floor((currentNow - parseInt(startTime, 10)) / 1000);
+      this.trialSecondsLeft = Math.max(0, 3600 - currentElapsed);
       localStorage.setItem('soundworld_trial_seconds_left', this.trialSecondsLeft.toString());
       this.updateTrialDisplay();
 
@@ -1295,26 +1290,26 @@ class AnimalSoundApp {
 
     if (this.isLicensed) {
       badge.className = 'trial-timer-badge licensed';
-      badge.innerHTML = `<span>🌟</span> <span>${t('trial.badgeUnlocked')}</span>`;
+      badge.innerHTML = `<span>🌟</span> <span id="trial-timer-text">${t('trial.badgeUnlocked')}</span>`;
       return;
     }
 
     if (this.trialSecondsLeft <= 0) {
       badge.className = 'trial-timer-badge warning';
-      badge.innerHTML = `<span>${t('trial.timerTrialExpired')}</span>`;
+      badge.innerHTML = `<span id="trial-timer-text">${t('trial.timerTrialExpired')}</span>`;
       return;
     }
 
     if (this.trialSecondsLeft >= 3600) {
       badge.className = 'trial-timer-badge';
-      badge.innerHTML = `<span>${t('trial.timerTrialInitial')}</span>`;
+      badge.innerHTML = `<span id="trial-timer-text">${t('trial.timerTrialInitial')}</span>`;
       return;
     }
 
-    const mins = Math.max(1, Math.ceil(this.trialSecondsLeft / 60));
+    const mins = Math.max(1, Math.floor(this.trialSecondsLeft / 60));
     badge.className = mins <= 5 ? 'trial-timer-badge warning' : 'trial-timer-badge';
     const label = t('trial.timerTrialRemainingMins').replace('{m}', mins);
-    badge.innerHTML = `<span>${label}</span>`;
+    badge.innerHTML = `<span id="trial-timer-text">${label}</span>`;
   }
 
   showPaywall() {
