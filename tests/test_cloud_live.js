@@ -83,6 +83,18 @@ async function runLiveE2E() {
   if (demoPlayer.status !== 200) throw new Error(`Falha no demo-player.js: HTTP ${demoPlayer.status}`);
   console.log('    ✓ CSS, JavaScript, Player Demo 10s e Catálogo Modular servidos com integridade.');
 
+  // 3b. Gravações de Áudio Naturais dos Animais (MP3)
+  console.log('  → Validando áudios autênticos dos animais...');
+  const dogAudio = await requestUrl('/audio/animals/dog.mp3');
+  if (dogAudio.status !== 200 && dogAudio.status !== 206) throw new Error(`Falha no dog.mp3: HTTP ${dogAudio.status}`);
+
+  const catAudio = await requestUrl('/audio/animals/cat.mp3');
+  if (catAudio.status !== 200 && catAudio.status !== 206) throw new Error(`Falha no cat.mp3: HTTP ${catAudio.status}`);
+
+  const whaleAudio = await requestUrl('/audio/animals/whale.mp3');
+  if (whaleAudio.status !== 200 && whaleAudio.status !== 206) throw new Error(`Falha no whale.mp3: HTTP ${whaleAudio.status}`);
+  console.log('    ✓ Arquivos de áudio MP3 autênticos servidos com sucesso pela nuvem.');
+
   // 4. API PIX com Order ID
   console.log('  → Validando API PIX oficial com Pedido Único...');
   const pix = await requestUrl('/api/pix?amount=19.90&orderId=SWK-2026-CLOUD');

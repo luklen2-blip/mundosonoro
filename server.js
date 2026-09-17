@@ -71,6 +71,7 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
   '.wav': 'audio/wav',
   '.mp3': 'audio/mpeg',
+  '.ogg': 'audio/ogg',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
   '.woff2': 'font/woff2',

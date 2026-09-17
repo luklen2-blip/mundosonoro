@@ -1,5 +1,5 @@
 // public/sw.js - Service Worker com Cache Resiliente e Network-First para SoundWorld Kids
-const CACHE_NAME = 'soundworld-v8-live';
+const CACHE_NAME = 'soundworld-v9-live';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -12,7 +12,23 @@ const STATIC_ASSETS = [
   '/js/audio-engine.js',
   '/js/speech-engine.js',
   '/js/particles.js',
-  '/js/pix.js'
+  '/js/pix.js',
+  '/audio/animals/dog.mp3',
+  '/audio/animals/cat.mp3',
+  '/audio/animals/cow.mp3',
+  '/audio/animals/horse.mp3',
+  '/audio/animals/sheep.mp3',
+  '/audio/animals/duck.mp3',
+  '/audio/animals/lion.mp3',
+  '/audio/animals/monkey.mp3',
+  '/audio/animals/elephant.mp3',
+  '/audio/animals/dolphin.mp3',
+  '/audio/animals/whale.mp3',
+  '/audio/animals/owl.mp3',
+  '/audio/animals/bird.mp3',
+  '/audio/animals/frog.mp3',
+  '/audio/animals/cricket.mp3',
+  '/audio/animals/bee.mp3'
 ];
 
 self.addEventListener('install', (event) => {

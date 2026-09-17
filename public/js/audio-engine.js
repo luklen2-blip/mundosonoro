@@ -10,6 +10,75 @@ class AnimalAudioEngine {
     this.isInitialized = false;
     this._cachedNoise = null;
 
+    // Cache de áudio nativo decodificado em memória (0ms de latência)
+    this.animalBuffers = new Map();
+    this.animalLoading = new Map();
+
+    // Mapeamento dos arquivos de áudio gravados naturais de alta fidelidade
+    this.animalSoundFiles = {
+      dog: '/audio/animals/dog.mp3',
+      cat: '/audio/animals/cat.mp3',
+      cow: '/audio/animals/cow.mp3',
+      horse: '/audio/animals/horse.mp3',
+      sheep: '/audio/animals/sheep.mp3',
+      duck: '/audio/animals/duck.mp3',
+      lion: '/audio/animals/lion.mp3',
+      monkey: '/audio/animals/monkey.mp3',
+      elephant: '/audio/animals/elephant.mp3',
+      dolphin: '/audio/animals/dolphin.mp3',
+      whale: '/audio/animals/whale.mp3',
+      owl: '/audio/animals/owl.mp3',
+      bird: '/audio/animals/bird.mp3',
+      frog: '/audio/animals/frog.mp3',
+      cricket: '/audio/animals/cricket.mp3',
+      bee: '/audio/animals/bee.mp3'
+    };
+
+    // Normalização calibrada de ganho (volume percebido uniforme entre os 16 bichinhos)
+    this.animalGains = {
+      dog: 1.15,
+      cat: 1.10,
+      cow: 1.05,
+      horse: 1.05,
+      sheep: 1.10,
+      duck: 1.05,
+      lion: 1.00,
+      monkey: 1.05,
+      elephant: 1.05,
+      dolphin: 1.10,
+      whale: 1.25,
+      owl: 1.15,
+      bird: 1.00,
+      frog: 1.10,
+      cricket: 0.95,
+      bee: 1.10
+    };
+
+    // Duração acústica natural (em segundos) de cada animal
+    this.animalDurations = {
+      dog: 0.70,
+      cat: 2.10,
+      cow: 1.50,
+      horse: 1.70,
+      sheep: 1.40,
+      duck: 1.40,
+      lion: 2.30,
+      monkey: 2.80,
+      elephant: 1.50,
+      dolphin: 2.20,
+      whale: 4.00,
+      owl: 2.50,
+      bird: 2.10,
+      frog: 1.00,
+      cricket: 1.60,
+      bee: 2.10
+    };
+
+    // Limite máximo de duração para áudios longos na experiência infantil (ex: canto de baleia)
+    this.maxDurations = {
+      whale: 4.2
+    };
+
     this.bedtimeNodes = {
       rain: null,
       ocean: null,
@@ -71,6 +140,118 @@ class AnimalAudioEngine {
     this.masterGain.connect(this.ctx.destination);
 
     this.isInitialized = true;
+
+    // Pré-carrega de forma assíncrona os áudios gravados dos 16 animais em memória
+    this.preloadAnimalSounds();
+  }
+
+  // Pré-carregamento concorrente com decodificação no Web Audio API
+  async preloadAnimalSounds() {
+    if (!this.ctx) return;
+    const entries = Object.entries(this.animalSoundFiles);
+    for (const [id] of entries) {
+      if (!this.animalBuffers.has(id)) {
+        this.loadAnimalBuffer(id).catch(() => {});
+      }
+    }
+  }
+
+  async loadAnimalBuffer(animalId) {
+    if (this.animalBuffers.has(animalId)) {
+      return this.animalBuffers.get(animalId);
+    }
+    if (this.animalLoading.has(animalId)) {
+      return this.animalLoading.get(animalId);
+    }
+
+    const url = this.animalSoundFiles[animalId];
+    if (!url) return null;
+
+    const promise = (async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const arrayBuf = await response.arrayBuffer();
+        this.ensureContext();
+        const audioBuffer = await new Promise((resolve, reject) => {
+          this.ctx.decodeAudioData(arrayBuf, resolve, reject);
+        });
+        this.animalBuffers.set(animalId, audioBuffer);
+        return audioBuffer;
+      } catch (err) {
+        console.warn(`[AnimalAudioEngine] Falha ao carregar áudio de ${animalId}:`, err);
+        return null;
+      } finally {
+        this.animalLoading.delete(animalId);
+      }
+    })();
+
+    this.animalLoading.set(animalId, promise);
+    return promise;
+  }
+
+  getAnimalDuration(animalId) {
+    const buf = this.animalBuffers.get(animalId);
+    if (buf && buf.duration) {
+      const maxDur = this.maxDurations[animalId];
+      return maxDur ? Math.min(buf.duration, maxDur) : buf.duration;
+    }
+    return this.animalDurations[animalId] || 2.0;
+  }
+
+  // Reproduz o áudio natural característico gravado do animal
+  playAnimalSoundFile(animalId, playbackRate = 1.0) {
+    this.ensureContext();
+    const buffer = this.animalBuffers.get(animalId);
+
+    if (buffer && this.ctx) {
+      try {
+        const now = this.ctx.currentTime;
+        const source = this.ctx.createBufferSource();
+        source.buffer = buffer;
+        if (playbackRate !== 1.0) {
+          source.playbackRate.setValueAtTime(playbackRate, now);
+        }
+
+        const gainNode = this.ctx.createGain();
+        const targetGain = (this.animalGains[animalId] || 1.0);
+        const maxDur = this.maxDurations[animalId];
+        const rawDur = buffer.duration / (playbackRate || 1.0);
+        const playDur = maxDur ? Math.min(rawDur, maxDur) : rawDur;
+
+        gainNode.gain.setValueAtTime(targetGain, now);
+        if (maxDur && rawDur > maxDur) {
+          // Fade suave nos últimos 0.6s se for som longo (ex: baleia)
+          gainNode.gain.setValueAtTime(targetGain, now + playDur - 0.6);
+          gainNode.gain.linearRampToValueAtTime(0.001, now + playDur);
+        }
+
+        source.connect(gainNode);
+        gainNode.connect(this.outputNode);
+
+        source.start(now);
+        source.stop(now + playDur);
+        return true;
+      } catch (e) {
+        console.warn(`[AnimalAudioEngine] Erro ao tocar buffer ${animalId}:`, e);
+      }
+    }
+
+    // Se o buffer ainda não decodificou, dispara carregamento e toca via HTML5 Audio
+    const url = this.animalSoundFiles[animalId];
+    if (url) {
+      this.loadAnimalBuffer(animalId);
+      try {
+        const audio = new Audio(url);
+        audio.volume = Math.min(1.0, this.masterVolume * (this.animalGains[animalId] || 1.0));
+        audio.play().catch(() => {});
+        return true;
+      } catch {}
+    }
+
+    // Fallback de contingência caso rede esteja inativa e sem cache
+    this.synthesizeAnimal(animalId);
+    return false;
   }
 
   get outputNode() {
@@ -121,31 +302,57 @@ class AnimalAudioEngine {
   playAnimal(animalId) {
     this.triggerHaptic();
     this.ensureContext();
-    switch (animalId) {
-      case 'dog': this.playDog(); break;
-      case 'cat': this.playCat(); break;
-      case 'cow': this.playCow(); break;
-      case 'frog': this.playFrog(); break;
-      case 'duck': this.playDuck(); break;
-      case 'lion': this.playLion(); break;
-      case 'sheep': this.playSheep(); break;
-      case 'bird': this.playBird(); break;
-      case 'elephant': this.playElephant(); break;
-      case 'monkey': this.playMonkey(); break;
-      case 'owl': this.playOwl(); break;
-      case 'horse': this.playHorse(); break;
-      case 'dolphin': this.playDolphin(); break;
-      case 'whale': this.playWhale(); break;
-      case 'cricket': this.playCricket(); break;
-      case 'bee': this.playBee(); break;
-      default: this.playVictoryChime(); break;
+    return this.playAnimalSoundFile(animalId);
+  }
+
+  // Atalhos individuais para os 16 bichinhos (reproduzem gravação natural autêntica)
+  playDog() { return this.playAnimal('dog'); }
+  playCat() { return this.playAnimal('cat'); }
+  playCow() { return this.playAnimal('cow'); }
+  playHorse() { return this.playAnimal('horse'); }
+  playSheep() { return this.playAnimal('sheep'); }
+  playDuck() { return this.playAnimal('duck'); }
+  playLion() { return this.playAnimal('lion'); }
+  playMonkey() { return this.playAnimal('monkey'); }
+  playElephant() { return this.playAnimal('elephant'); }
+  playDolphin() { return this.playAnimal('dolphin'); }
+  playWhale() { return this.playAnimal('whale'); }
+  playOwl() { return this.playAnimal('owl'); }
+  playBird() { return this.playAnimal('bird'); }
+  playFrog() { return this.playAnimal('frog'); }
+  playCricket() { return this.playAnimal('cricket'); }
+  playBee() { return this.playAnimal('bee'); }
+
+  // Fallback de contingência por síntese nativa Web Audio API
+  synthesizeAnimal(animalId) {
+    const synthMap = {
+      dog: () => this.synthesizeDog(),
+      cat: () => this.synthesizeCat(),
+      cow: () => this.synthesizeCow(),
+      horse: () => this.synthesizeHorse(),
+      sheep: () => this.synthesizeSheep(),
+      duck: () => this.synthesizeDuck(),
+      lion: () => this.synthesizeLion(),
+      monkey: () => this.synthesizeMonkey(),
+      elephant: () => this.synthesizeElephant(),
+      dolphin: () => this.synthesizeDolphin(),
+      whale: () => this.synthesizeWhale(),
+      owl: () => this.synthesizeOwl(),
+      bird: () => this.synthesizeBird(),
+      frog: () => this.synthesizeFrog(),
+      cricket: () => this.synthesizeCricket(),
+      bee: () => this.synthesizeBee()
+    };
+    if (synthMap[animalId]) {
+      synthMap[animalId]();
     }
   }
 
   // =========================================================================
-  // 1. SONS AUTÊNTICOS DOS 16 ANIMAIS (SÍNTESE NATIVA WEB AUDIO API)
-  // =============================================================  // 1. Cachorro (Latido duplo autêntico e encorpado "Au! Au!")
-  playDog() {
+  // SÍNTESE ACÚSTICA DE CONTINGÊNCIA (FALLBACK CASO DISPOSITIVO ESTEJA SEM BUFFER)
+  // =========================================================================
+  // 1. Cachorro (Latido duplo encorpado)
+  synthesizeDog() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -228,8 +435,8 @@ class AnimalAudioEngine {
     singleBark(now + 0.22, 0.24, 380, 120);
   }
 
-  // 2. Gato (Miado felino realista e dengoso "Mii-aa-uu!")
-  playCat() {
+  // 2. Gato (Miado felino sintetizado)
+  synthesizeCat() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 0.95;
@@ -287,8 +494,8 @@ class AnimalAudioEngine {
     osc.stop(now + duration);
   }
 
-  // 3. Vaca (Mugido profundo, encorpado e vibrante "Muuuu-uuu!")
-  playCow() {
+  // 3. Vaca (Mugido sintetizado)
+  synthesizeCow() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.35;
@@ -353,8 +560,8 @@ class AnimalAudioEngine {
     osc2.stop(now + duration);
   }
 
-  // 4. Sapo (Coaxar ressonante autêntico de lagoa "Crô-ac! ... Crô-ac!")
-  playFrog() {
+  // 4. Sapo (Coaxar sintetizado)
+  synthesizeFrog() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -412,8 +619,8 @@ class AnimalAudioEngine {
     croak(now + 0.26, 0.32, 125, 78, 34);
   }
 
-  // 5. Pato (Grasnado nasal autêntico "Quá-quá-quá!")
-  playDuck() {
+  // 5. Pato (Grasnado sintetizado)
+  synthesizeDuck() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -475,8 +682,8 @@ class AnimalAudioEngine {
     quack(now + 0.24, 0.24, 270, 160);
   }
 
-  // 6. Leão (Rugido imponente e visceral com rosnado gutural "Grrr-ROAAAR!")
-  playLion() {
+  // 6. Leão (Rugido sintetizado)
+  synthesizeLion() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.35;
@@ -567,8 +774,8 @@ class AnimalAudioEngine {
     osc2.stop(now + duration);
   }
 
-  // 7. Ovelha (Balido vibrante e doce com tremolo de garganta "Mééé-é-é-é!")
-  playSheep() {
+  // 7. Ovelha (Balido sintetizado)
+  synthesizeSheep() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.05;
@@ -618,8 +825,8 @@ class AnimalAudioEngine {
     osc.stop(now + duration);
   }
 
-  // 8. Passarinho (Trinado musical alegre e gorjeio cristalino "Piu-Piu-Trrr!")
-  playBird() {
+  // 8. Passarinho (Trinado sintetizado)
+  synthesizeBird() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -674,8 +881,8 @@ class AnimalAudioEngine {
     trillOsc.stop(trillStart + trillDur);
   }
 
-  // 9. Elefante (Barrito triunfante e encorpado de tromba "Prrr-TRUUUU!")
-  playElephant() {
+  // 9. Elefante (Barrito sintetizado)
+  synthesizeElephant() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.15;
@@ -731,8 +938,8 @@ class AnimalAudioEngine {
     osc2.stop(now + duration);
   }
 
-  // 10. Macaco (Galgos e gritos brincalhões da floresta "Uh-uh! Ah-ah-AH!")
-  playMonkey() {
+  // 10. Macaco (Galgos e gritos sintetizados)
+  synthesizeMonkey() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -798,8 +1005,8 @@ class AnimalAudioEngine {
     screech(now + 0.70, 0.20, 840);
   }
 
-  // 11. Coruja (Canto noturno oco e envolvente "Hoo-oo... Hu-hu-huuu!")
-  playOwl() {
+  // 11. Coruja (Canto noturno sintetizado)
+  synthesizeOwl() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -848,8 +1055,8 @@ class AnimalAudioEngine {
     hoot(now + 0.94, 0.35, 310, true);
   }
 
-  // 12. Cavalo (Relincho altivo com vibrato rápido e sopro de lábios "Iii-hó-rruuu!")
-  playHorse() {
+  // 12. Cavalo (Relincho sintetizado)
+  synthesizeHorse() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.35;
@@ -925,8 +1132,8 @@ class AnimalAudioEngine {
     }
   }
 
-  // 13. Golfinho (Cliques de sonar e assobio marinho ágil "Tic-tic-Eeeeee-iu!")
-  playDolphin() {
+  // 13. Golfinho (Cliques e assobio sintetizados)
+  synthesizeDolphin() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -969,8 +1176,8 @@ class AnimalAudioEngine {
     osc.stop(whistleStart + whistleDur);
   }
 
-  // 14. Baleia (Canto oceânico majestoso e profundo com reverberação natural)
-  playWhale() {
+  // 14. Baleia (Canto oceânico sintetizado)
+  synthesizeWhale() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.55;
@@ -1014,8 +1221,8 @@ class AnimalAudioEngine {
     osc2.stop(now + duration);
   }
 
-  // 15. Grilo (Canto rítmico estridulante das noites de verão "Cri-cri-cri!")
-  playCricket() {
+  // 15. Grilo (Canto sintetizado)
+  synthesizeCricket() {
     this.ensureContext();
     const now = this.ctx.currentTime;
 
@@ -1050,8 +1257,8 @@ class AnimalAudioEngine {
     });
   }
 
-  // 16. Abelha (Zumbido vibrante e ágil com efeito Doppler de voo "Bzzzzz!")
-  playBee() {
+  // 16. Abelha (Zumbido sintetizado)
+  synthesizeBee() {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 1.15;
@@ -1112,6 +1319,35 @@ class AnimalAudioEngine {
     this.ensureContext();
     const now = this.ctx.currentTime;
     const duration = 0.55;
+
+    // Toca a gravação natural autêntica afinada na nota da escala
+    const buffer = this.animalBuffers.get(animalId);
+    if (buffer && this.ctx) {
+      try {
+        const baseFreq = 261.63; // Dó central (C4)
+        const rate = Math.max(0.35, Math.min(3.5, freq / baseFreq));
+        const source = this.ctx.createBufferSource();
+        source.buffer = buffer;
+        source.playbackRate.setValueAtTime(rate, now);
+
+        const gainNode = this.ctx.createGain();
+        const baseGain = (this.animalGains[animalId] || 1.0) * 0.95;
+        const noteDuration = Math.min(0.65, buffer.duration / rate);
+
+        gainNode.gain.setValueAtTime(baseGain, now);
+        gainNode.gain.setValueAtTime(baseGain, now + noteDuration - 0.12);
+        gainNode.gain.linearRampToValueAtTime(0.001, now + noteDuration);
+
+        source.connect(gainNode);
+        gainNode.connect(this.outputNode);
+
+        source.start(now);
+        source.stop(now + noteDuration);
+        return;
+      } catch (e) {
+        console.warn('[AnimalAudioEngine] Erro ao tocar nota com sample:', e);
+      }
+    }
 
     const osc = this.ctx.createOscillator();
     const filter = this.ctx.createBiquadFilter();

@@ -421,7 +421,8 @@ class AnimalSoundApp {
       quizRepeatBtn.addEventListener('click', () => {
         if (this.quizTarget) {
           animalAudio.playAnimal(this.quizTarget.id);
-          setTimeout(() => animalSpeech.speakSoundQuizQuestion(), 1100);
+          const durMs = Math.round((animalAudio.getAnimalDuration ? animalAudio.getAnimalDuration(this.quizTarget.id) : 1.5) * 1000);
+          setTimeout(() => animalSpeech.speakSoundQuizQuestion(), durMs + 200);
         }
       });
     }
@@ -607,9 +608,10 @@ class AnimalSoundApp {
     animalAudio.playAnimal(anim.id);
 
     // 4. Pronuncia claramente o nome do bicho após a conclusão do som
+    const soundDurationMs = Math.round((animalAudio.getAnimalDuration ? animalAudio.getAnimalDuration(anim.id) : 1.5) * 1000);
     setTimeout(() => {
       animalSpeech.speakAnimal(anim.id);
-    }, 1100);
+    }, soundDurationMs + 200);
   }
 
   // ==========================================
@@ -715,9 +717,10 @@ class AnimalSoundApp {
     // Toca o som do bicho misterioso e pergunta
     setTimeout(() => {
       animalAudio.playAnimal(this.quizTarget.id);
+      const durMs = Math.round((animalAudio.getAnimalDuration ? animalAudio.getAnimalDuration(this.quizTarget.id) : 1.5) * 1000);
       setTimeout(() => {
         animalSpeech.speakSoundQuizQuestion();
-      }, 1100);
+      }, durMs + 200);
     }, 300);
   }
 

@@ -2,9 +2,14 @@
 
 import assert from 'assert';
 import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { generatePixPayload, calculateCRC16, validateActivationCode } from '../public/js/pix.js';
 import { translations } from '../public/js/i18n.js';
 import { WORLDS, ANIMALS_CATALOG, FUTURE_WORLDS_BLUEPRINT } from '../public/js/catalog.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 console.log('🧪 [SoundWorld dos Bichinhos] Iniciando testes automatizados...');
 
@@ -70,6 +75,26 @@ async function runTests() {
   });
   passed++;
   console.log('    ✓ Todos os 16 animais cadastrados com nome, som e paridade bilíngue.');
+
+  // Teste 2b: Validação dos 16 Arquivos de Áudio MP3 Naturais Autênticos
+  console.log('  → Testando integridade acústica dos 16 arquivos de áudio gravados (MP3)...');
+  expectedAnimals.forEach(id => {
+    const filePath = path.join(__dirname, '..', 'public', 'audio', 'animals', `${id}.mp3`);
+    assert.ok(fs.existsSync(filePath), `Arquivo de áudio ausente: ${id}.mp3`);
+    const stat = fs.statSync(filePath);
+    assert.ok(stat.size > 3000, `Arquivo de áudio corrompido ou muito pequeno: ${id}.mp3 (${stat.size} bytes)`);
+
+    // Validação de cabeçalho MP3 / ID3
+    const buf = Buffer.alloc(10);
+    const fd = fs.openSync(filePath, 'r');
+    fs.readSync(fd, buf, 0, 10, 0);
+    fs.closeSync(fd);
+    const isId3 = buf[0] === 0x49 && buf[1] === 0x44 && buf[2] === 0x33;
+    const isSync = buf[0] === 0xFF && (buf[1] & 0xE0) === 0xE0;
+    assert.ok(isId3 || isSync, `Cabeçalho MP3 inválido para ${id}.mp3`);
+  });
+  passed++;
+  console.log('    ✓ Todos os 16 arquivos MP3 gravados autênticos existem e estão íntegros.');
 
   // Teste 3: Paridade Estrutural das Chaves do Dicionário
   console.log('  → Testando simetria estrutural completa (PT vs EN)...');
