@@ -204,7 +204,12 @@ class AnimalSoundApp {
 
   initMasterVolume() {
     const savedVol = localStorage.getItem('sw_master_volume');
-    const vol = savedVol !== null ? parseFloat(savedVol) : 0.70;
+    let vol = savedVol !== null ? parseFloat(savedVol) : 0.95;
+    // Se estava no volume legado de 70%, eleva automaticamente para 95% nítido
+    if (vol <= 0.70) {
+      vol = 0.95;
+      localStorage.setItem('sw_master_volume', '0.95');
+    }
     animalAudio.setMasterVolume(vol);
 
     const volSlider = document.getElementById('parent-volume-slider');
@@ -416,7 +421,7 @@ class AnimalSoundApp {
       quizRepeatBtn.addEventListener('click', () => {
         if (this.quizTarget) {
           animalAudio.playAnimal(this.quizTarget.id);
-          setTimeout(() => animalSpeech.speakSoundQuizQuestion(), 700);
+          setTimeout(() => animalSpeech.speakSoundQuizQuestion(), 1100);
         }
       });
     }
@@ -601,10 +606,10 @@ class AnimalSoundApp {
     // 3. Toca o som autêntico do bicho
     animalAudio.playAnimal(anim.id);
 
-    // 4. Pronuncia claramente o nome do bicho
+    // 4. Pronuncia claramente o nome do bicho após a conclusão do som
     setTimeout(() => {
       animalSpeech.speakAnimal(anim.id);
-    }, 600);
+    }, 1100);
   }
 
   // ==========================================
@@ -712,7 +717,7 @@ class AnimalSoundApp {
       animalAudio.playAnimal(this.quizTarget.id);
       setTimeout(() => {
         animalSpeech.speakSoundQuizQuestion();
-      }, 750);
+      }, 1100);
     }, 300);
   }
 
