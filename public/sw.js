@@ -1,5 +1,5 @@
 // public/sw.js - Service Worker com Cache Resiliente e Network-First para SoundWorld Kids
-const CACHE_NAME = 'soundworld-v9-live';
+const CACHE_NAME = 'soundworld-v10-natural';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

@@ -63,20 +63,20 @@ class AnimalAudioEngine {
       sheep: 1.40,
       duck: 1.40,
       lion: 2.30,
-      monkey: 2.80,
+      monkey: 2.70,
       elephant: 1.50,
-      dolphin: 2.20,
-      whale: 4.00,
-      owl: 2.50,
+      dolphin: 2.50,
+      whale: 3.20,
+      owl: 2.30,
       bird: 2.10,
       frog: 1.00,
       cricket: 1.60,
-      bee: 2.10
+      bee: 2.30
     };
 
-    // Limite máximo de duração para áudios longos na experiência infantil (ex: canto de baleia)
+    // Limite máximo de duração para áudios longos na experiência infantil
     this.maxDurations = {
-      whale: 4.2
+      whale: 3.5
     };
 
     this.bedtimeNodes = {
