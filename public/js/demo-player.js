@@ -31,10 +31,10 @@ export function initDemoPlayer(wrapperId = 'demo-video-wrapper') {
     {
       start: 0,
       end: 2.5,
-      badge: '🐾 16 Bichinhos Reais',
+      badge: '🐾 16 Bichinhos para Explorar',
       visual: '🐶',
       title: 'Cachorro & Gato',
-      subtitle: 'Sons reais sintetizados e locução carinhosa',
+      subtitle: 'Experiências sonoras inspiradas nos animais e locução carinhosa',
       bg: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
       onEnter: () => {
         if (!isMuted) {

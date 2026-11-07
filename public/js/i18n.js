@@ -12,7 +12,7 @@ export const translations = {
         title: "O Que Vamos Brincar Hoje? 🎈",
         subtitle: "Toque em uma das atividades para começar a diversão!",
         badge: "Início 🏠",
-        exploreDesc: "16 bichinhos reais com sons autênticos e nomes falados",
+        exploreDesc: "16 bichinhos para explorar com nomes falados",
         soundQuizDesc: "Descubra quem faz o som com incentivo carinhoso",
         pianoDesc: "Toque músicas com as vozes dos bichinhos cantores",
         bedtimeDesc: "Chuva, grilos, caixinha de música e ronrom para ninar"
@@ -165,10 +165,10 @@ export const translations = {
     whyFamiliesChoose: {
       title: "Por que famílias escolhem o SoundWorld?",
       subtitle: "Recursos reais pensados com carinho para o dia a dia",
-      item1: "100% sem anúncios e livre de compras acidentais",
+      item1: "Sem anúncios e livre de compras acidentais",
       item2: "Controle de volume seguro com limite personalizável em porcentagem",
       item3: "Temporizador para organizar a rotina do sono",
-      item4: "Vários modos de brincadeira e 16 bichinhos reais",
+      item4: "Vários modos de brincadeira e 16 bichinhos para explorar",
       item5: "Acesso ilimitado a todos os sons disponíveis",
       item6: "Pagamento único e vitalício de apenas R$ 19,90"
     },
@@ -208,7 +208,7 @@ export const translations = {
       kiwifyBtn: "DESBLOQUEAR AGORA",
       kiwifyBtnSub: "Pagamento único • Acesso vitalício para toda a família",
       kiwifyBenefit1: "Acesso ilimitado a todos os sons disponíveis",
-      kiwifyBenefit2: "16 bichinhos reais para explorar",
+      kiwifyBenefit2: "16 bichinhos para explorar",
       kiwifyBenefit3: "Jogos de descoberta sonora",
       kiwifyBenefit4: "Teclado dos Bichinhos",
       kiwifyBenefit5: "Modo noturno para relaxar",
@@ -300,7 +300,7 @@ export const translations = {
         title: "What Shall We Play Today? 🎈",
         subtitle: "Tap an activity card below to start the fun!",
         badge: "Home 🏠",
-        exploreDesc: "16 real animals with authentic sounds and spoken names",
+        exploreDesc: "16 animals to explore with spoken names",
         soundQuizDesc: "Guess who makes the sound with warm cheering",
         pianoDesc: "Play songs with animal voices as singers",
         bedtimeDesc: "Rain, crickets, music box, and calming purrs"
@@ -309,7 +309,7 @@ export const translations = {
       explore: {
         title: "Meet the Animals",
         badge: "Tap & Hear 🐾",
-        subtitle: "Tap any animal to hear its real sound and spoken name!"
+        subtitle: "Tap any animal to hear its sound and spoken name!"
       },
       soundQuiz: {
         title: "Who Makes this Sound?",
@@ -454,10 +454,10 @@ export const translations = {
     whyFamiliesChoose: {
       title: "Why families choose SoundWorld?",
       subtitle: "Real features thoughtfully designed for everyday life",
-      item1: "100% ad-free and safe from accidental purchases",
+      item1: "Ad-free and safe from accidental purchases",
       item2: "Safe volume control with customizable percentage limit",
       item3: "Screen timer to ease bedtime routines",
-      item4: "Multiple play modes and 16 real animals",
+      item4: "Multiple play modes and 16 animals to explore",
       item5: "Unlimited access to all available sounds",
       item6: "Single lifetime payment of only R$ 19.90"
     },
@@ -497,7 +497,7 @@ export const translations = {
       kiwifyBtn: "UNLOCK NOW",
       kiwifyBtnSub: "One-time payment • Lifetime access for the whole family",
       kiwifyBenefit1: "Unlimited access to all available sounds",
-      kiwifyBenefit2: "16 real animals to explore",
+      kiwifyBenefit2: "16 animals to explore",
       kiwifyBenefit3: "Sound discovery games",
       kiwifyBenefit4: "Animal Keyboard",
       kiwifyBenefit5: "Night mode for relaxation",
